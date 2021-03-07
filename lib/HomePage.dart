@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'NavigationBar.dart';
 
-void main() {
-  runApp(HomePage());
-}
+// void main() {
+//   runApp(HomePage());
+// }
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: new ThemeData(scaffoldBackgroundColor: const Color(0xE5E5E5)),
       home: Scaffold(
         appBar: HomeAppBar(),
         body: HomeBody(),
