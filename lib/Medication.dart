@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'NavigationBar.dart';
+import 'package:flutterapp/view/NavigationBar.dart';
 import 'package:flutterapp/view/CustomRadioButton.dart';
 //import 'package:date_time_picker/date_time_picker.dart';
 
