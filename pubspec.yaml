@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  syncfusion_flutter_gauges: ^18.2.44
   flutter:
     sdk: flutter
   icon_picker: "^1.0.0"
