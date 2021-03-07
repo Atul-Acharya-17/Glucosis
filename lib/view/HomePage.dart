@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'NavigationBar.dart';
 
-// void main() {
-//   runApp(HomePage());
-// }
+void main() {
+  runApp(HomePage());
+}
 
 class HomePage extends StatelessWidget {
   @override
@@ -99,40 +99,42 @@ class HomeBody extends StatelessWidget {
                 'images/random.png',
               ],
             ),
-            Container(
+            Card(
+              elevation: 2,
               margin: EdgeInsets.only(bottom: margin),
-              padding: EdgeInsets.all(padding),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                      BorderRadius.all(Radius.circular(borderRadius))),
-              child: Column(
-                children: [
-                  Text(
-                    'Log Entry',
-                    style: TextStyle(
-                      fontSize: normalFontSize,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              child: Container(
+                padding: EdgeInsets.all(padding),
+                child: Column(
+                  children: [
+                    Text(
+                      'Log Entry',
+                      style: TextStyle(
+                        fontSize: normalFontSize,
+                      ),
                     ),
-                  ),
-                  LogBookIcons(
-                    iconSize: iconSize,
-                    iconPaths: [
-                      'images/user_icon.jpeg',
-                      'images/user_icon.jpeg',
-                      'images/user_icon.jpeg',
-                    ],
-                  ),
-                ],
+                    LogBookIcons(
+                      iconSize: iconSize,
+                      iconPaths: [
+                        'images/user_icon.jpeg',
+                        'images/user_icon.jpeg',
+                        'images/user_icon.jpeg',
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             Container(
               margin: EdgeInsets.only(bottom: margin),
               child: RaisedButton(
+                color: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(borderRadius),
                 ),
                 padding: EdgeInsets.all(padding),
-                color: Colors.white,
                 onPressed: () {},
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -215,60 +217,72 @@ class HomeBody extends StatelessWidget {
     );
   }
 
-  Container reminder(
+  Card reminder(
       double fontSize, String timestamp, String messageString, bool logNow) {
-    final Text logNowButton = Text(
-      'Log now',
-      style: TextStyle(
-        fontSize: fontSize - 1,
-        color: logNow == true ? green : Colors.white,
-      ),
-    );
-    final Text dismissButton = Text(
-      'Dismiss',
-      style: TextStyle(
-        fontSize: fontSize - 1,
-        color: pink,
-      ),
-    );
-    return Container(
-      margin: EdgeInsets.only(bottom: margin),
-      padding: EdgeInsets.fromLTRB(
-        2 * padding,
-        padding,
-        2 * padding,
-        padding,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(borderRadius),
+    final GestureDetector logNowButton = GestureDetector(
+      child: Text(
+        'Log now',
+        style: TextStyle(
+          fontSize: fontSize - 1,
+          color: logNow == true ? green : Colors.white,
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              time(
-                timestamp,
-                fontSize,
-              ),
-              message(
-                messageString,
-                fontSize,
-              ),
-            ],
+      onTap: () {},
+    );
+    final GestureDetector dismissButton = GestureDetector(
+      child: Text(
+        'Dismiss',
+        style: TextStyle(
+          fontSize: fontSize - 1,
+          color: pink,
+        ),
+      ),
+      onTap: () {},
+    );
+    return Card(
+      elevation: 2,
+      margin: EdgeInsets.only(bottom: margin),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
+      child: Container(
+        //margin: EdgeInsets.only(bottom: margin),
+        padding: EdgeInsets.fromLTRB(
+          2 * padding,
+          padding,
+          2 * padding,
+          padding,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(borderRadius),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              logNowButton,
-              dismissButton,
-            ],
-          ),
-        ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                time(
+                  timestamp,
+                  fontSize,
+                ),
+                message(
+                  messageString,
+                  fontSize,
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                logNowButton,
+                dismissButton,
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -309,14 +323,19 @@ class Graphs extends StatelessWidget {
   }
 
   Widget graph(String imagePath) {
-    return Container(
+    return Card(
+      elevation: 2,
       margin: EdgeInsets.only(bottom: 2 * margin),
-      padding: EdgeInsets.all(padding),
-      decoration: BoxDecoration(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(borderRadius),
-        image: DecorationImage(
-          image: AssetImage(imagePath),
-          fit: BoxFit.fill,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(borderRadius),
+          image: DecorationImage(
+            image: AssetImage(imagePath),
+            fit: BoxFit.fill,
+          ),
         ),
       ),
     );
