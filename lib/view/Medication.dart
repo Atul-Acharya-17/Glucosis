@@ -8,7 +8,6 @@ class MedicationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: new ThemeData(scaffoldBackgroundColor: Colors.grey[200]),
       home: Scaffold(
         appBar: MedicationBar(),
         body: MedicationBody(),

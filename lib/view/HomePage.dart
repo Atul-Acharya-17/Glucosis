@@ -10,7 +10,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: new ThemeData(scaffoldBackgroundColor: const Color(0xE5E5E5)),
       home: Scaffold(
         appBar: HomeAppBar(),
         body: HomeBody(),
