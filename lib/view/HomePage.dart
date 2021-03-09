@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'NavigationBar.dart';
+import 'AppBar.dart';
 
 void main() {
   runApp(HomePage());
@@ -11,57 +12,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: HomeAppBar(),
+        appBar: CommonAppBar(
+          title: 'Overview',
+        ),
         body: HomeBody(),
         bottomNavigationBar: NavigationBar(),
       ),
-    );
-  }
-}
-
-class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final Color green = Color.fromRGBO(0, 110, 96, 1);
-  final Color pink = Color.fromRGBO(254, 179, 189, 1);
-
-  @override
-  Size get preferredSize => const Size.fromHeight(50);
-
-  @override
-  Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
-    final double appBarTextSize = height * 0.035;
-    final double appBarIconSize = width * 0.07;
-    return AppBar(
-      backgroundColor: green,
-      leading: GestureDetector(
-        onTap: () {},
-        child: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            size: appBarIconSize,
-            color: pink,
-          ),
-          onPressed: () {},
-        ),
-      ),
-      title: Center(
-        child: Text(
-          'Overview',
-          style: TextStyle(
-            fontSize: appBarTextSize,
-            color: Color.fromRGBO(254, 179, 189, 1),
-          ),
-        ),
-      ),
-      actions: <Widget>[
-        IconButton(
-          icon: new Image.asset('images/user_icon.jpeg'),
-          iconSize: appBarIconSize,
-          padding: EdgeInsets.only(right: 18.0),
-          onPressed: () {},
-        ),
-      ],
     );
   }
 }

@@ -8,7 +8,7 @@ class NavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    final double navigationBarHeight = 0.075 * height;
+    final double navigationBarHeight = 0.07 * height;
     final double iconWidth = 0.195 * width;
     return Container(
       height: navigationBarHeight,
