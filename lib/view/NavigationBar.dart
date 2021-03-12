@@ -8,7 +8,7 @@ class NavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    final double navigationBarHeight = 0.07 * height;
+    final double navigationBarHeight = 0.062 * height;
     final double iconWidth = 0.195 * width;
     return Container(
       height: navigationBarHeight,
@@ -20,7 +20,7 @@ class NavigationBar extends StatelessWidget {
           GestureDetector(
             onTap: () {},
             child: Image.asset(
-              'images/home.jpeg',
+              'images/home.jpg',
               height: navigationBarHeight,
               width: iconWidth,
               fit: BoxFit.fitHeight,
@@ -29,7 +29,7 @@ class NavigationBar extends StatelessWidget {
           GestureDetector(
             onTap: () {},
             child: Image.asset(
-              'images/glucose.jpeg',
+              'images/glucose.jpg',
               height: navigationBarHeight,
               width: iconWidth,
               fit: BoxFit.fitHeight,
@@ -38,7 +38,7 @@ class NavigationBar extends StatelessWidget {
           GestureDetector(
             onTap: () {},
             child: Image.asset(
-              'images/medicine.jpeg',
+              'images/medicine.jpg',
               height: navigationBarHeight,
               width: iconWidth,
               fit: BoxFit.fitHeight,
@@ -47,7 +47,7 @@ class NavigationBar extends StatelessWidget {
           GestureDetector(
             onTap: () {},
             child: Image.asset(
-              'images/diet.jpeg',
+              'images/diet.jpg',
               height: navigationBarHeight,
               width: iconWidth,
               fit: BoxFit.fitHeight,
@@ -56,7 +56,7 @@ class NavigationBar extends StatelessWidget {
           GestureDetector(
             onTap: () {},
             child: Image.asset(
-              'images/exercise.jpeg',
+              'images/exercise.jpg',
               height: navigationBarHeight,
               width: iconWidth,
               fit: BoxFit.fitHeight,

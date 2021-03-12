@@ -15,14 +15,14 @@ class HomePage extends StatelessWidget {
         appBar: CommonAppBar(
           title: 'Overview',
         ),
-        body: HomeBody(),
+        body: Body(),
         bottomNavigationBar: NavigationBar(),
       ),
     );
   }
 }
 
-class HomeBody extends StatelessWidget {
+class Body extends StatelessWidget {
   final double borderRadius = 10;
   final double margin = 5;
   final double padding = 5;
@@ -35,9 +35,10 @@ class HomeBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
+    final double graphsHeight = height * 0.3;
     final double normalFontSize = width * 0.06;
     final double miniFontSize = normalFontSize - 5;
-    final double graphsHeight = height * 0.3;
+
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(10),
@@ -195,6 +196,7 @@ class HomeBody extends StatelessWidget {
       ),
       onTap: () {},
     );
+
     return Card(
       elevation: 2,
       margin: EdgeInsets.only(bottom: margin),
@@ -264,7 +266,7 @@ class Graphs extends StatelessWidget {
         height: graphsHeight,
         enlargeCenterPage: true,
         enableInfiniteScroll: true,
-        viewportFraction: 1.0,
+        viewportFraction: 0.8,
       ),
       items: graphsList(imagesPathList),
     );
@@ -275,6 +277,7 @@ class Graphs extends StatelessWidget {
     for (int i = 0; i < imagesPathList.length; i++) {
       graphs[i] = graph(imagesPathList[i]);
     }
+
     return graphs;
   }
 
@@ -309,6 +312,7 @@ class LogBookIcons extends StatelessWidget {
     for (int i = 0; i < iconPaths.length; i++) {
       icons[i] = iconButton(iconPaths[i]);
     }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: icons,

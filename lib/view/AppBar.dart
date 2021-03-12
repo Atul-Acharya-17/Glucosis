@@ -5,16 +5,17 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Color green = Color.fromRGBO(0, 110, 96, 1);
   final Color pink = Color.fromRGBO(254, 179, 189, 1);
+  final double appBarHeight = 50;
 
   @override
-  Size get preferredSize => Size.fromHeight(45);
+  Size get preferredSize => Size.fromHeight(appBarHeight);
 
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    final double appBarTextSize = height * 0.035;
-    final double appBarIconSize = width * 0.07;
+    final double appBarTextSize = appBarHeight * 0.6;
+    final double appBarIconSize = appBarHeight * 0.6;
     return AppBar(
       backgroundColor: green,
       leading: GestureDetector(
