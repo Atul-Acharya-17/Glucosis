@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutterapp/view/LogbookPage.dart';
 import 'NavigationBar.dart';
 import 'AppBar.dart';
-
-void main() {
-  runApp(HomePage());
-}
 
 class HomePage extends StatelessWidget {
   @override
@@ -92,7 +89,12 @@ class Body extends StatelessWidget {
                   borderRadius: BorderRadius.circular(borderRadius),
                 ),
                 padding: EdgeInsets.all(padding),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LogBookPage()),
+                  );
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

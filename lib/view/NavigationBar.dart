@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/view/HomePage.dart';
 
 class NavigationBar extends StatelessWidget {
   final Color green = Color.fromRGBO(0, 110, 96, 1);
@@ -10,6 +11,7 @@ class NavigationBar extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
     final double navigationBarHeight = 0.062 * height;
     final double iconWidth = 0.195 * width;
+
     return Container(
       height: navigationBarHeight,
       width: width,
@@ -18,7 +20,12 @@ class NavigationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
             child: Image.asset(
               'images/home.jpg',
               height: navigationBarHeight,

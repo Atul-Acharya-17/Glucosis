@@ -3,21 +3,15 @@ import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'NavigationBar.dart';
 import 'AppBar.dart';
 
-void main() {
-  runApp(LogBookPage());
-}
-
 class LogBookPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: CommonAppBar(
-          title: 'Log Books',
-        ),
-        body: Body(),
-        bottomNavigationBar: NavigationBar(),
+    return Scaffold(
+      appBar: CommonAppBar(
+        title: 'Log Books',
       ),
+      body: Body(),
+      bottomNavigationBar: NavigationBar(),
     );
   }
 }

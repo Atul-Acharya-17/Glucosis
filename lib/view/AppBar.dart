@@ -12,22 +12,19 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
     final double appBarTextSize = appBarHeight * 0.6;
     final double appBarIconSize = appBarHeight * 0.6;
     return AppBar(
       backgroundColor: green,
-      leading: GestureDetector(
-        onTap: () {},
-        child: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            size: appBarIconSize,
-            color: pink,
-          ),
-          onPressed: () {},
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+          size: appBarIconSize,
+          color: pink,
         ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       title: Center(
         child: Text(
