@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
 import 'package:flutterapp/view/CustomRadioButton.dart';
-//import 'package:date_time_picker/date_time_picker.dart';
 
 class MedicationPage extends StatelessWidget {
   @override
@@ -299,7 +298,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             style: TextStyle(color: Colors.green[900]),
             textAlign: TextAlign.left,
           ),
-          CustomRadio(),
+          CustomRadio(text1: 'Pills', text2: 'Syringe'),
           TextFormField(
             // The validator receives the text that the user has entered.
             decoration: new InputDecoration(

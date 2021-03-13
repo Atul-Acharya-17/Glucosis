@@ -2,23 +2,31 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomRadio extends StatefulWidget {
+  CustomRadio({@required this.text1, this.text2});
+  final String text1;
+  final String text2;
   @override
   createState() {
-    return new CustomRadioState();
+    return new CustomRadioState(text1, text2);
   }
 }
 
 class CustomRadioState extends State<CustomRadio> {
   List<RadioModel> sampleData = new List<RadioModel>();
 
-  @override
-  void initState() {
-    // ignore: todo
-    // TODO: implement initState
-    super.initState();
-    sampleData.add(new RadioModel(false, 'Pills', ''));
-    sampleData.add(new RadioModel(false, 'Syringe', ''));
+  CustomRadioState(String text1, String text2) {
+    sampleData.add(new RadioModel(false, text1, ''));
+    sampleData.add(new RadioModel(false, text2, ''));
   }
+
+  // @override
+  // void initState(text1,text2) {
+  //   // ignore: todo
+  //   // TODO: implement initState
+  //   super.initState();
+  //   sampleData.add(new RadioModel(false, text1, ''));
+  //   sampleData.add(new RadioModel(false, text2, ''));
+  // }
 
   @override
   Widget build(BuildContext context) {
