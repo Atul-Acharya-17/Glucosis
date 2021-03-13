@@ -89,120 +89,151 @@ class MedicationBodyState extends State<MedicationBody> {
     final double miniFontSize = normalFontSize - 5;
 
     return SingleChildScrollView(
-      child: Center(
+      child: Container(
         child: Padding(
           padding: const EdgeInsets.all(30.0),
           child: Column(
             children: [
-              Container(
-                  height: MediaQuery.of(context).size.height * 0.20,
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  padding: EdgeInsets.all(10),
-                  color: Colors.white,
-                  child: Column(children: <Widget>[
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        color: Color(0xFD2765),
-                        child: Text(
-                          "Daily Schedule",
-                          style: TextStyle(
-                              color: Colors.pink[400],
-                              fontFamily: 'Roboto',
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500),
+              Card(
+                elevation: 5,
+                child: Container(
+                    height: MediaQuery.of(context).size.height * 0.20,
+                    width: MediaQuery.of(context).size.width * 0.95,
+                    padding: EdgeInsets.all(10),
+                    color: Colors.white,
+                    child: Column(children: <Widget>[
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          color: Color(0xFD2765),
+                          child: Text(
+                            "Daily Schedule",
+                            style: TextStyle(
+                                color: Colors.pink[400],
+                                fontFamily: 'Roboto',
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Container(
-                            color: Colors.pink[100],
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Column(children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'Crocin',
-                                      ),
-                                      SizedBox(width: 30),
-                                      Text(
-                                        '1 pill',
-                                      ),
-                                      SizedBox(width: 30),
-                                      Text(
-                                        '09:00',
-                                      ),
-                                    ],
-                                  ),
-                                ]),
-                                Column(children: <Widget>[
-                                  Row(children: <Widget>[
-                                    IconButton(
-                                      onPressed: null,
-                                      icon: Icon(Icons.edit),
+                      Container(
+                        child: Column(
+                          children: [
+                            Container(
+                              color: Colors.pink[100],
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'Crocin',
+                                        ),
+                                        SizedBox(width: 30),
+                                        Text(
+                                          '1 pill',
+                                        ),
+                                        SizedBox(width: 30),
+                                        Text(
+                                          '09:00',
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    IconButton(
+                                  ]),
+                                  Column(children: <Widget>[
+                                    Row(children: <Widget>[
+                                      IconButton(
                                         onPressed: null,
-                                        icon: Icon(Icons.delete))
-                                  ])
-                                ]),
-                              ],
+                                        icon: Icon(Icons.edit),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      IconButton(
+                                          onPressed: null,
+                                          icon: Icon(Icons.delete))
+                                    ])
+                                  ]),
+                                ],
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.01),
-                          Container(
-                            color: Colors.pink[100],
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Column(children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'Insulin',
-                                      ),
-                                      SizedBox(width: 30),
-                                      Text(
-                                        '50 ml',
-                                      ),
-                                      SizedBox(width: 30),
-                                      Text(
-                                        '15:00',
-                                      ),
-                                    ],
-                                  ),
-                                ]),
-                                Column(children: <Widget>[
-                                  Row(children: <Widget>[
-                                    IconButton(
-                                      onPressed: null,
-                                      icon: Icon(Icons.edit),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.01),
+                            Container(
+                              color: Colors.pink[100],
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'Insulin',
+                                        ),
+                                        SizedBox(width: 30),
+                                        Text(
+                                          '50 ml',
+                                        ),
+                                        SizedBox(width: 30),
+                                        Text(
+                                          '15:00',
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    IconButton(
+                                  ]),
+                                  Column(children: <Widget>[
+                                    Row(children: <Widget>[
+                                      IconButton(
                                         onPressed: null,
-                                        icon: Icon(Icons.delete))
-                                  ])
-                                ]),
-                              ],
+                                        icon: Icon(Icons.edit),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      IconButton(
+                                          onPressed: null,
+                                          icon: Icon(Icons.delete))
+                                    ]),
+                                  ]),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ])),
-              MyCustomForm()
+                    ])),
+              ),
+              MyCustomForm(),
+              // TextField(
+              //   decoration: new InputDecoration(
+              //       labelText: 'Set reminder timing',
+              //       labelStyle: TextStyle(
+              //         color: Colors.teal.shade800,
+              //         fontSize: 20,
+              //       )),
+              // ),
+              SizedBox(height: 30),
+              SizedBox(
+                width: 150,
+                height: 50,
+                child: RaisedButton(
+                  child: Text('Add Schedule',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  onPressed: null,
+                  disabledColor: Colors.pink[100],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    side: BorderSide(color: Colors.pink[100]),
+                  ),
+                ),
+              )
             ],
           ),
         ),
@@ -231,10 +262,24 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
   String dropdownValue = 'mL';
+  TimeOfDay _time = TimeOfDay.now();
+
+  void _selectTime(BuildContext context) async {
+    final TimeOfDay newTime = await showTimePicker(
+      context: context,
+      initialTime: _time,
+    );
+    if (newTime != null) {
+      setState(() {
+        _time = newTime;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
+
     return Form(
       key: _formKey,
       child: Column(
@@ -260,7 +305,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             decoration: new InputDecoration(
                 labelText: "Enter name of medication",
                 labelStyle: TextStyle(
-                  color: Colors.green[900],
+                  color: Colors.teal.shade800,
                   fontSize: 20,
                 )),
             validator: (value) {
@@ -270,56 +315,104 @@ class MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
           ),
-          Column(
-            children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                width: MediaQuery.of(context).size.width * 0.5,
-                child: TextFormField(
-                  // The validator receives the text that the user has entered.
+          Container(
+            child: Row(
+              children: [
+                Container(
+                  alignment: Alignment.bottomLeft,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: TextFormField(
+                    // The validator receives the text that the user has entered.
 
-                  decoration: new InputDecoration(
-                      labelText: "Enter dosage",
-                      labelStyle: TextStyle(
-                        color: Colors.green[900],
-                        fontSize: 20,
-                      )),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ], // Only numbers can be entered
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
+                    decoration: new InputDecoration(
+                        labelText: "Enter dosage",
+                        labelStyle: TextStyle(
+                          color: Colors.green[900],
+                          fontSize: 20,
+                        )),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ], // Only numbers can be entered
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-              ),
-              DropdownButton<String>(
-                value: dropdownValue,
-                icon: Icon(Icons.arrow_downward),
-                iconSize: 24,
-                elevation: 16,
-                style: TextStyle(color: Colors.green[900]),
-                underline: Container(
-                  height: 2,
-                  color: Colors.green[900],
+                Container(
+                  child: DropdownButton<String>(
+                    value: dropdownValue,
+                    icon: Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 16,
+                    style: TextStyle(color: Colors.teal.shade800),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.green[900],
+                    ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        dropdownValue = newValue;
+                      });
+                    },
+                    items: <String>['mL', 'Pills', 'g']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
-                onChanged: (String newValue) {
-                  setState(() {
-                    dropdownValue = newValue;
-                  });
-                },
-                items: <String>['mL', 'Pills', 'g']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 700,
+            child: Container(
+                child: Padding(
+                    padding: EdgeInsets.only(top: 20, left: 10),
+                    child: Text(
+                      'Set Reminder',
+                      style:
+                          TextStyle(fontSize: 20, color: Colors.teal.shade800),
+                    ))),
+          ),
+          SizedBox(
+            width: 500,
+            child: Container(
+                margin: EdgeInsets.only(bottom: 10, top: 10),
+                padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+                width: MediaQuery.of(context).size.width * 0.40,
+                height: 60,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey[400]),
+                    borderRadius: BorderRadius.circular(5.0)),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("${_time.format(context)}",
+                          style: TextStyle(fontSize: 20, color: Colors.black)),
+                      IconButton(
+                          icon: Icon(Icons.alarm_add_rounded),
+                          onPressed: () => _selectTime(context))
+                    ])),
+          ),
+          SizedBox(
+            width: 500,
+            child: Text(
+              '+ Add reminder',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.teal.shade800,
               ),
-            ],
+            ),
           ),
         ],
       ),
