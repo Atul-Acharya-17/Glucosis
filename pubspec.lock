@@ -57,6 +57,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0-nullsafety.3"
+  contained_tab_bar_view:
+    dependency: "direct main"
+    description:
+      name: contained_tab_bar_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.1"
+  container_tab_indicator:
+    dependency: transitive
+    description:
+      name: container_tab_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -200,4 +214,4 @@ packages:
     version: "2.1.0-nullsafety.3"
 sdks:
   dart: ">=2.10.0-110 <2.11.0"
-  flutter: ">=1.2.0 <2.0.0"
+  flutter: ">=1.17.0 <2.0.0"
