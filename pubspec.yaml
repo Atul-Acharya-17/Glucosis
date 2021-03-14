@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  custom_radio_grouped_button: any
   syncfusion_flutter_gauges: ^18.2.44
   flutter:
     sdk: flutter
