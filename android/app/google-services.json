@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "991397850539",
+    "project_id": "glucosis-8e878",
+    "storage_bucket": "glucosis-8e878.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991397850539:android:5f70e1b52bcfc7e4a236ee",
+        "android_client_info": {
+          "package_name": "com.example.Diabetes_Management_App"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "991397850539-aoaqn0defd4ml1oq2grttmipsatdnecu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzaP8Oz_D_1mx5A_d2RnB-bMlrnq0POtQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "991397850539-aoaqn0defd4ml1oq2grttmipsatdnecu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
