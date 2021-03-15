@@ -1,8 +1,8 @@
-class Reminders {
-  var medicines; // List<String>
-  var dosage; // List<String>
-  var days; // List<List<String>>
-  var timings; // List<List<String>>
+class Reminder {
+  String medicines; // List<String>
+  String dosage; // List<String>
+  List<String> days; // List<List<String>>
+  List<String> timings; // List<List<String>>
 
-  Reminders({this.medicines, this.dosage, this.days, this.timings});
+  Reminder({this.medicines, this.dosage, this.days, this.timings});
 }
