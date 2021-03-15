@@ -1,7 +1,9 @@
 abstract class LogBook {
-  String email;
+  String _email;
 
-  LogBook({this.email});
+  LogBook({String email}) : _email = email;
+
+  get email => _email;
 
   // Need to change return type
   void graph();

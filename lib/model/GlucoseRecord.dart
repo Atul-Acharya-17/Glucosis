@@ -2,12 +2,22 @@
 // import 'package:flutterapp/model/FoodRecord.dart';
 
 class GlucoseRecord {
-  String date;
-  String time;
-  bool beforeMeal;  // true for before meal, false for after meal
-  double glucoseLevel; // in mg/dL
+  String _date;
+  String _time;
+  bool _beforeMeal; // true for before meal, false for after meal
+  double _glucoseLevel; // in mg/dL
 
-  GlucoseRecord(this.date, this.time, this.beforeMeal, this.glucoseLevel);
+  GlucoseRecord(
+      {String date, String time, bool beforeMeal, double glucoseLevel})
+      : _date = date,
+        _time = time,
+        _beforeMeal = beforeMeal,
+        _glucoseLevel = glucoseLevel;
+
+  get date => _date;
+  get time => _time;
+  get beforeMeal => _beforeMeal;
+  get glucoseLevel => _glucoseLevel;
 }
 
 // void main() {

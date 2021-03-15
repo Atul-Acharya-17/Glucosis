@@ -1,11 +1,34 @@
 class FoodRecord {
-  String date;
-  String time;
-  String foodName;
-  int carbs; // in grams
-  int calories; // in kcal
-  double servingSize;
-  String notes;
+  String _date;
+  String _time;
+  String _foodName;
+  int _carbs; // in grams
+  int _calories; // in kcal
+  double _servingSize;
+  String _notes;
 
-  FoodRecord(this.date, this.time, this.foodName, this.carbs, this.calories, this.servingSize, [this.notes = ""]);
+  FoodRecord(
+      {String date,
+      String time,
+      String foodName,
+      int carbs,
+      int calories,
+      double servingSize,
+      String notes = ""})
+      : _date = date,
+        _time = time,
+        _foodName = foodName,
+        _carbs = carbs,
+        _calories = calories,
+        _servingSize = servingSize,
+        // Default Value
+        _notes = notes ?? "";
+
+  get date => _date;
+  get time => _time;
+  get foodName => _foodName;
+  get carbs => _carbs;
+  get calories => _calories;
+  get servingSize => _servingSize;
+  get notes => _notes;
 }
