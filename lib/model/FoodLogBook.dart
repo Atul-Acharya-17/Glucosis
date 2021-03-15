@@ -5,4 +5,8 @@ class FoodLogBook extends LogBook {
   List<FoodRecord> foodRecords;
 
   FoodLogBook(String email) : super(email: email);
+
+  void graph() {
+    print("Get graph");
+  }
 }
