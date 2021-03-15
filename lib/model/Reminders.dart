@@ -4,5 +4,5 @@ class Reminders {
   var days; // List<List<String>>
   var timings; // List<List<String>>
 
-  Reminders({this.medicine, this.dosage, this,days, this.timings});
+  Reminders({this.medicines, this.dosage, this.days, this.timings});
 }
