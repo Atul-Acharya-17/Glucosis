@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../controller/AuthenticationMgr.dart';
 
 void main() {
   runApp(CreateAccountPage());
@@ -54,12 +56,16 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
   String _name;
   String _phoneNumber;
 
+  final _auth = FirebaseAuth.instance;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildEmail() {
     return TextFormField(
+      keyboardType: TextInputType.emailAddress,
       decoration: new InputDecoration(
-        contentPadding: new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+        contentPadding:
+            new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Email address",
         filled: true,
@@ -70,7 +76,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
           return 'Email is Required';
         }
         if (!RegExp(
-            r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
             .hasMatch(value)) {
           return 'Please enter a valid email Address';
         }
@@ -84,8 +90,10 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
 
   Widget _buildPassword() {
     return TextFormField(
+      obscureText: true,
       decoration: new InputDecoration(
-        contentPadding: new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+        contentPadding:
+            new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Password",
         filled: true,
@@ -106,8 +114,10 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
 
   Widget _buildPassword2() {
     return TextFormField(
+      obscureText: true,
       decoration: new InputDecoration(
-        contentPadding: new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+        contentPadding:
+            new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Password",
         filled: true,
@@ -121,14 +131,16 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
         return null;
       },
       onSaved: (String value) {
-        _password = value;
+        _password2 = value;
       },
     );
   }
+
   Widget _buildName() {
     return TextFormField(
       decoration: new InputDecoration(
-        contentPadding: new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+        contentPadding:
+            new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Name",
         filled: true,
@@ -147,10 +159,12 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
       },
     );
   }
+
   Widget _buildPhoneNumber() {
     return TextFormField(
       decoration: new InputDecoration(
-        contentPadding: new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+        contentPadding:
+            new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Phone number",
         filled: true,
@@ -186,7 +200,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal:20),
+          padding: EdgeInsets.symmetric(horizontal: 20),
           width: double.infinity,
           color: Theme.of(context).backgroundColor,
           child: Form(
@@ -197,44 +211,50 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
 //                const SizedBox(height: 10),
                 Center(
                   child: Align(
-                      child:
-                      Text("Start your journey\nwith Glucosis.",
-                          style: TextStyle(fontSize: 30, color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center)
-                  ),
+                      child: Text("Start your journey\nwith Glucosis.",
+                          style: TextStyle(
+                              fontSize: 30,
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center)),
                 ),
                 const SizedBox(height: 20),
                 Text(
                   "Enter your email address",
-                  style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
+                  style: TextStyle(
+                      fontSize: 16, color: Theme.of(context).primaryColor),
                 ),
                 const SizedBox(height: 10),
                 _buildEmail(),
                 const SizedBox(height: 10),
                 Text(
                   "Enter your password",
-                  style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
+                  style: TextStyle(
+                      fontSize: 16, color: Theme.of(context).primaryColor),
                 ),
                 const SizedBox(height: 10),
                 _buildPassword(),
                 SizedBox(height: 10),
                 Text(
                   "Re-enter password",
-                  style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
+                  style: TextStyle(
+                      fontSize: 16, color: Theme.of(context).primaryColor),
                 ),
                 const SizedBox(height: 10),
                 _buildPassword2(),
                 SizedBox(height: 10),
                 Text(
                   "Name",
-                  style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
+                  style: TextStyle(
+                      fontSize: 16, color: Theme.of(context).primaryColor),
                 ),
                 const SizedBox(height: 10),
                 _buildName(),
                 SizedBox(height: 10),
                 Text(
                   "Phone number",
-                  style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
+                  style: TextStyle(
+                      fontSize: 16, color: Theme.of(context).primaryColor),
                 ),
                 const SizedBox(height: 10),
                 _buildPhoneNumber(),
@@ -243,12 +263,15 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                 Center(
                   child: Align(
                     child: ElevatedButton(
-                        child: Text("Continue", style: TextStyle(fontSize: 20, color: Colors.black)),
+                        child: Text("Continue",
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.black)),
                         style: ElevatedButton.styleFrom(
                           shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(30.0),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 15),
                           primary: Theme.of(context).primaryColor,
                         ),
                         onPressed: () {
@@ -256,14 +279,19 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                             return;
                           }
                           _formKey.currentState.save();
-
-                          print(_email);
-                          print(_password);
-                          print(_password2);
-                          print(_name);
-                          print(_phoneNumber);
-                        }
-                    ),
+                          AuthenticationManager auth =
+                              new AuthenticationManager();
+                          if (_password == _password2)
+                            auth.signUp(_email, _password);
+                          else {
+                            print('Passwords are different');
+                          }
+                          //print(_email);
+                          //print(_password);
+                          //print(_password2);
+                          //print(_name);
+                          //print(_phoneNumber);
+                        }),
                   ),
                 ),
                 SizedBox(height: 30),
