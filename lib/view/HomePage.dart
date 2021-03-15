@@ -7,14 +7,12 @@ import 'AppBar.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: CommonAppBar(
-          title: 'Overview',
-        ),
-        body: Body(),
-        bottomNavigationBar: NavigationBar(),
+    return Scaffold(
+      appBar: CommonAppBar(
+        title: 'Overview',
       ),
+      body: Body(),
+      bottomNavigationBar: NavigationBar(),
     );
   }
 }
