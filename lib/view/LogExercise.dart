@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../controller/UserMgr.dart';
 
 //void main() => runApp(LogExercisePage());
 
 class MyAppLogExercisePage extends StatelessWidget {
+
+  
   @override
   Widget build(BuildContext context) {
+
+    // tried to use this for testing usermanager
+    /*UserManager userManager=new UserManager();
+    userManager.retrieveDetails("nisha.rmanian@gmail.com");
+    */ 
     return MaterialApp(
         title: 'Flutter App',
         home: LogExercisePage(),
@@ -43,6 +51,7 @@ class LogExercisePage extends StatefulWidget {
 }
 
 class LogExercisePageState extends State<LogExercisePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
