@@ -8,19 +8,20 @@ import 'controller/UserMgr.dart';
 
 
 
-void main() {
+/*void main() {
   runApp(DailySchedule());
   
-}
-/*
+}*/
 
-void main() {
+
+void main() async{
   //runApp(DailySchedule());
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(App());
+  await Firebase.initializeApp();
+  runApp(MyAppLogExercisePage());
 }
 
-class App extends StatelessWidget {
+/*class App extends StatelessWidget {
   // Create the initialization Future outside of `build`:
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
@@ -46,5 +47,4 @@ class App extends StatelessWidget {
     );
   }
 }
-
 */

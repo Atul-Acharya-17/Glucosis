@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../controller/UserMgr.dart';
@@ -10,10 +11,12 @@ class MyAppLogExercisePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // tried to use this for testing usermanager
+    //used this for testing usermanager
     /*UserManager userManager=new UserManager();
-    userManager.retrieveDetails("nisha.rmanian@gmail.com");
-    */ 
+    userManager.retrieveDetails("nishasnr@gmail.com");
+    userManager.addUser("nisha952001@gmail.com", DateTime.utc(2000, 11, 9), "type2", ["ketchup"], "advanced", "vegetarian", "female", 1.7, "singapore", "nisha", 84672918, 1800, 50, {'start':80, 'end':100});
+    */
+    
     return MaterialApp(
         title: 'Flutter App',
         home: LogExercisePage(),
