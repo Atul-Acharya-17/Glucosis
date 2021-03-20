@@ -56,8 +56,11 @@ class GlucosePageBody extends StatelessWidget {
             height: 30,
           ),
           RaisedButton(
-            onPressed: null,
+            onPressed: () {
+              Navigator.of(context).pushNamed('/logbloodglucose');
+            },
             disabledColor: Colors.pink[100],
+            color: Colors.pink[100],
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 side: BorderSide(color: Colors.pink[100])),
@@ -68,11 +71,14 @@ class GlucosePageBody extends StatelessWidget {
           ),
           SizedBox(height: 30),
           RaisedButton(
-            onPressed: null,
+            onPressed: () {
+              Navigator.of(context).pushNamed('/dailyschedule');
+            },
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 side: BorderSide(color: Colors.pink[100])),
             disabledColor: Colors.pink[100],
+            color: Colors.pink[100],
             child: Text(
               'Create daily schedule',
               style: TextStyle(color: Colors.black),
