@@ -1,15 +1,11 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_core/firebase_core.dart';
 //import '../model/User.dart';
 
-
 class UserManager
 {
 
-
- CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
 Future<void> addUser(String email, DateTime birthday, String diabetesType, List<String> dietaryRestrictions,String exercisePreference,
 String foodPreference,String gender,double height,String location, String name,int phone,int targetCalories,int weight, Map targetRange) {

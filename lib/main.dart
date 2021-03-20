@@ -3,9 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'view/DailySchedule.dart';
 import 'view/LogGlucose.dart';
 import 'view/LogExercise.dart';
-import 'view/GlucosePage.dart';
+// import 'view/GlucosePage.dart';
+// import 'view/HomePage.dart';
+import 'controller/LogBookMgr.dart';
 import 'controller/UserMgr.dart';
+import 'model/GlucoseRecord.dart';
 
+<<<<<<< HEAD
 /*void main() {
   runApp(DailySchedule());
   
@@ -13,8 +17,27 @@ import 'controller/UserMgr.dart';
 
 void main() async {
   //runApp(DailySchedule());
+=======
+void main() async {
+  // runApp(DailySchedule());
+>>>>>>> c36198d8ba01b198ab63694a35dda853aa80d08f
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  LogBookMgr x = new LogBookMgr(
+    'glucose',
+    'nishasnr@gmail.com',
+  );
+  x.getGlucoseRecords();
+  /*print('hello');
+  print(x.glucoseLogBook);
+  print('hi again');
+  List<GlucoseRecord> y = await x.getGlucoseRecords();
+  print('and again');
+  print(y.length);
+  for (int i = 0; i < y.length; i++) {
+    print(y[i].glucoseLevel);
+  }
+  print('final one, haha');*/
   runApp(MyAppLogExercisePage());
 }
 

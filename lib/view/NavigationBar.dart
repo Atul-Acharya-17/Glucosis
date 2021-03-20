@@ -31,7 +31,7 @@ class NavigationBar extends StatelessWidget {
               'images/home.jpg',
               height: navigationBarHeight,
               width: iconWidth,
-              fit: BoxFit.fitHeight,
+              fit: BoxFit.fill,
             ),
           ),
           GestureDetector(
@@ -42,7 +42,7 @@ class NavigationBar extends StatelessWidget {
               'images/glucose.jpg',
               height: navigationBarHeight,
               width: iconWidth,
-              fit: BoxFit.fitHeight,
+              fit: BoxFit.fill,
             ),
           ),
           GestureDetector(
@@ -53,7 +53,7 @@ class NavigationBar extends StatelessWidget {
               'images/medicine.jpg',
               height: navigationBarHeight,
               width: iconWidth,
-              fit: BoxFit.fitHeight,
+              fit: BoxFit.fill,
             ),
           ),
           GestureDetector(
@@ -62,7 +62,7 @@ class NavigationBar extends StatelessWidget {
               'images/diet.jpg',
               height: navigationBarHeight,
               width: iconWidth,
-              fit: BoxFit.fitHeight,
+              fit: BoxFit.fill,
             ),
           ),
           GestureDetector(
@@ -73,7 +73,7 @@ class NavigationBar extends StatelessWidget {
               'images/exercise.jpg',
               height: navigationBarHeight,
               width: iconWidth,
-              fit: BoxFit.fitHeight,
+              fit: BoxFit.fill,
             ),
           ),
         ],

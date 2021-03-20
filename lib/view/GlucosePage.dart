@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'AppBar.dart';
 import 'HomePage.dart';
 import 'NavigationBar.dart';
@@ -43,25 +42,22 @@ class GlucosePageBody extends StatelessWidget {
         children: [
           Card(
             elevation: 5,
-            child: Graphs(
-              borderRadius: borderRadius,
-              margin: margin,
-              padding: padding,
-              graphsHeight: graphsHeight,
-              imagesPathList: [
-                'images/random.png',
-              ],
-            ),
+            child: Text('Placeholder Graph'),
+            // Graphs(
+            //   borderRadius: borderRadius,
+            //   padding: padding,
+            //   graphsHeight: graphsHeight,
+            //   //imagesPathList: [
+            //   //  'images/random.png',
+            //   //],
+            // ),
           ),
           SizedBox(
             height: 30,
           ),
           RaisedButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed('/logbloodglucose');
-            },
+            onPressed: null,
             disabledColor: Colors.pink[100],
-            color: Colors.pink[100],
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 side: BorderSide(color: Colors.pink[100])),
@@ -72,9 +68,7 @@ class GlucosePageBody extends StatelessWidget {
           ),
           SizedBox(height: 30),
           RaisedButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed('/dailyschedule');
-            },
+            onPressed: null,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 side: BorderSide(color: Colors.pink[100])),

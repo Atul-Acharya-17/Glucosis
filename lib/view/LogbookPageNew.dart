@@ -6,10 +6,6 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'NavigationBar.dart';
 import 'AppBar.dart';
 
-void main() => MaterialApp(
-      home: LogBookPage(),
-    );
-
 class LogBookPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -198,11 +194,11 @@ class Graph extends StatefulWidget {
 
   @override
   GraphState createState() => GraphState(
-    logBook: logBook,
-    graphsHeight: graphsHeight,
-    padding: padding,
-    borderRadius: borderRadius,
-  );
+        logBook: logBook,
+        graphsHeight: graphsHeight,
+        padding: padding,
+        borderRadius: borderRadius,
+      );
 }
 
 class GraphState extends State<Graph> {
