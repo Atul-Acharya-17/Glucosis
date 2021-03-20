@@ -97,8 +97,20 @@ class LogBookMgr {
         .catchError((error) => print('Failed to add record: $error'));
   }
 
-  Future<List<GlucoseRecord>> getGlucoseRecords() async {
-    List<GlucoseRecord> recordsList = [];
+  //Future<List<GlucoseRecord>> getGlucoseRecords() async {
+    Future<void> getGlucoseRecords() async {
+    FirebaseFirestore.instance.collection('GlucoseLogBook').get().then((querySnapshot){
+       querySnapshot.docs.forEach((result) {
+         FirebaseFirestore.instance.collection('GlucoseLogBook').doc("nishasnr@gmail.com").collection('GlucoseRecords').get().then(
+           (querySnapshot){
+             querySnapshot.docs.forEach((result){
+               print(result.data());
+             });
+           });
+        });
+    });
+    }
+    /* List<GlucoseRecord> recordsList = [];
     print('getting glucose records');
     glucoseLogBook.get().then((QuerySnapshot querySnapshot) => {
       querySnapshot.docs.forEach((doc) {
@@ -113,8 +125,8 @@ class LogBookMgr {
       })
     });
 
-    return recordsList;
-  }
+    return recordsList;*/
+  //}
 
 /*var newsList = [];
 

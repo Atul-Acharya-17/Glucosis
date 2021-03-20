@@ -4,7 +4,7 @@ import 'view/DailySchedule.dart';
 import 'view/LogGlucose.dart';
 import 'view/LogExercise.dart';
 // import 'view/GlucosePage.dart';
-import 'view/HomePage.dart';
+// import 'view/HomePage.dart';
 import 'controller/LogBookMgr.dart';
 import 'controller/UserMgr.dart';
 import 'model/GlucoseRecord.dart';
@@ -17,7 +17,8 @@ void main() async {
     'glucose',
     'nishasnr@gmail.com',
   );
-  print('hello');
+  x.getGlucoseRecords();
+  /*print('hello');
   print(x.glucoseLogBook);
   print('hi again');
   List<GlucoseRecord> y = await x.getGlucoseRecords();
@@ -26,8 +27,8 @@ void main() async {
   for (int i = 0; i < y.length; i++) {
     print(y[i].glucoseLevel);
   }
-  print('final one, haha');
-  runApp(HomePage());
+  print('final one, haha');*/
+  runApp(MyAppLogExercisePage());
 }
 
 /*class App extends StatelessWidget {
