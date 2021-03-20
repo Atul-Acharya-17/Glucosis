@@ -1,6 +1,5 @@
 class FoodRecord {
-  String _date;
-  String _time;
+  DateTime _datetime;
   String _foodName;
   int _carbs; // in grams
   int _calories; // in kcal
@@ -8,15 +7,13 @@ class FoodRecord {
   String _notes;
 
   FoodRecord(
-      {String date,
-      String time,
+      {DateTime datetime,
       String foodName,
       int carbs,
       int calories,
       double servingSize,
       String notes = ""})
-      : _date = date,
-        _time = time,
+      : _datetime = datetime,
         _foodName = foodName,
         _carbs = carbs,
         _calories = calories,
@@ -24,8 +21,7 @@ class FoodRecord {
         // Default Value
         _notes = notes ?? "";
 
-  get date => _date;
-  get time => _time;
+  get datetime => _datetime;
   get foodName => _foodName;
   get carbs => _carbs;
   get calories => _calories;

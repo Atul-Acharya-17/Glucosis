@@ -10,11 +10,11 @@ class AuthenticationManager {
 
       if (newUser != null) {
         print("Hello");
-        final user = await _auth.currentUser();
-        FirebaseUser loggedUser = user;
-        print(loggedUser.email);
+        final user = _auth.currentUser;
+        print(user.email);
         return true;
       }
+      return false;
     } catch (e) {
       print(e);
       return false;
@@ -40,5 +40,9 @@ class AuthenticationManager {
 
   void signOut() {
     _auth.signOut();
+  }
+
+  String getCurrentUser() {
+    return _auth.currentUser.email != null ? _auth.currentUser.email : null;
   }
 }

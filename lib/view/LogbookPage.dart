@@ -3,6 +3,10 @@ import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'NavigationBar.dart';
 import 'AppBar.dart';
 
+void main() => MaterialApp(
+      home: LogBookPage(),
+    );
+
 class LogBookPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

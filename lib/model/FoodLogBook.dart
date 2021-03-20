@@ -4,16 +4,19 @@ import './FoodRecord.dart';
 class FoodLogBook extends LogBook {
   List<FoodRecord> _foodRecords;
 
-  FoodLogBook(String email) : super(email: email);
+  FoodLogBook({String email}) : super(email: email);
 
   // Need to implement a method to create the composition objects
 
-  void createFoodRecord(String date, String time, String foodName, int carbs,
-      int calories, double servingSize,
-      [String notes = ""]) {
+  void createFoodRecord(
+      {DateTime datetime,
+      String foodName,
+      int carbs,
+      int calories,
+      double servingSize,
+      notes: ""}) {
     FoodRecord record = new FoodRecord(
-        date: date,
-        time: time,
+        datetime: datetime,
         foodName: foodName,
         carbs: carbs,
         calories: calories,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import '../controller/AuthenticationMgr.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
-  CommonAppBar({@required this.title});
+  bool isSigningOut = false;
+  CommonAppBar({@required this.title, this.isSigningOut = false});
   final String title;
   final Color green = Color.fromRGBO(0, 110, 96, 1);
   final Color pink = Color.fromRGBO(254, 179, 189, 1);
@@ -23,7 +25,19 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
           color: pink,
         ),
         onPressed: () {
-          Navigator.pop(context);
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          }
+          /*
+          if (isSigningOut) {
+            //AuthenticationManager auth = new AuthenticationManager();
+            //auth.signOut();
+            Navigator.pop(context);
+            //Navigator.of(context).pushReplacementNamed('/login');
+          } else {
+            Navigator.pop(context);
+          }
+          */
         },
       ),
       title: Center(
@@ -40,7 +54,9 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: new Image.asset('images/user_icon.jpeg'),
           iconSize: appBarIconSize,
           padding: EdgeInsets.only(right: 18.0),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed('/profile');
+          },
         ),
       ],
     );

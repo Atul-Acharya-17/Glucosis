@@ -3,42 +3,17 @@ import 'NavigationBar.dart';
 import 'AppBar.dart';
 
 void main() {
-  runApp(ProfilePage());
+  runApp(
+    MaterialApp(
+      home: ProfilePage(),
+    ),
+  );
 }
 
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter App',
-        home: ProfileScreen(),
-        theme: ThemeData(
-          // Define the default brightness and colors.
-          backgroundColor: Colors.teal.shade800,
-          accentColor: Color.fromRGBO(248, 139, 160, 1),
-          primaryColor: Color.fromRGBO(248, 181, 188, 1),
-          primaryColorLight: Color.fromRGBO(253, 225, 228, 1),
-
-          // Define the default font family.
-          fontFamily: 'Roboto',
-
-          // Define the default TextTheme. Use this to specify the default
-          // text styling for headlines, titles, bodies of text, and more.
-          textTheme: TextTheme(
-              headline3: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-              headline4: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal.shade800),
-              headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
-              headline6: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black)),
-        ));
+    return ProfileScreen();
   }
 }
 
@@ -74,7 +49,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Email address",
         filled: true,
@@ -85,7 +60,7 @@ class ProfileScreenState extends State<ProfileScreen> {
           return 'Email is Required';
         }
         if (!RegExp(
-            r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
             .hasMatch(value)) {
           return 'Please enter a valid email Address';
         }
@@ -103,7 +78,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Password",
         filled: true,
@@ -128,7 +103,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Name",
         filled: true,
@@ -154,7 +129,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Phone number",
         filled: true,
@@ -200,7 +175,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Country",
         filled: true,
@@ -225,7 +200,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Vegan/vegetarian/non-vegetarian",
         filled: true,
@@ -250,14 +225,13 @@ class ProfileScreenState extends State<ProfileScreen> {
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Dietary restrictions",
         filled: true,
         fillColor: Colors.white,
       ),
       keyboardType: TextInputType.text,
-
       onSaved: (String value) {
         _dietRestrictions = value;
       },
@@ -270,7 +244,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Basic/intermediate/advanced",
         filled: true,
@@ -289,14 +263,13 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-
   Widget _buildGender() {
     return TextFormField(
       initialValue: _gender,
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Gender",
         filled: true,
@@ -321,7 +294,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Type",
         filled: true,
@@ -345,7 +318,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "0.00",
         filled: true,
@@ -370,7 +343,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "0.00",
         filled: true,
@@ -395,7 +368,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Carbs",
         filled: true,
@@ -420,7 +393,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Calories",
         filled: true,
@@ -708,7 +681,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                     child: ElevatedButton(
                         child: Text("Save changes",
                             style:
-                            TextStyle(fontSize: 20, color: Colors.black)),
+                                TextStyle(fontSize: 20, color: Colors.black)),
                         style: ElevatedButton.styleFrom(
                           shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(30.0),
@@ -722,7 +695,6 @@ class ProfileScreenState extends State<ProfileScreen> {
                             return;
                           }
                           _formKey.currentState.save();
-
                         }),
                   ),
                 ),

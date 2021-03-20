@@ -2,43 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 
+/*
+return MaterialApp(
+      title: 'Flutter App',
+      home: AccountDetailsScreen(),
+      theme: ThemeData(
+        // Define the default brightness and colors.
+        backgroundColor: Colors.teal.shade800,
+        accentColor: Color.fromRGBO(248, 139, 160, 1),
+        primaryColor: Color.fromRGBO(248, 181, 188, 1),
+        primaryColorLight: Color.fromRGBO(253, 225, 228, 1),
+
+        // Define the default font family.
+        fontFamily: 'Roboto',
+
+        // Define the default TextTheme. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: TextTheme(
+            headline3: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+            headline4: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal.shade800),
+            headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
+            headline6: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
+      ),
+    );
+*/
 void main() {
-  runApp(AccountDetailsPage());
+  runApp(
+    MaterialApp(
+      home: AccountDetailsPage(),
+    ),
+  );
 }
 
 class AccountDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter App',
-        home: AccountDetailsScreen(),
-        theme: ThemeData(
-          // Define the default brightness and colors.
-          backgroundColor: Colors.teal.shade800,
-          accentColor: Color.fromRGBO(248, 139, 160, 1),
-          primaryColor: Color.fromRGBO(248, 181, 188, 1),
-          primaryColorLight: Color.fromRGBO(253, 225, 228, 1),
-
-          // Define the default font family.
-          fontFamily: 'Roboto',
-
-          // Define the default TextTheme. Use this to specify the default
-          // text styling for headlines, titles, bodies of text, and more.
-          textTheme: TextTheme(
-              headline3: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-              headline4: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal.shade800),
-              headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
-              headline6: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black)),
-        ));
+    return Scaffold(
+      body: AccountDetailsScreen(),
+    );
   }
 }
 
@@ -172,7 +180,7 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
     return TextFormField(
       decoration: new InputDecoration(
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "Country",
         filled: true,
@@ -195,7 +203,7 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
     return TextFormField(
       decoration: new InputDecoration(
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "000.00",
         filled: true,
@@ -209,7 +217,9 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
         return null;
       },
       onSaved: (String value) {
-        _weight = value as double;
+        print("Receiving string");
+        _weight = double.parse(value);
+        print("Converted to double");
       },
     );
   }
@@ -218,7 +228,7 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
     return TextFormField(
       decoration: new InputDecoration(
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
         border: OutlineInputBorder(),
         hintText: "0.00",
         filled: true,
@@ -232,7 +242,9 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
         return null;
       },
       onSaved: (String value) {
-        _height = value as double;
+        print("Receiving string");
+        _height = double.parse(value);
+        print("Converted to double");
       },
     );
   }
@@ -263,13 +275,14 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
               children: <Widget>[
                 Center(
                   child: Align(
-                      child: Text(
-                          "Welcome! Tell us a little more about yourself.",
-                          style: TextStyle(
-                              fontSize: 28,
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center)),
+                    child: Text(
+                        "Welcome! Tell us a little more about yourself.",
+                        style: TextStyle(
+                            fontSize: 28,
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -301,9 +314,12 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
                     children: [
                       Column(
                         children: [
-                          Text("Weight",
+                          Text(
+                            "Weight",
                             style: TextStyle(
-                                fontSize: 16, color: Theme.of(context).primaryColor),),
+                                fontSize: 16,
+                                color: Theme.of(context).primaryColor),
+                          ),
                           const SizedBox(height: 5),
                           Row(
                             children: [
@@ -312,20 +328,25 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
                                 child: _buildWeight(),
                               ),
                               const SizedBox(width: 10),
-                              Text("kg",
+                              Text(
+                                "kg",
                                 style: TextStyle(
-                                    fontSize: 16, color: Theme.of(context).primaryColor),),
+                                    fontSize: 16,
+                                    color: Theme.of(context).primaryColor),
+                              ),
                             ],
                           ),
                         ],
                       ),
                       Column(
                         children: [
-                          Text("Height",
+                          Text(
+                            "Height",
                             style: TextStyle(
-                                fontSize: 16, color: Theme.of(context).primaryColor),),
+                                fontSize: 16,
+                                color: Theme.of(context).primaryColor),
+                          ),
                           const SizedBox(height: 5),
-
                           Row(
                             children: [
                               Container(
@@ -333,9 +354,12 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
                                 child: _buildHeight(),
                               ),
                               const SizedBox(width: 10),
-                              Text("m",
+                              Text(
+                                "m",
                                 style: TextStyle(
-                                    fontSize: 16, color: Theme.of(context).primaryColor),),
+                                    fontSize: 16,
+                                    color: Theme.of(context).primaryColor),
+                              ),
                             ],
                           ),
                         ],
@@ -362,7 +386,7 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
                     child: ElevatedButton(
                         child: Text("Create account",
                             style:
-                            TextStyle(fontSize: 20, color: Colors.black)),
+                                TextStyle(fontSize: 20, color: Colors.black)),
                         style: ElevatedButton.styleFrom(
                           shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(30.0),
@@ -375,7 +399,17 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
                           if (!_formKey.currentState.validate()) {
                             return;
                           }
+                          print("Yes");
                           _formKey.currentState.save();
+                          print("No");
+                          /*
+                        Update details of current user in the UserMgr class.
+                        Use AuthMgr getCurrentUser to do the updates
+
+                        Currently only NAVIGATION is implemented
+                        */
+
+                          Navigator.of(context).pushNamed('/home');
                         }),
                   ),
                 ),

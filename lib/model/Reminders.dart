@@ -1,21 +1,25 @@
 class Reminder {
-  String _medicines; // List<String>
-  String _dosage; // List<String>
-  List<String> _days; // List<List<String>>
-  List<String> _timings; // List<List<String>>
+  /*
+  FireBase schema is slightly different
+  */
+  //String _medicines; // List<String>
+  //String _dosage; // List<String>
+  //List<String> _days; // List<List<String>>
+  //List<String> _timings; // List<List<String>>
 
-  Reminder(
-      {String medicines,
-      String dosage,
-      List<String> days,
-      List<String> timings})
-      : _medicines = medicines,
+  String _medicineName;
+  String _dosage;
+  DateTime _timing;
+  String _type;
+
+  Reminder({String medicineName, String dosage, DateTime timing, String type})
+      : _medicineName = medicineName,
         _dosage = dosage,
-        _days = days,
-        _timings = timings;
+        _timing = timing,
+        _type = type;
 
-  get medicines => _medicines;
+  get medicineName => _medicineName;
   get dosage => _dosage;
-  get days => _days;
-  get timings => _timings;
+  get timing => _timing;
+  get type => _type;
 }

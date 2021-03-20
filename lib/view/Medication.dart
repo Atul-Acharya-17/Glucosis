@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
 import 'package:flutterapp/view/CustomRadioButton.dart';
+import './AppBar.dart';
+
+void main() => MaterialApp(
+      home: MedicationPage(),
+    );
 
 class MedicationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: MedicationBar(),
-        body: MedicationBody(),
-        bottomNavigationBar: NavigationBar(),
+    return Scaffold(
+      appBar: CommonAppBar(
+        title: 'Medication',
       ),
+      body: MedicationBody(),
+      bottomNavigationBar: NavigationBar(),
     );
   }
 }

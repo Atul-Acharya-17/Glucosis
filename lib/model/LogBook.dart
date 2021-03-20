@@ -4,7 +4,4 @@ abstract class LogBook {
   LogBook({String email}) : _email = email;
 
   get email => _email;
-
-  // Need to change return type
-  void graph();
 }

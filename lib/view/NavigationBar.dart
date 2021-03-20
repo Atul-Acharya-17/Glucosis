@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/view/HomePage.dart';
+//import './ExercisePage.dart';
 
 class NavigationBar extends StatelessWidget {
   final Color green = Color.fromRGBO(0, 110, 96, 1);
@@ -15,7 +16,7 @@ class NavigationBar extends StatelessWidget {
     return Container(
       height: navigationBarHeight,
       width: width,
-      color: pink,
+      color: Colors.white10,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -34,7 +35,9 @@ class NavigationBar extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed('/glucose');
+            },
             child: Image.asset(
               'images/glucose.jpg',
               height: navigationBarHeight,
@@ -43,7 +46,9 @@ class NavigationBar extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed('/medication');
+            },
             child: Image.asset(
               'images/medicine.jpg',
               height: navigationBarHeight,
@@ -61,7 +66,9 @@ class NavigationBar extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed('/exercise');
+            },
             child: Image.asset(
               'images/exercise.jpg',
               height: navigationBarHeight,

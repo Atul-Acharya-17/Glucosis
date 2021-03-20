@@ -4,17 +4,19 @@ import 'AppBar.dart';
 import 'HomePage.dart';
 import 'NavigationBar.dart';
 
+void run() => MaterialApp(
+      home: GlucosePage(),
+    );
+
 class GlucosePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: CommonAppBar(
-          title: 'Blood Glucose',
-        ),
-        body: GlucosePageBody(),
-        bottomNavigationBar: NavigationBar(),
+    return Scaffold(
+      appBar: CommonAppBar(
+        title: 'Blood Glucose',
       ),
+      body: GlucosePageBody(),
+      bottomNavigationBar: NavigationBar(),
     );
   }
 }
@@ -55,8 +57,11 @@ class GlucosePageBody extends StatelessWidget {
             height: 30,
           ),
           RaisedButton(
-            onPressed: null,
+            onPressed: () {
+              Navigator.of(context).pushNamed('/logbloodglucose');
+            },
             disabledColor: Colors.pink[100],
+            color: Colors.pink[100],
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 side: BorderSide(color: Colors.pink[100])),
@@ -67,7 +72,9 @@ class GlucosePageBody extends StatelessWidget {
           ),
           SizedBox(height: 30),
           RaisedButton(
-            onPressed: null,
+            onPressed: () {
+              Navigator.of(context).pushNamed('/dailyschedule');
+            },
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 side: BorderSide(color: Colors.pink[100])),

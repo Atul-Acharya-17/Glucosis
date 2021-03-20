@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'NavigationBar.dart';
+import './AppBar.dart';
 
-//void main() => runApp(ExercisePage());
-
-class ExercisePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter App',
-        home: ExercisePageState(),
-        theme: ThemeData(
+/*
+theme: ThemeData(
           // Define the default brightness and colors.
           primaryColor: Colors.teal.shade800,
           backgroundColor: Colors.pink.shade100,
@@ -34,6 +29,14 @@ class ExercisePage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Colors.black)),
         ));
+ */
+
+void main() => runApp(MaterialApp(home: ExercisePage()));
+
+class ExercisePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ExercisePageState();
   }
 }
 
@@ -42,17 +45,10 @@ class ExercisePageState extends StatelessWidget {
   Widget build(BuildContext context) {
     double progressValue = 75;
     return Scaffold(
-        appBar: AppBar(
-            title:
-                Text('Exercise', style: TextStyle(color: Colors.pink.shade100)),
-            centerTitle: true,
-            leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.pink.shade100,
-                ),
-                onPressed: null),
-            backgroundColor: Colors.teal.shade800),
+        bottomNavigationBar: NavigationBar(),
+        appBar: CommonAppBar(
+          title: 'Exercise',
+        ),
         body: SingleChildScrollView(
             child: Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
@@ -197,7 +193,9 @@ class ExercisePageState extends StatelessWidget {
                   Container(
                       margin: EdgeInsets.all(10),
                       child: ElevatedButton.icon(
-                        onPressed: null,
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/logexercise');
+                        },
                         icon: Icon(
                           Icons.add,
                           size: 18,

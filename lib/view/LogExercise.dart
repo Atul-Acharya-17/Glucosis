@@ -2,49 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../controller/UserMgr.dart';
+import './AppBar.dart';
 
-//void main() => runApp(LogExercisePage());
+void main() => runApp(MaterialApp(home: LogExercisePage()));
 
 class MyAppLogExercisePage extends StatelessWidget {
-
-  
   @override
   Widget build(BuildContext context) {
-
     //used this for testing usermanager
     /*UserManager userManager=new UserManager();
     userManager.retrieveDetails("nishasnr@gmail.com");
     userManager.addUser("nisha952001@gmail.com", DateTime.utc(2000, 11, 9), "type2", ["ketchup"], "advanced", "vegetarian", "female", 1.7, "singapore", "nisha", 84672918, 1800, 50, {'start':80, 'end':100});
     */
-    
-    return MaterialApp(
-        title: 'Flutter App',
-        home: LogExercisePage(),
-        theme: ThemeData(
-          // Define the default brightness and colors.
-          primaryColor: Colors.teal.shade800,
-          backgroundColor: Colors.pink.shade100,
 
-          // Define the default font family.
-          fontFamily: 'Roboto',
-
-          // Define the default TextTheme. Use this to specify the default
-          // text styling for headlines, titles, bodies of text, and more.
-          textTheme: TextTheme(
-              headline3: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-              headline4: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal.shade800),
-              headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
-              headline6: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black)),
-        ));
+    return LogExercisePage();
   }
 }
 
@@ -54,21 +25,10 @@ class LogExercisePage extends StatefulWidget {
 }
 
 class LogExercisePageState extends State<LogExercisePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text('LogExercise',
-                style: TextStyle(color: Colors.pink.shade100)),
-            centerTitle: true,
-            leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.pink.shade100,
-                ),
-                onPressed: null),
-            backgroundColor: Colors.teal.shade800),
+        appBar: CommonAppBar(title: 'Log Exercise'),
         body: SingleChildScrollView(
           /// Flutter code sample for Form
           child: MyCustomForm(),

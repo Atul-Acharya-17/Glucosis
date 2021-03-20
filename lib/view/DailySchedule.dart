@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
 // import 'package:flutterapp/view/CustomRadioButton.dart';
+import './AppBar.dart';
+
+void main() => runApp(
+      MaterialApp(
+        home: DailySchedule(),
+      ),
+    );
 
 class DailySchedule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: DailyScheduleBar(),
-        body: DailyScheduleBody(),
-        bottomNavigationBar: NavigationBar(),
-      ),
+    return Scaffold(
+      appBar: CommonAppBar(title: 'Daily Schedule'),
+      body: DailyScheduleBody(),
+      bottomNavigationBar: NavigationBar(),
     );
   }
 }

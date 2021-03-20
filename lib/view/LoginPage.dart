@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import '../controller/AuthenticationMgr.dart';
 
 void main() {
-  runApp(LoginPage());
+  runApp(
+    MaterialApp(
+      home: LoginPage(),
+    ),
+  );
 }
 
 class LoginPage extends StatelessWidget {
@@ -110,13 +114,14 @@ class LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 10),
                 Center(
                   child: Align(
-                      child: Text(
-                          "Managing your health shouldn't be hard, even with diabetes.",
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center)),
+                    child: Text(
+                        "Managing your health shouldn't be hard, even with diabetes.",
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -159,7 +164,9 @@ class LoginScreenState extends State<LoginScreen> {
                               new AuthenticationManager();
                           auth.login(_email, _password).then((loginSuccess) => {
                                 loginSuccess
-                                    ? Navigator.of(context).pushNamed('/home')
+                                    ? Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                            '/home', ModalRoute.withName('/'))
                                     : print("Failure")
                               });
 
@@ -176,7 +183,7 @@ class LoginScreenState extends State<LoginScreen> {
                               fontSize: 20,
                               color: Theme.of(context).primaryColor)),
                       onPressed: () {
-                        //runApp(CreateAccountPage());
+                        Navigator.of(context).pushNamed('/signup');
                       },
                     ),
                   ),

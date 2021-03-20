@@ -4,12 +4,15 @@ import 'package:flutterapp/view/LogbookPage.dart';
 import 'NavigationBar.dart';
 import 'AppBar.dart';
 
+void main() => runApp(MaterialApp(home: HomePage()));
+
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CommonAppBar(
         title: 'Overview',
+        isSigningOut: true,
       ),
       body: Body(),
       bottomNavigationBar: NavigationBar(),
@@ -74,6 +77,8 @@ class Body extends StatelessWidget {
                         'images/user_icon.jpeg',
                         'images/user_icon.jpeg',
                       ],
+                      routes: ['/logbloodglucose', '/logexercise', '/home'],
+                      context: context,
                     ),
                   ],
                 ),
@@ -88,10 +93,7 @@ class Body extends StatelessWidget {
                 ),
                 padding: EdgeInsets.all(padding),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LogBookPage()),
-                  );
+                  Navigator.of(context).pushNamed('/logbook');
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -302,15 +304,21 @@ class Graphs extends StatelessWidget {
 }
 
 class LogBookIcons extends StatelessWidget {
-  LogBookIcons({this.iconSize, @required this.iconPaths});
+  LogBookIcons(
+      {this.iconSize,
+      @required this.iconPaths,
+      @required this.routes,
+      @required this.context});
   final double iconSize;
   final List<String> iconPaths;
+  final List<String> routes;
+  BuildContext context;
 
   @override
   Widget build(BuildContext context) {
     List<Widget> icons = List<Widget>(iconPaths.length);
     for (int i = 0; i < iconPaths.length; i++) {
-      icons[i] = iconButton(iconPaths[i]);
+      icons[i] = iconButton(iconPaths[i], routes[i], context);
     }
 
     return Row(
@@ -319,11 +327,13 @@ class LogBookIcons extends StatelessWidget {
     );
   }
 
-  IconButton iconButton(String iconPath) {
+  IconButton iconButton(String iconPath, String route, BuildContext context) {
     return IconButton(
       icon: new Image.asset(iconPath),
       iconSize: iconSize,
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).pushNamed(route);
+      },
     );
   }
 }

@@ -1,44 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import '../controller/AuthenticationMgr.dart';
 
+/*
+return MaterialApp(
+      title: 'Flutter App',
+      home: CreateAccountScreen(),
+      theme: ThemeData(
+        // Define the default brightness and colors.
+        backgroundColor: Colors.teal.shade800,
+        accentColor: Color.fromRGBO(248, 139, 160, 1),
+        primaryColor: Color.fromRGBO(248, 181, 188, 1),
+        primaryColorLight: Color.fromRGBO(253, 225, 228, 1),
+
+        // Define the default font family.
+        fontFamily: 'Roboto',
+
+        // Define the default TextTheme. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: TextTheme(
+            headline3: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+            headline4: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal.shade800),
+            headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
+            headline6: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
+      ),
+    );
+*/
+
 void main() {
-  runApp(CreateAccountPage());
+  runApp(
+    MaterialApp(
+      home: CreateAccountPage(),
+    ),
+  );
 }
 
 class CreateAccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter App',
-        home: CreateAccountScreen(),
-        theme: ThemeData(
-          // Define the default brightness and colors.
-          backgroundColor: Colors.teal.shade800,
-          accentColor: Color.fromRGBO(248, 139, 160, 1),
-          primaryColor: Color.fromRGBO(248, 181, 188, 1),
-          primaryColorLight: Color.fromRGBO(253, 225, 228, 1),
-
-          // Define the default font family.
-          fontFamily: 'Roboto',
-
-          // Define the default TextTheme. Use this to specify the default
-          // text styling for headlines, titles, bodies of text, and more.
-          textTheme: TextTheme(
-              headline3: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-              headline4: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal.shade800),
-              headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
-              headline6: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black)),
-        ));
+    return Scaffold(body: CreateAccountScreen());
   }
 }
 
@@ -56,7 +64,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
   String _name;
   String _phoneNumber;
 
-  final _auth = FirebaseAuth.instance;
+  //final _auth = FirebaseAuth.instance;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -190,11 +198,14 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
       appBar: AppBar(
         toolbarHeight: 40,
         leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Theme.of(context).primaryColor,
-            ),
-            onPressed: null),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         backgroundColor: Theme.of(context).backgroundColor,
         shadowColor: Colors.transparent,
       ),
@@ -211,12 +222,13 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
 //                const SizedBox(height: 10),
                 Center(
                   child: Align(
-                      child: Text("Start your journey\nwith Glucosis.",
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center)),
+                    child: Text("Start your journey\nwith Glucosis.",
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -274,17 +286,22 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                               horizontal: 50, vertical: 15),
                           primary: Theme.of(context).primaryColor,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (!_formKey.currentState.validate()) {
                             return;
                           }
                           _formKey.currentState.save();
                           AuthenticationManager auth =
                               new AuthenticationManager();
+                          bool success = false;
                           if (_password == _password2)
-                            auth.signUp(_email, _password);
+                            success = await auth.signUp(_email, _password);
                           else {
                             print('Passwords are different');
+                          }
+
+                          if (success) {
+                            Navigator.of(context).pushNamed('/accdetails');
                           }
                           //print(_email);
                           //print(_password);

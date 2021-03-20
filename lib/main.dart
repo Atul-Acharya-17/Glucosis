@@ -6,15 +6,12 @@ import 'view/LogExercise.dart';
 import 'view/GlucosePage.dart';
 import 'controller/UserMgr.dart';
 
-
-
 /*void main() {
   runApp(DailySchedule());
   
 }*/
 
-
-void main() async{
+void main() async {
   //runApp(DailySchedule());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
