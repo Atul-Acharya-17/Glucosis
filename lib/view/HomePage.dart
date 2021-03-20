@@ -1,18 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutterapp/view/LogbookPage.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutterapp/view/LogbookPageNew.dart';
 import 'NavigationBar.dart';
 import 'AppBar.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CommonAppBar(
-        title: 'Overview',
+    return MaterialApp(
+      home: Scaffold(
+        appBar: CommonAppBar(
+          title: 'Overview',
+        ),
+        body: Body(),
+        bottomNavigationBar: NavigationBar(),
       ),
-      body: Body(),
-      bottomNavigationBar: NavigationBar(),
     );
   }
 }
@@ -40,16 +44,19 @@ class Body extends StatelessWidget {
         color: backgroundColor,
         child: Column(
           children: [
-            Graphs(
-              borderRadius: borderRadius,
-              margin: margin,
-              padding: padding,
-              graphsHeight: graphsHeight,
-              imagesPathList: [
-                'images/random.png',
-                'images/random.png',
-                'images/random.png',
-              ],
+            Container(
+              margin: EdgeInsets.only(bottom: 2 * margin),
+              child: Graphs(
+                logBooks: [
+                  'Glucose',
+                  'Exercise',
+                  'Food',
+                ],
+                graphsHeight: graphsHeight,
+                padding: padding,
+                borderRadius: borderRadius,
+                color: pink,
+              ),
             ),
             Card(
               elevation: 2,
@@ -247,17 +254,24 @@ class Body extends StatelessWidget {
 }
 
 class Graphs extends StatelessWidget {
-  Graphs(
-      {this.borderRadius,
-      this.margin,
-      this.padding,
-      this.graphsHeight,
-      this.imagesPathList});
-  final double borderRadius;
-  final double margin;
-  final double padding;
+  Graphs({
+    this.logBooks,
+    this.graphsHeight,
+    this.padding,
+    this.borderRadius,
+    this.color,
+  });
+
+  final List<String> logBooks;
   final double graphsHeight;
-  final List<String> imagesPathList;
+  final double padding;
+  final double borderRadius;
+  final Color color;
+  final map = {
+    'Glucose': 'Blood Glucose Level (7 days)',
+    'Exercise': 'Exercise Level (7 days)',
+    'Food': 'Calorie Intake Level (7 days)'
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -266,39 +280,65 @@ class Graphs extends StatelessWidget {
         height: graphsHeight,
         enlargeCenterPage: true,
         enableInfiniteScroll: true,
-        viewportFraction: 0.8,
+        viewportFraction: 0.81,
       ),
-      items: graphsList(imagesPathList),
+      items: graphsList(logBooks),
     );
   }
 
-  List<Widget> graphsList(List<String> imagesPathList) {
-    List<Widget> graphs = List<Widget>(imagesPathList.length);
-    for (int i = 0; i < imagesPathList.length; i++) {
-      graphs[i] = graph(imagesPathList[i]);
+  List<Widget> graphsList(List<String> logBooks) {
+    List<Widget> graphs = List<Widget>(logBooks.length);
+    for (int i = 0; i < logBooks.length; i++) {
+      graphs[i] = graph(logBooks[i]);
     }
 
     return graphs;
   }
 
-  Widget graph(String imagePath) {
+  Widget graph(String logBook) {
     return Card(
       elevation: 2,
-      margin: EdgeInsets.only(bottom: 2 * margin),
+      color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(borderRadius),
-          image: DecorationImage(
-            image: AssetImage(imagePath),
-            fit: BoxFit.fill,
+        padding: EdgeInsets.all(padding),
+        child: SfCartesianChart(
+          backgroundColor: Colors.white,
+          primaryXAxis: CategoryAxis(), // dk what
+          title: ChartTitle(
+            text: map[logBook],
           ),
+          series: <ChartSeries>[
+            LineSeries<SalesData, String>(
+              dataSource: [
+                SalesData('Jan', 35),
+                SalesData('Feb', 28),
+                SalesData('Mar', 34),
+                SalesData('Apr', 32),
+                SalesData('May', 40),
+              ],
+              xValueMapper: (SalesData sales, _) => sales.year,
+              yValueMapper: (SalesData sales, _) => sales.sales,
+              color: color,
+              markerSettings: MarkerSettings(
+                color: color,
+                isVisible: true,
+              ),
+              animationDuration: 0,
+            ),
+          ],
         ),
       ),
     );
   }
+}
+
+class SalesData {
+  SalesData(this.year, this.sales);
+  final String year;
+  final double sales;
 }
 
 class LogBookIcons extends StatelessWidget {

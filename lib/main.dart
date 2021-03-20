@@ -3,22 +3,31 @@ import 'package:firebase_core/firebase_core.dart';
 import 'view/DailySchedule.dart';
 import 'view/LogGlucose.dart';
 import 'view/LogExercise.dart';
-import 'view/GlucosePage.dart';
+// import 'view/GlucosePage.dart';
+import 'view/HomePage.dart';
+import 'controller/LogBookMgr.dart';
 import 'controller/UserMgr.dart';
+import 'model/GlucoseRecord.dart';
 
-
-
-/*void main() {
-  runApp(DailySchedule());
-  
-}*/
-
-
-void main() async{
-  //runApp(DailySchedule());
+void main() async {
+  // runApp(DailySchedule());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyAppLogExercisePage());
+  LogBookMgr x = new LogBookMgr(
+    'glucose',
+    'nishasnr@gmail.com',
+  );
+  print('hello');
+  print(x.glucoseLogBook);
+  print('hi again');
+  List<GlucoseRecord> y = await x.getGlucoseRecords();
+  print('and again');
+  print(y.length);
+  for (int i = 0; i < y.length; i++) {
+    print(y[i].glucoseLevel);
+  }
+  print('final one, haha');
+  runApp(HomePage());
 }
 
 /*class App extends StatelessWidget {
