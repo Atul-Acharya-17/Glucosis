@@ -9,7 +9,7 @@ import 'controller/LogBookMgr.dart';
 import 'controller/UserMgr.dart';
 import 'model/GlucoseRecord.dart';
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 /*void main() {
   runApp(DailySchedule());
   
@@ -17,18 +17,18 @@ import 'model/GlucoseRecord.dart';
 
 void main() async {
   //runApp(DailySchedule());
-=======
-void main() async {
-  // runApp(DailySchedule());
->>>>>>> c36198d8ba01b198ab63694a35dda853aa80d08f
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  LogBookMgr x = new LogBookMgr(
-    'glucose',
-    'nishasnr@gmail.com',
-  );
-  x.getGlucoseRecords();
-  /*print('hello');
+//=======
+  void main() async {
+    // runApp(DailySchedule());
+//>>>>>>> c36198d8ba01b198ab63694a35dda853aa80d08f
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    LogBookMgr x = new LogBookMgr(
+      'glucose',
+      'nishasnr@gmail.com',
+    );
+    x.getGlucoseRecords();
+    /*print('hello');
   print(x.glucoseLogBook);
   print('hi again');
   List<GlucoseRecord> y = await x.getGlucoseRecords();
@@ -38,7 +38,8 @@ void main() async {
     print(y[i].glucoseLevel);
   }
   print('final one, haha');*/
-  runApp(MyAppLogExercisePage());
+    runApp(MyAppLogExercisePage());
+  }
 }
 
 /*class App extends StatelessWidget {
