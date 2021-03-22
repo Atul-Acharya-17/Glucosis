@@ -1,4 +1,4 @@
-class Reminder {
+class MedicationReminder {
   /*
   FireBase schema is slightly different
   */
@@ -12,7 +12,8 @@ class Reminder {
   DateTime _timing;
   String _type;
 
-  Reminder({String medicineName, String dosage, DateTime timing, String type})
+  MedicationReminder(
+      {String medicineName, String dosage, DateTime timing, String type})
       : _medicineName = medicineName,
         _dosage = dosage,
         _timing = timing,

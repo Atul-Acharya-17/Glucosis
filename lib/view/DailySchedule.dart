@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/model/GlucoseRecord.dart';
+import 'package:flutterapp/model/GlucoseReminders.dart';
 // import 'package:flutter/services.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
 // import 'package:flutterapp/view/CustomRadioButton.dart';
 import './AppBar.dart';
+import 'package:flutterapp/controller/GlucoseReminderMgr.dart';
 
 void main() => runApp(
       MaterialApp(
@@ -147,23 +150,24 @@ class MyCustomFormState extends State<MyCustomForm> {
               SizedBox(
                 width: 350,
                 child: Container(
-                    margin: EdgeInsets.only(bottom: 10, top: 10),
-                    padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-                    width: MediaQuery.of(context).size.width * 0.40,
-                    height: 60,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey[400]),
-                        borderRadius: BorderRadius.circular(5.0)),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("${_time.format(context)}",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black)),
-                          IconButton(
-                              icon: Icon(Icons.alarm_add_rounded),
-                              onPressed: () => _selectTime(context))
-                        ])),
+                  margin: EdgeInsets.only(bottom: 10, top: 10),
+                  padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+                  width: MediaQuery.of(context).size.width * 0.40,
+                  height: 60,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey[400]),
+                      borderRadius: BorderRadius.circular(5.0)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("${_time.format(context)}",
+                          style: TextStyle(fontSize: 20, color: Colors.black)),
+                      IconButton(
+                          icon: Icon(Icons.alarm_add_rounded),
+                          onPressed: () => _selectTime(context))
+                    ],
+                  ),
+                ),
               ),
               IconButton(
                 icon: Icon(Icons.delete),
@@ -200,7 +204,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                       if (_formKey.currentState.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
-
+                        GlucoseReminderMgr mgr =
+                            new GlucoseReminderMgr('nishasnr@gmail.com');
+                        DateTime date = DateTime.parse("1969-07-20 20:18:04Z");
+                        GlucoseReminder ent = GlucoseReminder(timings: date);
+                        mgr.addReminder(ent);
                         return showDialog<void>(
                           context: context,
                           barrierDismissible: false, // user must tap button!

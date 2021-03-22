@@ -422,73 +422,75 @@ class MyCustomFormState extends State<MyCustomForm> {
             height: 30,
           ),
           Center(
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0),
-                      ),
-                      primary: Colors.pink[100], // background
-                      onPrimary: Colors.black, // foreground
-                    ),
-                    onPressed: () {
-                      // Validate returns true if the form is valid, otherwise false.
-                      if (_formKey.currentState.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(30.0),
+                  ),
+                  primary: Colors.pink[100], // background
+                  onPrimary: Colors.black, // foreground
+                ),
+                onPressed: () {
+                  // Validate returns true if the form is valid, otherwise false.
+                  if (_formKey.currentState.validate()) {
+                    // If the form is valid, display a snackbar. In the real world,
+                    // you'd often call a server or save the information in a database.
 
-                        return showDialog<void>(
-                          context: context,
-                          barrierDismissible: false, // user must tap button!
-                          builder: (BuildContext context) {
-                            // can add logic to store entry here
-                            return AlertDialog(
-                              //title: Text('AlertDialog Title'),
-                              content: SingleChildScrollView(
-                                child: ListBody(
-                                  children: <Widget>[
-                                    Text('Medication reminder is set',
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black)),
-                                    SizedBox(height: 20),
-                                    TextButton(
-                                      child: Text('OK',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black)),
-                                      style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.green[500])),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
+                    return showDialog<void>(
+                      context: context,
+                      barrierDismissible: false, // user must tap button!
+                      builder: (BuildContext context) {
+                        // can add logic to store entry here
+                        return AlertDialog(
+                          //title: Text('AlertDialog Title'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('Medication reminder is set',
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)),
+                                SizedBox(height: 20),
+                                TextButton(
+                                  child: Text('OK',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black)),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.green[500])),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
                                 ),
-                              ),
-                              // can't center button if put in actions
-                              // actions: <Widget>[
-                              //     TextButton(
-                              //     child: Text('OK',style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color:Colors.black)),
-                              //     style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.green[500]) ),
-                              //     onPressed: () {
-                              //       Navigator.of(context).pop();
-                              //     },
-                              //   ),
+                              ],
+                            ),
+                          ),
+                          // can't center button if put in actions
+                          // actions: <Widget>[
+                          //     TextButton(
+                          //     child: Text('OK',style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color:Colors.black)),
+                          //     style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.green[500]) ),
+                          //     onPressed: () {
+                          //       Navigator.of(context).pop();
+                          //     },
+                          //   ),
 
-                              // ],
-                            );
-                          },
+                          // ],
                         );
-                      }
-                    },
-                    child: Text("Add Schedule", style: TextStyle(fontSize: 25)),
-                  )))
+                      },
+                    );
+                  }
+                },
+                child: Text("Add Schedule", style: TextStyle(fontSize: 25)),
+              ),
+            ),
+          )
         ],
       ),
     );
