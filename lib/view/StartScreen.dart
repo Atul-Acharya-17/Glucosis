@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import './LoginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
-import './CreateAccountPage.dart';
-import './HomePage.dart';
-import './AccountDetailsPage.dart';
-import './ExercisePage.dart';
-import './GlucosePage.dart';
-import './Medication.dart';
-import './ProfilePage.dart';
-import './LogGlucose.dart';
-import './LogExercise.dart';
-import './DailySchedule.dart';
-import './LogbookPage.dart';
+// import './LoginPage.dart';
+// import './CreateAccountPage.dart';
+// import './HomePage.dart';
+// import './AccountDetailsPage.dart';
+// import './ExercisePage.dart';
+// import './GlucosePage.dart';
+// import './Medication.dart';
+// import './ProfilePage.dart';
+// import './LogGlucose.dart';
+// import './LogExercise.dart';
+// import './DailySchedule.dart';
+// import './LogbookPage.dart';
+import 'RouteGenerator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,20 +50,21 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: Colors.black)),
       ),
-      routes: {
-        '/login': (context) => LoginPage(),
-        '/home': (context) => HomePage(),
-        '/signup': (context) => CreateAccountScreen(),
-        '/accdetails': (context) => AccountDetailsPage(),
-        '/exercise': (context) => ExercisePage(),
-        '/glucose': (context) => GlucosePage(),
-        '/medication': (context) => MedicationPage(),
-        '/profile': (context) => ProfilePage(),
-        '/logbloodglucose': (context) => LogGlucosePage(),
-        '/logexercise': (context) => LogExercisePage(),
-        '/dailyschedule': (context) => DailySchedule(),
-        '/logbook': (context) => LogBookPage(),
-      },
+      onGenerateRoute: RouteGenerator.generateRoute,
+      // routes: {
+      //   '/login': (context) => LoginPage(),
+      //   '/home': (context) => HomePage(),
+      //   '/signup': (context) => CreateAccountScreen(),
+      //   '/accdetails': (context) => AccountDetailsPage(),
+      //   '/exercise': (context) => ExercisePage(),
+      //   '/glucose': (context) => GlucosePage(),
+      //   '/medication': (context) => MedicationPage(),
+      //   '/profile': (context) => ProfilePage(),
+      //   '/logbloodglucose': (context) => LogGlucosePage(),
+      //   '/logexercise': (context) => LogExercisePage(),
+      //   '/dailyschedule': (context) => DailySchedule(),
+      //   '/logbook': (context) => LogBookPage(),
+      // },
     );
   }
 }
