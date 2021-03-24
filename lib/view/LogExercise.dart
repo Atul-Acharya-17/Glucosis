@@ -15,7 +15,7 @@ class MyAppLogExercisePage extends StatelessWidget {
     userManager.addUser("nisha952001@gmail.com", DateTime.utc(2000, 11, 9), "type2", ["ketchup"], "advanced", "vegetarian", "female", 1.7, "singapore", "nisha", 84672918, 1800, 50, {'start':80, 'end':100});
     */
 
-    return LogExercisePage();
+    return MaterialApp(home: LogExercisePage());
   }
 }
 

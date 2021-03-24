@@ -1,21 +1,24 @@
 class MealPlan {
   String _dietaryPref;
-  int _targetCarbs;
-  int _targetSugar;
+  //_targetCarbs;
+  //int _targetSugar;
+  String _targetCal;
   String _allergies;
+  String _id;
 
   MealPlan({
     String dietaryPref,
-    int targetCarbs,
-    int targetSugar,
+    String targetCal,
     String allergies,
+    String id
   })  : _dietaryPref = dietaryPref,
-        _targetCarbs = targetCarbs,
-        _targetSugar = targetSugar,
-        _allergies = allergies;
+        _targetCal = targetCal,
+        _allergies = allergies,
+        _id = id;
 
   get dietaryPref => _dietaryPref;
-  get targetCarbs => _targetCarbs;
-  get targetSugar => _targetSugar;
+  get calories => _targetCal;
   get allergies => _allergies;
+  get id => _id;
+
 }
