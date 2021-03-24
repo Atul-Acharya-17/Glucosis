@@ -64,6 +64,10 @@ class MealPlanMgr{
           objects.add(result.data());
         });
       });
+      return {
+        "message": message,
+        "objects": objects
+      };
 
     }
     catch(e){
@@ -71,7 +75,7 @@ class MealPlanMgr{
       // failed message
       return {
         "message": message,
-        "objects": objects
+        "objects": []
       };
     }
 
