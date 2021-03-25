@@ -9,18 +9,7 @@ import 'controller/LogBookMgr.dart';
 import 'controller/UserMgr.dart';
 import 'model/GlucoseRecord.dart';
 
-//<<<<<<< HEAD
-/*void main() {
-  runApp(DailySchedule());
-  
-}*/
-
 void main() async {
-  //runApp(DailySchedule());
-//=======
-  void main() async {
-    // runApp(DailySchedule());
-//>>>>>>> c36198d8ba01b198ab63694a35dda853aa80d08f
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     LogBookMgr x = new LogBookMgr(
@@ -40,7 +29,6 @@ void main() async {
   print('final one, haha');*/
     runApp(MyAppLogExercisePage());
   }
-}
 
 /*class App extends StatelessWidget {
   // Create the initialization Future outside of `build`:

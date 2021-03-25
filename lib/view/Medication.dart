@@ -8,6 +8,7 @@ void main() => MaterialApp(
       home: MedicationPage(),
     );
 
+/// UI screen for viewing and creating medication reminders.
 class MedicationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

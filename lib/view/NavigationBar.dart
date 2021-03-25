@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/view/HomePage.dart';
 //import './ExercisePage.dart';
 
+/// Navigation bar UI component for use on all screens.
 class NavigationBar extends StatelessWidget {
   final Color green = Color.fromRGBO(0, 110, 96, 1);
   final Color pink = Color.fromRGBO(254, 179, 189, 1);

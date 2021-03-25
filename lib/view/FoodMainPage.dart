@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 //void main() => runApp(ExercisePage());
 
-
+/// UI for main food page.
 class FoodMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

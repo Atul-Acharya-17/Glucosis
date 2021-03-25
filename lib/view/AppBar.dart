@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../controller/AuthenticationMgr.dart';
 
+/// App Bar for common use across all UI screens.
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   CommonAppBar({@required this.title});
   final String title;

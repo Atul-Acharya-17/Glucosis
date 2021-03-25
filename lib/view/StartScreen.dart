@@ -20,6 +20,7 @@ void main() async {
   runApp(MyApp());
 }
 
+/// Start up class with styling and system navigation
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

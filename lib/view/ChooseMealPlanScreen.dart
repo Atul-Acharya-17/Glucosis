@@ -10,6 +10,7 @@ void main() {
 
 enum SingingCharacter { lafayette, jefferson }
 
+/// UI screen for choosing meal plan from recommendations.
 class ChooseMealPlan extends StatefulWidget {
   @override
   _ChooseMealPlanState createState() => _ChooseMealPlanState();

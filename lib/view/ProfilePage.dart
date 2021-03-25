@@ -10,6 +10,7 @@ void main() {
   );
 }
 
+/// UI screen for viewing and editing user's details.
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

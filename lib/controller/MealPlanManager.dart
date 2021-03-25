@@ -1,7 +1,6 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
+/// Controller class for user's blood glucose reading reminders. Retrieves user's reminders from a glucose reminder database.
 class MealPlanMgr{
   final String _emailID;
   final CollectionReference _MealPlan;
@@ -11,7 +10,7 @@ class MealPlanMgr{
       _MealPlan = FirebaseFirestore.instance.collection('MealPlans'),
       _chosenPlan = FirebaseFirestore.instance.collection('ChosenPlan');
 
-
+  /// Updates a user's meal plan in the meal plan database.
   Future<Map<String, dynamic>> setMealPlan(String mealPlanID) async{
 
     String message;
@@ -28,6 +27,7 @@ class MealPlanMgr{
     };
   }
 
+  /// Searches for plans matching the user's preferences in the meal plan database.
   Future<Map<String, dynamic>> choosePlan(String diet, String calories, String allergies) async{
 
     Map<String, int> dietMap = {

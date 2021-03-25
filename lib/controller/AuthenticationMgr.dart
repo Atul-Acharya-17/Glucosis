@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+/// Controller which validates users account details from an account information database.
 class AuthenticationManager {
   static final _auth = FirebaseAuth.instance;
 
+  /// Creates a new user in the database.
   Future<bool> signUp(String email, String password) async {
     try {
       final newUser = await _auth.createUserWithEmailAndPassword(
@@ -21,6 +23,7 @@ class AuthenticationManager {
     }
   }
 
+  /// Validates the account details from database to allow user to log in.
   Future<bool> login(String email, String password) async {
     try {
       final user = await _auth.signInWithEmailAndPassword(
@@ -38,10 +41,12 @@ class AuthenticationManager {
     }
   }
 
+  /// Signs user out.
   void signOut() {
     _auth.signOut();
   }
 
+  /// Gets email of the user currently logged in.
   String getCurrentUser() {
     return _auth.currentUser.email != null ? _auth.currentUser.email : null;
   }

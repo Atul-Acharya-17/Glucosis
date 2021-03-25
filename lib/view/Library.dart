@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../model/Food.dart';
-class MyApp extends StatelessWidget {
+
+/// UI screen for accessing food library API.
+class FoodLibraryPage extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

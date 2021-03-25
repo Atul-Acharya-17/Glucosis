@@ -43,6 +43,7 @@ void main() {
   );
 }
 
+/// UI screen for creating a new account.
 class CreateAccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

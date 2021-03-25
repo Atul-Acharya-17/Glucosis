@@ -1,6 +1,6 @@
 import "package:collection/collection.dart";
 
-
+/// Entity with nutritional info about a food item retrieved by a food library API.
 class Food{
   final String name;
   final num carbs;

@@ -41,6 +41,7 @@ void main() {
   );
 }
 
+/// UI screen for entering account details when creating account.
 class AccountDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

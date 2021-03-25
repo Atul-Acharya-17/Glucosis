@@ -1,6 +1,7 @@
 import './LogBook.dart';
 import './ExerciseRecord.dart';
 
+/// Log book collection entity containing a user's past exercise records.
 class ExerciseLogBook extends LogBook {
   List<ExerciseRecord> _exerciseRecords;
 

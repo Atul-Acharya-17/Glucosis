@@ -6,6 +6,7 @@ import './AppBar.dart';
 
 void main() => runApp(MaterialApp(home: LogExercisePage()));
 
+/// UI screen for logging new exercise entries.
 class MyAppLogExercisePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

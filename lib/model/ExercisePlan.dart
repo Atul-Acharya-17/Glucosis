@@ -1,6 +1,10 @@
+/// Entity containing details about exercise plan for a user.
 class ExercisePlan {
+  /// In minutes.
   int _targetExTime;
+  /// In minutes.
   int _achievedExTime;
+  /// Basic, intermediate, or advanced.
   String _exerciseLevel;
   String _id;
   var _recommendationTable;

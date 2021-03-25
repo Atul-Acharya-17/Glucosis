@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 //void main() => runApp(ExercisePage());
 
-
+/// UI screen for logging meal entries.
 class MealLogPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

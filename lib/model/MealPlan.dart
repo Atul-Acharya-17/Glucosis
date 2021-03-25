@@ -1,3 +1,4 @@
+/// Entity representing details about a meal plan from the food recommendation system.
 class MealPlan {
   String _dietaryPref;
   //_targetCarbs;

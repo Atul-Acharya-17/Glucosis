@@ -1,3 +1,4 @@
+/// Entity containing details about a medication reminder.
 class MedicationReminder {
   /*
   FireBase schema is slightly different

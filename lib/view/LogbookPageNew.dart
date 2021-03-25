@@ -6,6 +6,7 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'NavigationBar.dart';
 import 'AppBar.dart';
 
+/// UI screen displaying log books including graphs and past entries for blood glucose, exercise, and food entries.
 class LogBookPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

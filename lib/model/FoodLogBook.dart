@@ -1,6 +1,7 @@
 import './LogBook.dart';
 import './FoodRecord.dart';
 
+/// Collection entity containing past food entries of a user.
 class FoodLogBook extends LogBook {
   List<FoodRecord> _foodRecords;
 

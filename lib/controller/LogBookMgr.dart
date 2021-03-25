@@ -3,6 +3,7 @@ import 'package:flutterapp/model/GlucoseRecord.dart';
 import 'package:flutterapp/model/FoodRecord.dart';
 import 'package:flutterapp/model/ExerciseRecord.dart';
 
+/// Controller class instantiating glucose, food, and exercise log books with data from log books databases.
 class LogBookMgr {
   CollectionReference glucoseLogBook;
   CollectionReference foodLogBook;
@@ -68,6 +69,7 @@ class LogBookMgr {
         .catchError((error) => print('Failed to add record: $error'));
   }
 
+  /// Add food record to the database.
   Future<void> addFoodRecord(FoodRecord record) {
     // Made it into DateTime in entity
     //DateTime dateTime = DateTime.parse(record.date + ' ' + record.time);
@@ -85,6 +87,7 @@ class LogBookMgr {
         .catchError((error) => print('Failed to add record: $error'));
   }
 
+  /// Add exercise record to the database.
   Future<void> addExerciseRecord(ExerciseRecord record) {
     // Made it into DateTime in entity
     //DateTime dateTime = DateTime.parse(record.date + ' ' + record.time);
@@ -100,6 +103,7 @@ class LogBookMgr {
   }
 
   //Future<List<GlucoseRecord>> getGlucoseRecords() async {
+  /// Add glucose record to the database.
   Future<void> getGlucoseRecords() async {
     FirebaseFirestore.instance
         .collection('GlucoseLogBook')

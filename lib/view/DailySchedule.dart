@@ -13,6 +13,7 @@ void main() => runApp(
       ),
     );
 
+/// UI component for setting daily blood glucose reading reminders.
 class DailySchedule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -7,6 +7,7 @@ void main() {
   runApp(UpdateFoodPreference());
 }
 
+/// UI screen for displaying and setting food preferences to be used in food recommendation system.
 class UpdateFoodPreference extends StatefulWidget {
   @override
   _UpdateFoodPreferenceState createState() => _UpdateFoodPreferenceState();

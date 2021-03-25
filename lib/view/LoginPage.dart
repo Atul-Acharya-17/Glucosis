@@ -9,6 +9,7 @@ void main() {
   );
 }
 
+/// UI screen for logging into an existing account.
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

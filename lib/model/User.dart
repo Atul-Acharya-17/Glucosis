@@ -2,6 +2,7 @@
 target range [min, max]
 */
 
+/// Entity representing the user, their personal details, and the logbooks, plans and reminders associated with them.
 class User {
   String _name;
   String _email;

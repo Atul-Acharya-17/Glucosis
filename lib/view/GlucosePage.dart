@@ -7,6 +7,7 @@ void run() => MaterialApp(
       home: GlucosePage(),
     );
 
+/// UI for main glucose page.
 class GlucosePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

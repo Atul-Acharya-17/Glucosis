@@ -33,6 +33,7 @@ theme: ThemeData(
 
 void main() => runApp(MaterialApp(home: ExercisePage()));
 
+/// UI for main exercise page.
 class ExercisePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

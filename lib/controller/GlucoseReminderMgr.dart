@@ -2,6 +2,7 @@ import 'package:flutterapp/controller/ReminderMgr.dart';
 import 'package:flutterapp/model/GlucoseReminders.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/// Controller class for user's blood glucose reading reminders. Retrieves user's reminders from a glucose reminder database.
 class GlucoseReminderMgr extends ReminderMgr {
   CollectionReference glucoseReminders;
   GlucoseReminderMgr(String email) : super(email) {

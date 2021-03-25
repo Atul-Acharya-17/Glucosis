@@ -12,6 +12,7 @@ void main() {
   );
 }
 
+/// UI screen for logging new blood glucose level entries.
 class LogGlucosePage extends StatefulWidget {
   @override
   LogGlucosePageState createState() => LogGlucosePageState();

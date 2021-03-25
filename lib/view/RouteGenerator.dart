@@ -13,7 +13,10 @@ import 'LogExercise.dart';
 import 'DailySchedule.dart';
 import 'LogbookPage.dart';
 
+/// A class for linking UI pages in the application.
 class RouteGenerator {
+
+  /// Function for calling various pages in the UI which allows passing of data through argument [settings].
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
     final args = settings.arguments;

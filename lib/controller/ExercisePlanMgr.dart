@@ -1,7 +1,6 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
+/// Controller which retrieves and manages user's chosen exercise plan from an exercise plan database.
 class ExercisePlanMgr{
   final String _emailID;
   final CollectionReference _exercisePlan;

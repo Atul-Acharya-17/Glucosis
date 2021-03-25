@@ -8,6 +8,7 @@ import 'AppBar.dart';
 
 void main() => runApp(MaterialApp(home: HomePage()));
 
+/// UI for home page.
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

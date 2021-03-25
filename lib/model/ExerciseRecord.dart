@@ -1,6 +1,8 @@
+/// Entity representing an exercise entry logged by a user.
 class ExerciseRecord {
   DateTime _datetime;
-  int _duration; // minutes
+  /// Number of minutes of exercise.
+  int _duration;
   String _type;
 
   ExerciseRecord({DateTime datetime, int duration, String type})

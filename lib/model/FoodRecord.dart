@@ -1,9 +1,13 @@
+/// Entity representing a food record logged by a user.
 class FoodRecord {
   DateTime _datetime;
   String _foodName;
-  int _carbs; // in grams
-  int _calories; // in kcal
+  /// In grams.
+  int _carbs;
+  /// In kcal.
+  int _calories;
   double _servingSize;
+  /// Optional; user's personal notes commenting about the meal.
   String _notes;
 
   FoodRecord(
