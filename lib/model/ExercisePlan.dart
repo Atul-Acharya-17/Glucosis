@@ -2,6 +2,7 @@ class ExercisePlan {
   int _targetExTime;
   int _achievedExTime;
   String _exerciseLevel;
+  String _id;
   var _recommendationTable;
 
   ExercisePlan({
@@ -17,5 +18,6 @@ class ExercisePlan {
   get targetExTime => _targetExTime;
   get achievedExTime => _achievedExTime;
   get exerciseLevel => _exerciseLevel;
+  get id => _id;
   get recommendationTable => _recommendationTable;
 }
