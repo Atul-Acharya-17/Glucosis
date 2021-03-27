@@ -1,162 +1,200 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutterapp/model/GlucoseRecord.dart';
-import 'package:flutterapp/model/FoodRecord.dart';
-import 'package:flutterapp/model/ExerciseRecord.dart';
+import '../model/GlucoseLogBook.dart';
+import '../model/FoodLogBook.dart';
+import '../model/ExerciseLogBook.dart';
+import '../model/GlucoseRecord.dart';
+import '../model/FoodRecord.dart';
+import '../model/ExerciseRecord.dart';
+import '../controller/UserMgr.dart';
 
-/// Controller class instantiating glucose, food, and exercise log books with data from log books databases.
 class LogBookMgr {
-  CollectionReference glucoseLogBook;
-  CollectionReference foodLogBook;
-  CollectionReference exerciseLogBook;
-
-  LogBookMgr(String type, String email) {
-    switch (type) {
-      case 'glucose':
-        {
-          this.glucoseLogBook = FirebaseFirestore.instance
-              .collection('GlucoseLogBook')
-              .doc(email)
-              .collection('GlucoseRecords');
-        }
-        break;
-      case 'food':
-        {
-          this.foodLogBook = FirebaseFirestore.instance
-              .collection('FoodLogBook')
-              .doc(email)
-              .collection('FoodRecord');
-          break;
-        }
-      case 'exercise':
-        {
-          this.exerciseLogBook = FirebaseFirestore.instance
-              .collection('ExerciseLogBook')
-              .doc(email)
-              .collection('ExerciseRecord');
-        }
-    }
-  }
-
-  /*void initGlucoseLogBook(String email) {
-    glucoseLogBook = FirebaseFirestore.instance
+  static Future<void> addGlucoseRecord(
+    double glucoseLevel,
+    DateTime dateTime,
+    bool beforeMeal,
+  ) {
+    String email = UserMgr.getCurrentUserEmail();
+    UserMgr.addGlucoseRecord(
+      GlucoseRecord(
+        dateTime: dateTime,
+        glucoseLevel: glucoseLevel,
+        beforeMeal: beforeMeal,
+      ),
+    );
+    return FirebaseFirestore.instance
         .collection('GlucoseLogBook')
         .doc(email)
-        .collection('GlucoseRecord');
-  }
-
-  void initFoodLogBook(String email) {
-    foodLogBook = FirebaseFirestore.instance
-        .collection('FoodLogBook')
-        .doc(email)
-        .collection('FoodRecord');
-  }
-
-  void initExerciseLogBook(String email) {
-    exerciseLogBook = FirebaseFirestore.instance
-        .collection('ExerciseLogBook')
-        .doc(email)
-        .collection('ExerciseRecord');
-  }*/
-
-  Future<void> addGlucoseRecord(GlucoseRecord record) {
-    return glucoseLogBook
+        .collection('GlucoseRecords')
         .add({
-          'glucoseLevel': record.glucoseLevel,
-          'dateTime': record.dateTime,
-          'beforeMeal': record.beforeMeal,
+          'glucoseLevel': glucoseLevel,
+          'dateTime': dateTime,
+          'beforeMeal': beforeMeal,
         })
         .then((value) => print('Glucose record added!'))
         .catchError((error) => print('Failed to add record: $error'));
   }
 
-  /// Add food record to the database.
-  Future<void> addFoodRecord(FoodRecord record) {
-    // Made it into DateTime in entity
-    //DateTime dateTime = DateTime.parse(record.date + ' ' + record.time);
-
-    return foodLogBook
+  static Future<void> addFoodRecord(
+    DateTime dateTime,
+    String food,
+    int carbs,
+    int calories,
+    double servingSize,
+    String notes,
+  ) {
+    String email = UserMgr.getCurrentUserEmail();
+    UserMgr.addFoodRecord(
+      FoodRecord(
+        dateTime: dateTime,
+        food: food,
+        carbs: carbs,
+        calories: calories,
+        servingSize: servingSize,
+        notes: notes,
+      ),
+    );
+    return FirebaseFirestore.instance
+        .collection('FoodLogBook')
+        .doc(email)
+        .collection('FoodRecords')
         .add({
-          'food': record.foodName,
-          'dateTime': record.datetime,
-          'carbs': record.carbs,
-          'calories': record.calories,
-          'servingSize': record.servingSize,
-          'notes': record.notes,
+          'dateTime': dateTime,
+          'food': food,
+          'carbs': carbs,
+          'calories': calories,
+          'servingSize': servingSize,
+          'notes': notes,
         })
         .then((value) => print('Food record added!'))
         .catchError((error) => print('Failed to add record: $error'));
   }
 
-  /// Add exercise record to the database.
-  Future<void> addExerciseRecord(ExerciseRecord record) {
-    // Made it into DateTime in entity
-    //DateTime dateTime = DateTime.parse(record.date + ' ' + record.time);
-
-    return exerciseLogBook
+  static Future<void> addExerciseRecord(
+    DateTime dateTime,
+    String exercise,
+    int duration,
+  ) {
+    String email = UserMgr.getCurrentUserEmail();
+    UserMgr.addExerciseRecord(
+      ExerciseRecord(
+        dateTime: dateTime,
+        exercise: exercise,
+        duration: duration,
+      ),
+    );
+    return FirebaseFirestore.instance
+        .collection('ExerciseLogBook')
+        .doc(email)
+        .collection('ExerciseRecords')
         .add({
-          'exercise': record.type,
-          'dateTime': record.datetime,
-          'duration': record.duration,
+          'exercise': exercise,
+          'dateTime': dateTime,
+          'duration': duration,
         })
         .then((value) => print('Exercise record added!'))
         .catchError((error) => print('Failed to add record: $error'));
   }
 
-  //Future<List<GlucoseRecord>> getGlucoseRecords() async {
-  /// Add glucose record to the database.
-  Future<void> getGlucoseRecords() async {
-    FirebaseFirestore.instance
+  static Future<GlucoseLogBook> getGlucoseLogBook(String email) async {
+    List<GlucoseRecord> recordsList = [];
+
+    await FirebaseFirestore.instance
         .collection('GlucoseLogBook')
+        .doc(email)
+        .collection('GlucoseRecords')
         .get()
-        .then((querySnapshot) {
-      querySnapshot.docs.forEach((result) {
-        FirebaseFirestore.instance
-            .collection('GlucoseLogBook')
-            .doc("nishasnr@gmail.com")
-            .collection('GlucoseRecords')
-            .get()
-            .then((querySnapshot) {
-          querySnapshot.docs.forEach((result) {
-            print(result.data());
-          });
-        });
-      });
-    });
+        .then((QuerySnapshot querySnapshot) => {
+              querySnapshot.docs.forEach((doc) async {
+                recordsList.add(
+                  GlucoseRecord(
+                    dateTime: DateTime.fromMicrosecondsSinceEpoch(
+                      doc['dateTime'].microsecondsSinceEpoch,
+                    ),
+                    beforeMeal: doc['beforeMeal'],
+                    glucoseLevel: doc['glucoseLevel'].toDouble(),
+                  ),
+                );
+              })
+            })
+        .catchError((error) => print('Failed to get logbook: $error'));
+
+    return GlucoseLogBook(
+      glucoseRecordsList: recordsList,
+    );
   }
-  /* List<GlucoseRecord> recordsList = [];
-    print('getting glucose records');
-    glucoseLogBook.get().then((QuerySnapshot querySnapshot) => {
-      querySnapshot.docs.forEach((doc) {
-        print('entry');
-        recordsList.add(
-          GlucoseRecord(
-            dateTime: doc['dateTime'],
-            beforeMeal: doc['beforeMeal'],
-            glucoseLevel: doc['glucoseLevel'],
-          ),
-        );
-      })
-    });
 
-    return recordsList;*/
-  //}
+  static Future<FoodLogBook> getFoodLogBook(String email) async {
+    List<FoodRecord> recordsList = [];
 
-/*var newsList = [];
+    await FirebaseFirestore.instance
+        .collection('FoodLogBook')
+        .doc(email)
+        .collection('FoodRecords')
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+              querySnapshot.docs.forEach((doc) async {
+                recordsList.add(
+                  FoodRecord(
+                    dateTime: DateTime.fromMicrosecondsSinceEpoch(
+                      doc['dateTime'].microsecondsSinceEpoch,
+                    ),
+                    food: doc['food'],
+                    carbs: doc['carbs'],
+                    calories: doc['calories'],
+                    servingSize: doc['servingSize'].toDouble(),
+                    notes: doc['notes'],
+                  ),
+                );
+              })
+            })
+        .catchError((error) => print('Failed to get logbook: $error'));
 
-    Future<QuerySnapshot> getData() async {
-      return await glucoseLogBook.get();
-    }
+    return FoodLogBook(
+      foodRecordsList: recordsList,
+    );
+  }
 
-    QuerySnapshot data = await getData();
-    if (data.doc.length > 0) {
-      print("3");
-      for (int i = 0; i < data.documents.length; i++) {
-        newsList.add(data.documents[i].data["headline"]);
-      }
-    } else {
-      print("Not Found");
-    }
-    print("4");
-    return newsList;
-  }*/
+  static Future<ExerciseLogBook> getExerciseLogBook(String email) async {
+    List<ExerciseRecord> recordsList = [];
+
+    await FirebaseFirestore.instance
+        .collection('ExerciseLogBook')
+        .doc(email)
+        .collection('ExerciseRecords')
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+              querySnapshot.docs.forEach((doc) async {
+                recordsList.add(
+                  ExerciseRecord(
+                    dateTime: DateTime.fromMicrosecondsSinceEpoch(
+                      doc['dateTime'].microsecondsSinceEpoch,
+                    ),
+                    duration: doc['duration'],
+                    exercise: doc['exercise'],
+                  ),
+                );
+              })
+            })
+        .catchError((error) => print('Failed to get logbook: $error'));
+
+    return ExerciseLogBook(
+      exerciseRecordsList: recordsList,
+    );
+  }
+
+  static Map getHomePageData() {
+    return {
+      'Glucose': UserMgr.getGlucoseLogBook().getHomePageData(),
+      'Food': UserMgr.getFoodLogBook().getHomePageData(),
+      'Exercise': UserMgr.getExerciseLogBook().getHomePageData(),
+    };
+  }
+
+  static Map getLogBookPageData() {
+    return {
+      'Glucose': UserMgr.getGlucoseLogBook().getLogBookPageData(),
+      'Food': UserMgr.getFoodLogBook().getLogBookPageData(),
+      'Exercise': UserMgr.getExerciseLogBook().getLogBookPageData(),
+    };
+  }
 }
