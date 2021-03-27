@@ -3,12 +3,10 @@ import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_core/core.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
-import 'NavigationBar.dart';
-import 'AppBar.dart';
-
-void main() => MaterialApp(
-      home: LogBookPage(),
-    );
+import '../model/Data.dart';
+import '../view/NavigationBar.dart';
+import '../view/AppBar.dart';
+import '../controller/LogBookMgr.dart';
 
 class LogBookPage extends StatelessWidget {
   @override
@@ -27,6 +25,7 @@ class Body extends StatelessWidget {
   final double tabsHeight = 45;
   final Color lightPink = Color.fromRGBO(255, 224, 228, 1);
   final Color darkPink = Color.fromRGBO(254, 179, 189, 1);
+  final Map chartDataMap = LogBookMgr.getLogBookPageData();
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +49,18 @@ class Body extends StatelessWidget {
         booksTabBar('Food'),
       ],
       views: [
-        BooksView(book: 'Glucose'),
-        BooksView(book: 'Exercise'),
-        BooksView(book: 'Food'),
+        BooksView(
+          book: 'Glucose',
+          chartData: chartDataMap['Glucose'],
+        ),
+        BooksView(
+          book: 'Exercise',
+          chartData: chartDataMap['Exercise'],
+        ),
+        BooksView(
+          book: 'Food',
+          chartData: chartDataMap['Food'],
+        ),
       ],
     );
 
@@ -77,14 +85,19 @@ class Body extends StatelessWidget {
 }
 
 class BooksView extends StatelessWidget {
-  BooksView({this.book});
+  BooksView({
+    this.book,
+    this.chartData,
+  });
+
   final String book;
+  final List<Data> chartData;
   final Color lightPink = Color.fromRGBO(254, 179, 189, 1);
   final Color darkPink = Color.fromRGBO(255, 42, 103, 1);
   final Color backgroundColor = Color.fromRGBO(180, 180, 180, 0.2);
   final double margin = 5;
   final double padding = 5;
-  final map = {
+  final Map textMap = {
     'Glucose': 'Blood Glucose Levels Analysis',
     'Exercise': 'Exercise Levels Analysis',
     'Food': 'Calorie Intake Analysis'
@@ -105,6 +118,7 @@ class BooksView extends StatelessWidget {
         children: [
           Graph(
             logBook: book,
+            chartData: chartData,
             graphsHeight: height * 0.3,
             padding: padding,
             borderRadius: 10,
@@ -117,7 +131,7 @@ class BooksView extends StatelessWidget {
               2 * margin,
             ),
             child: Text(
-              map[book],
+              textMap[book],
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
@@ -148,35 +162,14 @@ class BooksView extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            width: 0.7 * width,
-            child: RaisedButton(
-              color: lightPink,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
-              ),
-              padding: EdgeInsets.all(padding),
-              onPressed: () {},
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.arrow_downward,
-                    size: iconSize,
-                  ),
-                  SizedBox(
-                    width: 7.0,
-                  ),
-                  Text(
-                    'Donwload History',
-                    style: TextStyle(
-                      fontSize: normalFontSize,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          DownloadHistoryButton(
+            width: width,
+            borderRadius: borderRadius,
+            padding: padding,
+            iconSize: iconSize,
+            normalFontSize: normalFontSize,
+            lightPink: lightPink,
+          )
         ],
       ),
     );
@@ -186,47 +179,53 @@ class BooksView extends StatelessWidget {
 class Graph extends StatefulWidget {
   Graph({
     this.logBook,
+    this.chartData,
     this.graphsHeight,
     this.padding,
     this.borderRadius,
   });
 
   final String logBook;
+  final List<Data> chartData;
   final double graphsHeight;
   final double padding;
   final double borderRadius;
 
   @override
   GraphState createState() => GraphState(
-    logBook: logBook,
-    graphsHeight: graphsHeight,
-    padding: padding,
-    borderRadius: borderRadius,
-  );
+        logBook: logBook,
+        chartData: chartData,
+        graphsHeight: graphsHeight,
+        padding: padding,
+        borderRadius: borderRadius,
+      );
 }
 
 class GraphState extends State<Graph> {
   GraphState({
     this.logBook,
+    this.chartData,
     this.graphsHeight,
     this.padding,
     this.borderRadius,
   });
 
   final String logBook;
+  final List<Data> chartData;
   final double graphsHeight;
   final double padding;
   final double borderRadius;
-  final map = {
+
+  final Map textMap = {
     'Glucose': 'Blood Glucose Levels',
     'Exercise': 'Exercise Levels',
     'Food': 'Calorie Intake Levels',
   };
-  final double min = 2.0;
-  final double max = 19.0;
   final Color lightPink = Color.fromRGBO(255, 224, 228, 1);
   final Color darkPink = Color.fromRGBO(254, 179, 189, 1);
 
+  DateTime minDate;
+  DateTime maxDate;
   SfRangeValues values = SfRangeValues(8.0, 16.0);
   RangeController rangeController;
   SfCartesianChart splineChart;
@@ -238,6 +237,8 @@ class GraphState extends State<Graph> {
       start: values.start,
       end: values.end,
     );
+    minDate = getMinDate(chartData);
+    maxDate = getMaxDate(chartData);
   }
 
   @override
@@ -248,46 +249,17 @@ class GraphState extends State<Graph> {
 
   @override
   Widget build(BuildContext context) {
-    List<Data> chartData = getData();
-
     return Container(
       child: Column(
         children: [
-          chart(
-            chartData,
-          ),
-          rangeSelector(
-            chartData,
-          ),
+          chart(),
+          rangeSelector(),
         ],
       ),
     );
   }
 
-  List<Data> getData() {
-    return <Data>[
-      Data(x: 2.0, y: 2.2),
-      Data(x: 3.0, y: 3.4),
-      Data(x: 4.0, y: 2.8),
-      Data(x: 5.0, y: 1.6),
-      Data(x: 6.0, y: 2.3),
-      Data(x: 7.0, y: 2.5),
-      Data(x: 8.0, y: 2.9),
-      Data(x: 9.0, y: 3.8),
-      Data(x: 10.0, y: 3.7),
-      Data(x: 11.0, y: 2.2),
-      Data(x: 12.0, y: 3.4),
-      Data(x: 13.0, y: 2.8),
-      Data(x: 14.0, y: 1.6),
-      Data(x: 15.0, y: 2.3),
-      Data(x: 16.0, y: 2.5),
-      Data(x: 17.0, y: 2.9),
-      Data(x: 18.0, y: 3.8),
-      Data(x: 19.0, y: 3.7),
-    ];
-  }
-
-  SfCartesianChart chart(List<Data> chartData) {
+  SfCartesianChart chart() {
     return SfCartesianChart(
       margin: const EdgeInsets.only(
         left: 10,
@@ -295,24 +267,28 @@ class GraphState extends State<Graph> {
         bottom: 20,
       ),
       title: ChartTitle(
-        text: map[logBook],
+        text: textMap[logBook],
       ),
-      primaryXAxis: NumericAxis(
-        minimum: min,
-        maximum: max,
+      primaryXAxis: DateTimeAxis(
+        minimum: minDate,
+        maximum: maxDate,
         isVisible: true,
         rangeController: rangeController,
       ),
       primaryYAxis: NumericAxis(
         isVisible: true,
       ),
-      series: <SplineSeries<Data, double>>[
-        SplineSeries<Data, double>(
+      tooltipBehavior: TooltipBehavior(
+        enable: true,
+      ),
+      series: <SplineSeries<Data, DateTime>>[
+        SplineSeries<Data, DateTime>(
           dataSource: chartData,
           animationDuration: 0,
-          xValueMapper: (Data sales, _) => sales.x,
-          yValueMapper: (Data sales, _) => sales.y,
+          xValueMapper: (Data levels, _) => levels.x,
+          yValueMapper: (Data levels, _) => levels.y,
           color: darkPink,
+          enableTooltip: true,
           markerSettings: MarkerSettings(
             color: darkPink,
             isVisible: true,
@@ -322,12 +298,12 @@ class GraphState extends State<Graph> {
     );
   }
 
-  SfRangeSelector rangeSelector(List<Data> chartData) {
+  SfRangeSelector rangeSelector() {
     return SfRangeSelector(
       activeColor: darkPink,
       inactiveColor: lightPink,
-      min: min,
-      max: max,
+      min: minDate,
+      max: maxDate,
       interval: 2,
       showTicks: true,
       showLabels: true,
@@ -335,20 +311,20 @@ class GraphState extends State<Graph> {
       child: Container(
         height: 70,
         child: SfCartesianChart(
-          primaryXAxis: NumericAxis(
-            minimum: min,
-            maximum: max,
+          primaryXAxis: DateTimeAxis(
+            minimum: minDate,
+            maximum: maxDate,
             isVisible: false,
           ),
           primaryYAxis: NumericAxis(
             isVisible: false,
           ),
           plotAreaBorderWidth: 0,
-          series: <SplineSeries<Data, double>>[
-            SplineSeries<Data, double>(
+          series: <SplineSeries<Data, DateTime>>[
+            SplineSeries<Data, DateTime>(
               dataSource: chartData,
-              xValueMapper: (Data sales, _) => sales.x,
-              yValueMapper: (Data sales, _) => sales.y,
+              xValueMapper: (Data levels, _) => levels.x,
+              yValueMapper: (Data levels, _) => levels.y,
               color: darkPink,
             )
           ],
@@ -358,8 +334,52 @@ class GraphState extends State<Graph> {
   }
 }
 
-class Data {
-  Data({this.x, this.y});
-  final double x;
-  final double y;
+class DownloadHistoryButton extends StatelessWidget {
+  final double width;
+  final double borderRadius;
+  final double padding;
+  final double iconSize;
+  final double normalFontSize;
+  final Color lightPink;
+
+  DownloadHistoryButton({
+    this.width,
+    this.borderRadius,
+    this.padding,
+    this.iconSize,
+    this.normalFontSize,
+    this.lightPink,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 0.7 * width,
+      child: RaisedButton(
+        color: lightPink,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        padding: EdgeInsets.all(padding),
+        onPressed: () {},
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.arrow_downward,
+              size: iconSize,
+            ),
+            SizedBox(
+              width: 7.0,
+            ),
+            Text(
+              'Donwload History',
+              style: TextStyle(
+                fontSize: normalFontSize,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
