@@ -59,4 +59,64 @@ class User {
   get gender => _gender;
   get targetCalories => _targetCalories;
   get dateOfBirth => _dateOfBirth;
+
+   set setName(String name)
+  {
+    _name=name;
+  }
+
+   set setHeight(double height)
+  {
+    _height=height;
+  }
+
+  set setWeight(double weight)
+  {
+    _weight=weight;
+  }
+
+  set setLocation(String location)
+  {
+    _location=location;
+  }
+
+  set setPhoneNumber(String phoneNumber)
+  {
+    _phoneNumber=phoneNumber;
+  }
+
+  set setGender(String gender)
+  {
+    _gender=gender;
+  }
+
+  set setdietRestrictions(List<String> dietaryRestrictions)
+  {
+    _dietRestrictions=dietaryRestrictions;
+  }
+
+  set setFoodPreference(String foodPreference)
+  {
+    _foodPreference=foodPreference;
+  }
+ 
+  set setExercisePreference(String exerPreference)
+  {
+    _exercisePreference=exerPreference;
+  }
+
+  set setDiabetesType(String diabetesType)
+  {
+    _diabetesType=diabetesType;
+  }
+  
+
+  set setTargetCalories(int calories)
+  {
+    _targetCalories=calories;
+  }
+  set setDob(DateTime dateOfBirth)
+  {
+    _dateOfBirth=dateOfBirth;
+  }
 }
