@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:flutterapp/view/LogbookPageNew.dart';
+import 'package:flutterapp/view/LogBookPage.dart';
 import '../model/Data.dart';
 import '../view/NavigationBar.dart';
 import '../view/AppBar.dart';
