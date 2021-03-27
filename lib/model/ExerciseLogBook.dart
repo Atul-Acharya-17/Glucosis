@@ -1,17 +1,35 @@
-import './LogBook.dart';
-import './ExerciseRecord.dart';
+import '../model/ExerciseRecord.dart';
+import '../model/Data.dart';
 
-/// Log book collection entity containing a user's past exercise records.
-class ExerciseLogBook extends LogBook {
-  List<ExerciseRecord> _exerciseRecords;
+class ExerciseLogBook {
+  List<ExerciseRecord> exerciseRecordsList;
 
-  ExerciseLogBook({String email}) : super(email: email);
+  ExerciseLogBook({
+    this.exerciseRecordsList,
+  });
 
-  void createExerciseRecord({DateTime datetime, int duration, String type}) {
-    ExerciseRecord record =
-        new ExerciseRecord(datetime: datetime, duration: duration, type: type);
-    this._exerciseRecords.add(record);
+  List<Data> dataHomePage() {
+    List<Data> chartData = logBookToData();
+    return chartData.sublist(0, 7);
   }
 
-  get exerciseRecords => _exerciseRecords;
+  List<Data> dataLogBookPage() {
+    List<Data> chartData = logBookToData();
+    return chartData;
+  }
+
+  List<Data> logBookToData() {
+    List<Data> chartData;
+    for (int i = 0; i < exerciseRecordsList.length; i++) {
+      ExerciseRecord record = exerciseRecordsList[i];
+      chartData.add(
+        Data(
+          dateTime: record.dateTime,
+          y: record.duration,
+        ),
+      );
+    }
+    chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    return chartData;
+  }
 }

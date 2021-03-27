@@ -1,11 +1,11 @@
-import '../model/FoodRecord.dart';
+import '../model/GlucoseRecord.dart';
 import '../model/Data.dart';
 
-class FoodLogBook {
-  List<FoodRecord> foodRecordsList;
+class GlucoseLogBook {
+  List<GlucoseRecord> glucoseRecordsList;
 
-  FoodLogBook({
-    this.foodRecordsList,
+  GlucoseLogBook({
+    this.glucoseRecordsList,
   });
 
   List<Data> dataHomePage() {
@@ -20,12 +20,12 @@ class FoodLogBook {
 
   List<Data> logBookToData() {
     List<Data> chartData;
-    for (int i = 0; i < foodRecordsList.length; i++) {
-      FoodRecord record = foodRecordsList[i];
+    for (int i = 0; i < glucoseRecordsList.length; i++) {
+      GlucoseRecord record = glucoseRecordsList[i];
       chartData.add(
         Data(
           dateTime: record.dateTime,
-          y: record.calories,
+          y: record.glucoseLevel,
         ),
       );
     }
