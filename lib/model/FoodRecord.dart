@@ -1,32 +1,27 @@
-/// Entity representing a food record logged by a user.
 class FoodRecord {
-  DateTime _datetime;
-  String _foodName;
-  /// In grams.
-  int _carbs;
-  /// In kcal.
-  int _calories;
+  DateTime _dateTime;
+  String _food;
+  int _carbs; // in grams
+  int _calories; // in kcal
   double _servingSize;
-  /// Optional; user's personal notes commenting about the meal.
   String _notes;
 
-  FoodRecord(
-      {DateTime datetime,
-      String foodName,
-      int carbs,
-      int calories,
-      double servingSize,
-      String notes = ""})
-      : _datetime = datetime,
-        _foodName = foodName,
+  FoodRecord({
+    DateTime dateTime,
+    String food,
+    int carbs,
+    int calories,
+    double servingSize,
+    String notes,
+  })  : _dateTime = dateTime,
+        _food = food,
         _carbs = carbs,
         _calories = calories,
         _servingSize = servingSize,
-        // Default Value
-        _notes = notes ?? "";
+        _notes = notes;
 
-  get datetime => _datetime;
-  get foodName => _foodName;
+  get dateTime => _dateTime;
+  get food => _food;
   get carbs => _carbs;
   get calories => _calories;
   get servingSize => _servingSize;

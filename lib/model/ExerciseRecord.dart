@@ -1,16 +1,17 @@
-/// Entity representing an exercise entry logged by a user.
 class ExerciseRecord {
-  DateTime _datetime;
-  /// Number of minutes of exercise.
-  int _duration;
-  String _type;
+  DateTime _dateTime;
+  int _duration; // minutes
+  String _exercise;
 
-  ExerciseRecord({DateTime datetime, int duration, String type})
-      : _datetime = datetime,
+  ExerciseRecord({
+    DateTime dateTime,
+    int duration,
+    String exercise,
+  })  : _dateTime = dateTime,
         _duration = duration,
-        _type = type;
+        _exercise = exercise;
 
-  get datetime => _datetime;
+  get dateTime => _dateTime;
   get duration => _duration;
-  get type => _type;
+  get exercise => _exercise;
 }
