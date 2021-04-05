@@ -329,7 +329,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
 
                           if (success) {
                             UserManager usermgr=new UserManager();
-                            usermgr.addUseronSignup(_email, _name, _phoneNumber);
+                            UserManager.addUseronSignup(_email, _name, _phoneNumber);
                             Navigator.of(context).pushNamed('/accdetails');
                           }
                           //print(_email);

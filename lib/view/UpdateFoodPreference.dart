@@ -233,7 +233,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
                 child: RaisedButton(
                   onPressed: () {
                     UserManager usermgr=new UserManager();
-                    usermgr.updateFoodPref(_dietRestrictions, _foodPreference, _targetCalories);
+                    UserManager.updateFoodPref(_dietRestrictions, _foodPreference, _targetCalories);
                   },
                   color: Colors.pink[100],
                   child: Text(

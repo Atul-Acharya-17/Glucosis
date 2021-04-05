@@ -189,11 +189,11 @@ class LoginScreenState extends State<LoginScreen> {
 
                           AuthenticationManager auth =
                               new AuthenticationManager();
-                          UserManager userMgr=new UserManager();
+                          UserManager userMgr = new UserManager();
                           auth.login(_email, _password).then((loginSuccess) => {
                                 if(loginSuccess)
                                 {
-                                  userMgr.retrieveDetails(_email)
+                                  UserManager.retrieveDetails(_email)
                                 },
                                 loginSuccess
                                     ? Navigator.of(context)

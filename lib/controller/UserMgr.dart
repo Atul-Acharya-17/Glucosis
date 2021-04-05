@@ -220,18 +220,21 @@ class UserManager {
   }
 
   static void setUserGlucoseLogBook() {
-    GlucoseLogBook glucoseLogBook = LogBookMgr.getGlucoseLogBook(user.email);
-    user.setGlucoseLogbook(glucoseLogBook);
+    LogBookMgr.getGlucoseLogBook(user.email)..then((glucoseLogBook) => {
+        user.setGlucoseLogbook = glucoseLogBook
+    });
   }
 
   static void setUserFoodLogBook() {
-    FoodLogBook foodLogBook = LogBookMgr.getFoodLogBook(user.email);
-    user.setFoodLogBook(foodLogBook);
+    LogBookMgr.getFoodLogBook(user.email).then((foodLogBook) => {
+    user.setFoodLogBook = foodLogBook
+    });
   }
 
   static void setUserExerciseLogBook() {
-    ExerciseLogBook exerciseLogBook = LogBookMgr.getExerciseLogBook(user.email);
-    user.setExerciseLogBook(exerciseLogBook);
+    LogBookMgr.getExerciseLogBook(user.email).then((exerciseLogBook) => {
+    user.setExerciseLogBook = exerciseLogBook
+    });
   }
 
   static GlucoseLogBook getGlucoseLogBook() {

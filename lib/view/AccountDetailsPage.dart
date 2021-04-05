@@ -435,8 +435,8 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
 
                         Currently only NAVIGATION is implemented
                         */
-                          UserManager usermgr=new UserManager();
-                          usermgr.updateOnSignup(dateOfBirth, _gender, _location, _weight, _height, _type);
+                          UserManager usermgr = new UserManager();
+                          UserManager.updateOnSignup(dateOfBirth, _gender, _location, _weight, _height, _type);
                           Map<String,dynamic> details=UserManager.getProfileDetails();
                           print(details);
                           Navigator.of(context).pushNamed('/home');
