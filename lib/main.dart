@@ -5,6 +5,7 @@ import 'view/LogGlucose.dart';
 import 'view/LogExercise.dart';
 // import 'view/GlucosePage.dart';
 // import 'view/HomePage.dart';
+import 'view/LoginPage.dart';
 import 'controller/LogBookMgr.dart';
 import 'controller/UserMgr.dart';
 import 'model/GlucoseRecord.dart';
@@ -12,11 +13,11 @@ import 'model/GlucoseRecord.dart';
 void main() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
-    LogBookMgr x = new LogBookMgr(
+    /*LogBookMgr x = new LogBookMgr(
       'glucose',
       'nishasnr@gmail.com',
     );
-    x.getGlucoseRecords();
+    x.getGlucoseRecords();*/
     /*print('hello');
   print(x.glucoseLogBook);
   print('hi again');
@@ -27,7 +28,7 @@ void main() async {
     print(y[i].glucoseLevel);
   }
   print('final one, haha');*/
-    runApp(MyAppLogExercisePage());
+    runApp(LoginPage());
   }
 
 /*class App extends StatelessWidget {

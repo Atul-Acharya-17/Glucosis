@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutterapp/controller/UserMgr.dart';
 import '../controller/AuthenticationMgr.dart';
 
 /*
@@ -302,6 +303,8 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                           }
 
                           if (success) {
+                            UserManager usermgr=new UserManager();
+                            usermgr.addUseronSignup(_email, _name, _phoneNumber);
                             Navigator.of(context).pushNamed('/accdetails');
                           }
                           //print(_email);

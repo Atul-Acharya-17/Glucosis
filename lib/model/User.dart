@@ -1,7 +1,7 @@
 /*
 target range [min, max]
 */
-
+// need to check if date of birth and target range have been added to account details, profilepage and food preference
 /// Entity representing the user, their personal details, and the logbooks, plans and reminders associated with them.
 class User {
   String _name;
