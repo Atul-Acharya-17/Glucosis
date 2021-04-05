@@ -1,6 +1,9 @@
 /*
 target range [min, max]
 */
+import '../model/ExerciseLogBook.dart';
+import '../model/GlucoseLogBook.dart';
+import '../model/FoodLogBook.dart';
 // need to check if date of birth and target range have been added to account details, profilepage and food preference
 /// Entity representing the user, their personal details, and the logbooks, plans and reminders associated with them.
 class User {
@@ -20,6 +23,10 @@ class User {
   int _minGlucose;
   int _maxGlucose;
   DateTime _dateOfBirth;
+  ExerciseLogBook _exerciseLogBook;
+  FoodLogBook _foodLogBook;
+  GlucoseLogBook _glucoseLogBook;
+
 
   User(
       {String name,
@@ -87,6 +94,12 @@ class User {
 
   get dateOfBirth => _dateOfBirth;
 
+  get exerciseLogBook => _exerciseLogBook;
+
+  get foodLogBook => _foodLogBook;
+
+  get glucoseLogBook => _glucoseLogBook;
+
   set setName(String name) {
     _name = name;
   }
@@ -145,5 +158,20 @@ class User {
 
   set setDob(DateTime dateOfBirth) {
     _dateOfBirth = dateOfBirth;
+  }
+
+  set setGlucoseLogbook(GlucoseLogBook glucoseLogBook)
+  {
+    _glucoseLogBook=glucoseLogBook;
+  }
+
+  set setExerciseLogBook(ExerciseLogBook exerciseLogBook)
+  {
+    _exerciseLogBook=exerciseLogBook;
+  }
+
+  set setFoodLogBook(FoodLogBook exerciseLogBook)
+  {
+    _foodLogBook=foodLogBook;
   }
 }
