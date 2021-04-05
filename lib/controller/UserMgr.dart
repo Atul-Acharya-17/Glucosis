@@ -4,6 +4,10 @@ import '../model/User.dart';
 import '../model/GlucoseRecord.dart';
 import '../model/FoodRecord.dart';
 import '../model/ExerciseRecord.dart';
+import '../controller/LogBookMgr.dart';
+import '../model/ExerciseLogBook.dart';
+import '../model/GlucoseLogBook.dart';
+import '../model/FoodLogBook.dart';
 
 /// Controller class for user entity, which retrieves user details from a users database.
 class UserManager
@@ -182,17 +186,56 @@ void updateOnSignup(DateTime dateOfBirth,String gender,String location, double w
 
     void addGlucoseRecord(GlucoseRecord gr)
     {
-
+      user.glucoseLogBook.addRecord(gr);
     }
 
     void addExerciseRecord(FoodRecord fr)
     {
-
+       user.exerciseLogBook.addRecord(fr);
     }
 
     void addFoodRecord(ExerciseRecord er)
     {
+       user.foodLogBook.addRecord(er);
+    }
 
+    void setUserGlucoseLogBook()
+    {
+    
+      GlucoseLogBook glucoseLogBook= LogBookMgr.getGlucoseLogBook(user.email);
+      user.setGlucoseLogbook(glucoseLogBook);
+
+    }
+
+    void setUserFoodLogBook()
+    {
+      
+      FoodLogBook foodLogBook= LogBookMgr.getFoodLogBook(user.email);
+      user.setFoodLogBook(foodLogBook);
+
+    }
+
+    void setUserExerciseLogBook()
+    {
+      
+      ExerciseLogBook exerciseLogBook= LogBookMgr.getExerciseLogBook(user.email);
+      user.setExerciseLogBook(exerciseLogBook);
+
+    }
+
+    GlucoseLogBook getGlucoseLogBook()
+    {
+      return user.glucoseLogBook;
+    }
+
+    ExerciseLogBook getExerciseLogBook()
+    {
+       return user.exerciseLogBook;
+    }
+     
+    FoodLogBook getFoodLogBook()
+    {
+       return user.foodLogBook;
     }
 
 
