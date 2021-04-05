@@ -44,7 +44,7 @@ class LogBookMgr {
       int carbs,
       int calories,
       double servingSize,
-      String notes,
+      {String notes = ""}
       ) {
     String email = UserManager.getCurrentUserEmail();
     UserManager.addFoodRecord(
