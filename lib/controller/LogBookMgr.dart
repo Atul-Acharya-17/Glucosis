@@ -79,13 +79,11 @@ class LogBookMgr {
       int duration,
       ) {
     String email = UserManager.getCurrentUserEmail();
+    ExerciseRecord exerciseRecord = new ExerciseRecord(exercise: exercise, dateTime: dateTime, duration: duration);
     UserManager.addExerciseRecord(
-      ExerciseRecord(
-        dateTime: dateTime,
-        exercise: exercise,
-        duration: duration,
-      ),
+      exerciseRecord
     );
+    print(email);
     return FirebaseFirestore.instance
         .collection('ExerciseLogBook')
         .doc(email)
@@ -188,17 +186,17 @@ class LogBookMgr {
 
   static Map getHomePageData() {
     return {
-      'Glucose': UserManager.getGlucoseLogBook().getHomePageData(),
-      'Food': UserManager.getFoodLogBook().getHomePageData(),
-      'Exercise': UserManager.getExerciseLogBook().getHomePageData(),
+      // 'Glucose': UserManager.getGlucoseLogBook().getHomePageData(),
+      // 'Food': UserManager.getFoodLogBook().getHomePageData(),
+      // 'Exercise': UserManager.getExerciseLogBook().getHomePageData(),
     };
   }
 
   static Map getLogBookPageData() {
     return {
-      'Glucose': UserManager.getGlucoseLogBook().getLogBookPageData(),
-      'Food': UserManager.getFoodLogBook().getLogBookPageData(),
-      'Exercise': UserManager.getExerciseLogBook().getLogBookPageData(),
+      // 'Glucose': UserManager.getGlucoseLogBook().getLogBookPageData(),
+      // 'Food': UserManager.getFoodLogBook().getLogBookPageData(),
+      // 'Exercise': UserManager.getExerciseLogBook().getLogBookPageData(),
     };
   }
 

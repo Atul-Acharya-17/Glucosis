@@ -212,6 +212,8 @@ class UserManager {
   }
 
   static void addExerciseRecord(ExerciseRecord er) {
+    if (user.exerciseLogBook == null)
+      user.setExerciseLogBook = new ExerciseLogBook(exerciseRecordsList: new List<ExerciseRecord>());
     user.exerciseLogBook.addRecord(er);
   }
 

@@ -11,7 +11,7 @@ class ExercisePlanMgr{
         _chosenPlan = FirebaseFirestore.instance.collection('ChosenPlan');
 
 
-  Future<Map<String, dynamic>> setexercisePlan(String exercisePlanID) async{
+  Future<Map<String, dynamic>> setExercisePlan(String exercisePlanID) async{
 
     String message;
     _chosenPlan

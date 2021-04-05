@@ -25,6 +25,8 @@ class ExerciseLogBook {
 
   /// Add exercise record.
   void addRecord(ExerciseRecord exerciseRecord) {
+    if (_exerciseRecordsList == null)
+      _exerciseRecordsList = new List<ExerciseRecord>();
     _exerciseRecordsList.add(exerciseRecord);
   }
 

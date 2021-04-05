@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/controller/LogBookMgr.dart';
 import 'package:intl/intl.dart';
 import '../controller/UserMgr.dart';
 import './AppBar.dart';
@@ -53,6 +54,7 @@ class LogExercisePage extends StatefulWidget {
 }
 
 class LogExercisePageState extends State<LogExercisePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,18 +84,22 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
-  DateTime currentDate = DateTime.now().toLocal();
+
+  String _exerciseName;
+  int _duration;
+
+  DateTime _currentDate = DateTime.now().toLocal();
   DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
         context: context,
-        initialDate: currentDate,
+        initialDate: _currentDate,
         firstDate: DateTime(2015),
         lastDate: DateTime(2050));
-    if (pickedDate != null && pickedDate != currentDate)
+    if (pickedDate != null && pickedDate != _currentDate)
       setState(() {
-        currentDate = pickedDate;
+        _currentDate = pickedDate;
       });
   }
 
@@ -135,6 +141,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       EdgeInsets.only(bottom: 20, top: 10, left: 10, right: 10),
                   child: TextFormField(
                       // The validator receives the text that the user has entered.
+                  keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: "Duration",
@@ -146,8 +153,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                         if (value.isEmpty) {
                           return 'Please enter some text';
                         }
+                        this._duration = int.parse(value);
                         return null;
-                      })),
+                      }),),
 
               Container(
                   child: Padding(
@@ -174,8 +182,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                         if (value.isEmpty) {
                           return 'Please enter some text';
                         }
+                        this._exerciseName = value;
                         return null;
-                      })),
+                      }),),
               // Add TextFormFields and ElevatedButton here.
               Container(
                   child: Padding(
@@ -199,7 +208,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(formatter.format(currentDate),
+                            Text(formatter.format(_currentDate),
                                 style: TextStyle(
                                     fontSize: 20, color: Colors.black)),
                             IconButton(
@@ -236,6 +245,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                           if (_formKey.currentState.validate()) {
                             // If the form is valid, display a snackbar. In the real world,
                             // you'd often call a server or save the information in a database.
+                            print(_exerciseName);
+                            print(_duration);
+                            print(_time);
+                            print(_currentDate);
+
+                            LogBookMgr.addExerciseRecord(_currentDate, _exerciseName, _duration);
 
                             return showDialog<void>(
                               context: context,
