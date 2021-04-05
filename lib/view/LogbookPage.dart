@@ -193,12 +193,12 @@ class Graph extends StatefulWidget {
 
   @override
   GraphState createState() => GraphState(
-        logBook: logBook,
-        chartData: chartData,
-        graphsHeight: graphsHeight,
-        padding: padding,
-        borderRadius: borderRadius,
-      );
+    logBook: logBook,
+    chartData: chartData,
+    graphsHeight: graphsHeight,
+    padding: padding,
+    borderRadius: borderRadius,
+  );
 }
 
 class GraphState extends State<Graph> {
@@ -285,7 +285,7 @@ class GraphState extends State<Graph> {
         SplineSeries<Data, DateTime>(
           dataSource: chartData,
           animationDuration: 0,
-          xValueMapper: (Data levels, _) => levels.x,
+          xValueMapper: (Data levels, _) => levels.dateTime,
           yValueMapper: (Data levels, _) => levels.y,
           color: darkPink,
           enableTooltip: true,
@@ -323,7 +323,7 @@ class GraphState extends State<Graph> {
           series: <SplineSeries<Data, DateTime>>[
             SplineSeries<Data, DateTime>(
               dataSource: chartData,
-              xValueMapper: (Data levels, _) => levels.x,
+              xValueMapper: (Data levels, _) => levels.dateTime,
               yValueMapper: (Data levels, _) => levels.y,
               color: darkPink,
             )
