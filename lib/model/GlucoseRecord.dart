@@ -1,7 +1,10 @@
+/// Entity representing a blood glucose level entry recorded by a user.
 class GlucoseRecord {
   DateTime _dateTime;
-  bool _beforeMeal; // true for before meal, false for after meal
-  double _glucoseLevel; // in mg/dL
+  /// True for before meal, false for after meal.
+  bool _beforeMeal;
+  /// In mg/dL.
+  double _glucoseLevel;
 
   GlucoseRecord({
     DateTime dateTime,

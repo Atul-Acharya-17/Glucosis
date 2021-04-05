@@ -17,8 +17,8 @@ class LogBookMgr {
       DateTime dateTime,
       bool beforeMeal,
       ) {
-    String email = UserMgr.getCurrentUserEmail();
-    UserMgr.addGlucoseRecord(
+    String email = UserManager.getCurrentUserEmail();
+    UserManager.addGlucoseRecord(
       GlucoseRecord(
         dateTime: dateTime,
         glucoseLevel: glucoseLevel,
@@ -46,8 +46,8 @@ class LogBookMgr {
       double servingSize,
       String notes,
       ) {
-    String email = UserMgr.getCurrentUserEmail();
-    UserMgr.addFoodRecord(
+    String email = UserManager.getCurrentUserEmail();
+    UserManager.addFoodRecord(
       FoodRecord(
         dateTime: dateTime,
         food: food,
@@ -78,8 +78,8 @@ class LogBookMgr {
       String exercise,
       int duration,
       ) {
-    String email = UserMgr.getCurrentUserEmail();
-    UserMgr.addExerciseRecord(
+    String email = UserManager.getCurrentUserEmail();
+    UserManager.addExerciseRecord(
       ExerciseRecord(
         dateTime: dateTime,
         exercise: exercise,
@@ -188,24 +188,24 @@ class LogBookMgr {
 
   static Map getHomePageData() {
     return {
-      'Glucose': UserMgr.getGlucoseLogBook().getHomePageData(),
-      'Food': UserMgr.getFoodLogBook().getHomePageData(),
-      'Exercise': UserMgr.getExerciseLogBook().getHomePageData(),
+      'Glucose': UserManager.getGlucoseLogBook().getHomePageData(),
+      'Food': UserManager.getFoodLogBook().getHomePageData(),
+      'Exercise': UserManager.getExerciseLogBook().getHomePageData(),
     };
   }
 
   static Map getLogBookPageData() {
     return {
-      'Glucose': UserMgr.getGlucoseLogBook().getLogBookPageData(),
-      'Food': UserMgr.getFoodLogBook().getLogBookPageData(),
-      'Exercise': UserMgr.getExerciseLogBook().getLogBookPageData(),
+      'Glucose': UserManager.getGlucoseLogBook().getLogBookPageData(),
+      'Food': UserManager.getFoodLogBook().getLogBookPageData(),
+      'Exercise': UserManager.getExerciseLogBook().getLogBookPageData(),
     };
   }
 
   static Future<void> downloadGlucoseLogBook() async {
     List<List<String>> listOfRecords = [];
     List<GlucoseRecord> glucoseRecordsList =
-        UserMgr.getGlucoseLogBook().glucoseRecordsList;
+        UserManager.getGlucoseLogBook().glucoseRecordsList;
 
     List<String> record = [
       'Date',
