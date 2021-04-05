@@ -172,6 +172,11 @@ void updateOnSignup(DateTime dateOfBirth,String gender,String location, double w
         return foodProfileDetails;
     }
 
+    String getCurrentUserEmail()
+    {
+       return user.email;
+    }
+
 
 }
 
