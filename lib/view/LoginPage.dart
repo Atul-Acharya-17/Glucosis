@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/controller/LogBookMgr.dart';
 import 'package:flutterapp/controller/UserMgr.dart';
 import '../controller/AuthenticationMgr.dart';
 
@@ -181,7 +182,7 @@ class LoginScreenState extends State<LoginScreen> {
                               horizontal: 50, vertical: 15),
                           primary: Theme.of(context).primaryColor,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (!_formKey.currentState.validate()) {
                             return;
                           }
@@ -190,18 +191,20 @@ class LoginScreenState extends State<LoginScreen> {
                           AuthenticationManager auth =
                               new AuthenticationManager();
                           UserManager userMgr = new UserManager();
-                          auth.login(_email, _password).then((loginSuccess) => {
+                          await auth.login(_email, _password).then((loginSuccess) async => {
                                 if(loginSuccess)
                                 {
-                                  UserManager.retrieveDetails(_email)
+                                  await UserManager.retrieveDetails(_email).then((value) async =>
+                                  {
+                                    UserManager.setLogBooks().then((value) => {
+                                      loginSuccess
+                                          ? Navigator.of(context)
+                                          .pushNamedAndRemoveUntil(
+                                          '/home', ModalRoute.withName('/'))
+                                          : print("Failure")
+                                    })
+                                  })
                                 },
-                                loginSuccess
-                                    ? Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                            '/home', ModalRoute.withName('/'))
-                                    : print("Failure")
-                               
-                                  
                               });
 
                           //print(_email);

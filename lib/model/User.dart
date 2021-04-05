@@ -170,7 +170,7 @@ class User {
     _exerciseLogBook=exerciseLogBook;
   }
 
-  set setFoodLogBook(FoodLogBook exerciseLogBook)
+  set setFoodLogBook(FoodLogBook foodLogBook)
   {
     _foodLogBook=foodLogBook;
   }

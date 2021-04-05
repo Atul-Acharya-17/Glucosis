@@ -120,7 +120,9 @@ class LogBookMgr {
     })
         .catchError((error) => print('Failed to get logbook: $error'));
 
-    return GlucoseLogBook(
+    print("GLUCOSE:");
+    print(recordsList);
+    return new GlucoseLogBook(
       glucoseRecordsList: recordsList,
     );
   }
@@ -151,7 +153,10 @@ class LogBookMgr {
     })
         .catchError((error) => print('Failed to get logbook: $error'));
 
-    return FoodLogBook(
+    print("food:");
+    print(recordsList);
+
+    return new FoodLogBook(
       foodRecordsList: recordsList,
     );
   }
@@ -179,24 +184,29 @@ class LogBookMgr {
     })
         .catchError((error) => print('Failed to get logbook: $error'));
 
-    return ExerciseLogBook(
+    print("exercise");
+    print(recordsList);
+
+    return new ExerciseLogBook(
       exerciseRecordsList: recordsList,
     );
   }
 
   static Map getHomePageData() {
+    print(UserManager.getFoodLogBook());
+    print(UserManager.getFoodLogBook().runtimeType);
     return {
-      // 'Glucose': UserManager.getGlucoseLogBook().getHomePageData(),
-      // 'Food': UserManager.getFoodLogBook().getHomePageData(),
-      // 'Exercise': UserManager.getExerciseLogBook().getHomePageData(),
+      'Glucose': UserManager.getGlucoseLogBook().getHomePageData(),
+      'Food': UserManager.getFoodLogBook().getHomePageData(),
+      'Exercise': UserManager.getExerciseLogBook().getHomePageData(),
     };
   }
 
   static Map getLogBookPageData() {
     return {
-      // 'Glucose': UserManager.getGlucoseLogBook().getLogBookPageData(),
-      // 'Food': UserManager.getFoodLogBook().getLogBookPageData(),
-      // 'Exercise': UserManager.getExerciseLogBook().getLogBookPageData(),
+      'Glucose': UserManager.getGlucoseLogBook().getLogBookPageData(),
+      'Food': UserManager.getFoodLogBook().getLogBookPageData(),
+      'Exercise': UserManager.getExerciseLogBook().getLogBookPageData(),
     };
   }
 

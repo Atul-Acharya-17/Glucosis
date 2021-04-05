@@ -12,13 +12,14 @@ class ExerciseLogBook {
   get exerciseRecordsList => _exerciseRecordsList;
 
   /// Gets data to create chart on home page.
-  List<Data> dataHomePage() {
+  List<Data> getHomePageData() {
     List<Data> chartData = logBookToData();
-    return chartData.sublist(0, 7);
+    int end = chartData.length >= 7? 7 : chartData.length;
+    return chartData.sublist(0, end);
   }
 
   /// Gets data to create chart on log book page.
-  List<Data> dataLogBookPage() {
+  List<Data> getLogBookPageData() {
     List<Data> chartData = logBookToData();
     return chartData;
   }
@@ -32,13 +33,13 @@ class ExerciseLogBook {
 
   /// Get exercise records history.
   List<Data> logBookToData() {
-    List<Data> chartData;
+    List<Data> chartData = [];
     for (int i = 0; i < exerciseRecordsList.length; i++) {
       ExerciseRecord record = exerciseRecordsList[i];
       chartData.add(
         Data(
           dateTime: record.dateTime,
-          y: record.duration,
+          y: double.parse(record.duration.toString()),
         ),
       );
     }

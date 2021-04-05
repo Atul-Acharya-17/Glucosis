@@ -143,7 +143,7 @@ class UserManager {
   }
 
   /// Gets a user's details from the users database based on user's email on login
-  static void retrieveDetails(String email) async {
+  static Future<void> retrieveDetails(String email) async {
     print(email);
     await FirebaseFirestore.instance
         .collection('users')
@@ -221,33 +221,54 @@ class UserManager {
     user.foodLogBook.addRecord(fr);
   }
 
-  static void setUserGlucoseLogBook() {
-    LogBookMgr.getGlucoseLogBook(user.email)..then((glucoseLogBook) => {
+  static Future<void> setLogBooks() async {
+    await setUserGlucoseLogBook();
+    print("111");
+    await setUserFoodLogBook();
+    print("111");
+    await setUserExerciseLogBook();
+    print("111");
+  }
+
+  static Future<void> setUserGlucoseLogBook() async {
+    await LogBookMgr.getGlucoseLogBook(user.email).then((glucoseLogBook) => {
+      if (glucoseLogBook != null)
         user.setGlucoseLogbook = glucoseLogBook
+      else
+        user.setGlucoseLogbook = new GlucoseLogBook(glucoseRecordsList: new List<GlucoseRecord>())
     });
   }
 
-  static void setUserFoodLogBook() {
-    LogBookMgr.getFoodLogBook(user.email).then((foodLogBook) => {
-    user.setFoodLogBook = foodLogBook
+  static Future<void>setUserFoodLogBook() async {
+    await LogBookMgr.getFoodLogBook(user.email).then((foodLogBook) => {
+      if (foodLogBook != null)
+        user.setFoodLogBook = foodLogBook
+      else
+        user.setFoodLogBook = new FoodLogBook(foodRecordsList: new List<FoodRecord>())
     });
   }
 
-  static void setUserExerciseLogBook() {
-    LogBookMgr.getExerciseLogBook(user.email).then((exerciseLogBook) => {
-    user.setExerciseLogBook = exerciseLogBook
+  static Future<void> setUserExerciseLogBook() async {
+    await LogBookMgr.getExerciseLogBook(user.email).then((exerciseLogBook) => {
+      if (exerciseLogBook != null)
+        user.setExerciseLogBook = exerciseLogBook
+      else
+        user.setExerciseLogBook = new ExerciseLogBook(exerciseRecordsList: new List<ExerciseRecord>())
     });
   }
 
   static GlucoseLogBook getGlucoseLogBook() {
+    print(user.glucoseLogBook);
     return user.glucoseLogBook;
   }
 
   static ExerciseLogBook getExerciseLogBook() {
+    print(user.exerciseLogBook);
     return user.exerciseLogBook;
   }
 
   static FoodLogBook getFoodLogBook() {
+    print(user.foodLogBook);
     return user.foodLogBook;
   }
 }

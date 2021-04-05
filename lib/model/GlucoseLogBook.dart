@@ -14,7 +14,8 @@ class GlucoseLogBook {
   /// Gets data to create chart on home page.
   List<Data> getHomePageData() {
     List<Data> chartData = logBookToData();
-    return chartData.sublist(0, 7);
+    int end = chartData.length >= 7? 7 : chartData.length;
+    return chartData.sublist(0, end);
   }
 
   /// Gets data to create chart on log book page.
@@ -30,7 +31,7 @@ class GlucoseLogBook {
 
   /// Get glucose records history.
   List<Data> logBookToData() {
-    List<Data> chartData;
+    List<Data> chartData = [];
     for (int i = 0; i < glucoseRecordsList.length; i++) {
       GlucoseRecord record = glucoseRecordsList[i];
       chartData.add(
