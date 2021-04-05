@@ -189,14 +189,14 @@ void updateOnSignup(DateTime dateOfBirth,String gender,String location, double w
       user.glucoseLogBook.addRecord(gr);
     }
 
-    void addExerciseRecord(FoodRecord fr)
+    void addExerciseRecord(ExerciseRecord er)
     {
-       user.exerciseLogBook.addRecord(fr);
+       user.exerciseLogBook.addRecord(er);
     }
 
-    void addFoodRecord(ExerciseRecord er)
+    void addFoodRecord(FoodRecord fr)
     {
-       user.foodLogBook.addRecord(er);
+       user.foodLogBook.addRecord(fr);
     }
 
     void setUserGlucoseLogBook()
