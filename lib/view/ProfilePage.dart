@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'NavigationBar.dart';
 import 'AppBar.dart';
+import '../controller/UserMgr.dart';
 
 void main() {
   runApp(
@@ -26,6 +27,10 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class ProfileScreenState extends State<ProfileScreen> {
+
+   //integration for password and target range needs to be done 
+   //replace carbs with date of birth?
+  Map<String, dynamic> profileDetails= UserManager.getProfileDetails();
   String _name = "my name";
   String _gender = "female";
   double _weight = 50;
@@ -45,6 +50,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildEmail() {
+    _email=profileDetails['email'];
     return TextFormField(
       initialValue: _email,
       decoration: new InputDecoration(
@@ -99,6 +105,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildName() {
+    _name=profileDetails['name'];
     return TextFormField(
       initialValue: _name,
       decoration: new InputDecoration(
@@ -125,6 +132,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildPhoneNumber() {
+    _phoneNumber=profileDetails['phoneNumber'];
     return TextFormField(
       initialValue: _phoneNumber,
       decoration: new InputDecoration(
@@ -171,6 +179,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildLocation() {
+    _location=profileDetails['location'];
     return TextFormField(
       initialValue: _location,
       decoration: new InputDecoration(
@@ -195,7 +204,10 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+
+ //need to change this to toggle buttons
   Widget _buildFoodPreference() {
+    _foodPreference= profileDetails['foodPreference'];
     return TextFormField(
       initialValue: _foodPreference,
       decoration: new InputDecoration(
@@ -221,6 +233,10 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildDietRestrictions() {
+    if(profileDetails['dietaryRestrictions']!=null)
+    {
+    _dietRestrictions=profileDetails['dietaryRestrictions'];
+    }
     return TextFormField(
       initialValue: _dietRestrictions,
       decoration: new InputDecoration(
@@ -240,6 +256,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildExercisePreference() {
+    _exercisePreference= profileDetails['exercisePreference'];
     return TextFormField(
       initialValue: _exercisePreference,
       decoration: new InputDecoration(
@@ -265,6 +282,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildGender() {
+    _gender= profileDetails['gender'];
     return TextFormField(
       initialValue: _gender,
       decoration: new InputDecoration(
@@ -290,6 +308,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildType() {
+    _type= profileDetails['diabetesType'];
     return TextFormField(
       initialValue: _type,
       decoration: new InputDecoration(
@@ -315,6 +334,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildWeight() {
+    _weight=profileDetails['weight'];
     return TextFormField(
       decoration: new InputDecoration(
         isDense: true,
@@ -340,6 +360,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildHeight() {
+    _height=profileDetails['height'];
     return TextFormField(
       decoration: new InputDecoration(
         isDense: true,
@@ -390,6 +411,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildCalories() {
+    _calories=profileDetails['targetCalories'];
     return TextFormField(
       decoration: new InputDecoration(
         isDense: true,
@@ -696,6 +718,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                             return;
                           }
                           _formKey.currentState.save();
+                          UserManager usermgr=new UserManager();
+                          //need to add dob and target range to profile page screen
+                          //usermgr.addUser(_email, _dob, _type, _dietRestrictions.split(','), _exercisePreference,_foodPreference, _gender, _height, _location, _name, _phoneNumber, _calories, _weight, _targetRange);
                         }),
                   ),
                 ),

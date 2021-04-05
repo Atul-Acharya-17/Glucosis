@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'AppBar.dart';
 import 'NavigationBar.dart';
 import 'package:customtogglebuttons/customtogglebuttons.dart';
+import '../controller/UserMgr.dart';
 
 void main() {
   runApp(UpdateFoodPreference());
@@ -16,7 +17,29 @@ class UpdateFoodPreference extends StatefulWidget {
 class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
   @override
   List<bool> _isSelected = [false, false, false];
+  //need to make this page and account details page match
+  Map<String,dynamic> foodPreference = UserManager.getFoodPreferenceDetails();
+  String _foodPreference;
+  int _targetCalories;
+  List<String> _dietRestrictions;
+  //need to add UI field for dietary restrictions
+
   Widget build(BuildContext context) {
+    _foodPreference=foodPreference['foodPreference'];
+    _targetCalories=foodPreference['targetCalories'];
+    _dietRestrictions=foodPreference['dietaryRestrictions'];
+     switch(foodPreference['foodPreference'])
+  {
+    case 'Vegetarian':
+                      _isSelected[0]=true;
+                      break;
+    case 'Non-Vegetarian':
+                      _isSelected[1]=true;
+                      break;
+    case 'Vegan':
+                      _isSelected[2]=true;
+                      break;
+  }
     return MaterialApp(
       home: Scaffold(
         appBar: CommonAppBar(
@@ -77,8 +100,18 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
                         _isSelected[i] = false;
                       }
                       _isSelected[index] = true;
+                      switch(index)
+                      {
+                        case 0: _foodPreference='Vegetarian';
+                                break;
+                        case 1: _foodPreference='Non-vegetarian';
+                                break;
+                        case 2: _foodPreference='Vegan';
+                                break;
+                      }
                     });
                   },
+                  
                 ),
               ),
 
@@ -90,7 +123,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
                     Column(
                       children: <Widget>[
                         Text(
-                          'Target Carbs',
+                          'Target Calories',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             color: Colors.teal.shade600,
@@ -103,6 +136,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
                           margin: EdgeInsets.only(top: 15),
                           child: TextFormField(
                               // The validator receives the text that the user has entered.
+                              initialValue: foodPreference['targetCalories'],
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
@@ -117,7 +151,10 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
                                   return 'Please enter some text';
                                 }
                                 return null;
-                              }),
+                              },
+                              onSaved: (String value) {
+                                 _targetCalories = value as int;
+                         },),
                         ),
                       ],
                     ),
@@ -151,7 +188,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
                                   return 'Please enter some text';
                                 }
                                 return null;
-                              }),
+                              },),
                         ),
                       ],
                     ),
@@ -168,7 +205,10 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
                   right: 30,
                 ),
                 child: RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    UserManager usermgr=new UserManager();
+                    usermgr.updateFoodPref(_dietRestrictions, _foodPreference, _targetCalories);
+                  },
                   color: Colors.pink[100],
                   child: Text(
                     'Update Preferences',

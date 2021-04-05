@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
+import '../controller/UserMgr.dart';
 
 /*
 return MaterialApp(
@@ -409,7 +410,10 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
 
                         Currently only NAVIGATION is implemented
                         */
-
+                          UserManager usermgr=new UserManager();
+                          usermgr.updateOnSignup(dateOfBirth, _gender, _location, _weight, _height, _type);
+                          Map<String,dynamic> details=UserManager.getProfileDetails();
+                          print(details);
                           Navigator.of(context).pushNamed('/home');
                         }),
                   ),
