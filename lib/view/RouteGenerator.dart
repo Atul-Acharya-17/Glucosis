@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/view/LoginPage.dart';
+import 'ChooseMealPlanScreen.dart';
+import 'FoodMainPage.dart';
 import 'LoginPage.dart';
 import 'HomePage.dart';
 import 'CreateAccountPage.dart';
 import 'AccountDetailsPage.dart';
 import 'ExercisePage.dart';
 import 'GlucosePage.dart';
+import 'MealLog.dart';
 import 'Medication.dart';
 import 'ProfilePage.dart';
 import 'LogGlucose.dart';
@@ -46,6 +49,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => DailySchedule());
       case '/logbook':
         return MaterialPageRoute(builder: (context) => LogBookPage());
+      case '/food':
+        return MaterialPageRoute(builder: (context) => FoodMainPage());
+      case '/mealLog':
+        return MaterialPageRoute(builder: (context) => MealLogPage());
+      case '/mealPlanChange':
+        return MaterialPageRoute(builder: (context) => ChooseMealPlan());
+
     }
   }
 }

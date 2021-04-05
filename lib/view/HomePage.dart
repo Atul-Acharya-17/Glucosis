@@ -2,24 +2,55 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:flutterapp/view/LogBookPage.dart';
 import '../model/Data.dart';
 import '../view/NavigationBar.dart';
 import '../view/AppBar.dart';
 import '../controller/LogBookMgr.dart';
+import './LogbookPage.dart';
+
+
+void main(){
+  runApp(MaterialApp(
+    title: 'Diabetes App',
+    home: HomePage(),
+    theme: ThemeData(
+      // Define the default brightness and colors.
+      primaryColor: Colors.teal.shade800,
+      backgroundColor: Colors.pink.shade100,
+
+      // Define the default font family.
+      fontFamily: 'Roboto',
+
+      // Define the default TextTheme. Use this to specify the default
+      // text styling for headlines, titles, bodies of text, and more.
+      textTheme: TextTheme(
+          headline3: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black),
+          headline4: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.teal.shade800),
+          headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
+          headline6: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Colors.black)),
+    ),),);
+}
+
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: CommonAppBar(
           title: 'Overview',
         ),
         body: Body(),
         bottomNavigationBar: NavigationBar(),
-      ),
-    );
+      );
   }
 }
 
@@ -34,6 +65,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final double graphsHeight = height * 0.3;

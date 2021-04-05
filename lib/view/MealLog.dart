@@ -1,42 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/view/AppBar.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:intl/intl.dart';
 
 
-//void main() => runApp(ExercisePage());
+void main() => runApp(MaterialApp(
+  title: 'Diabetes App',
+  home: MealLogPage(),
+  theme: ThemeData(
+    // Define the default brightness and colors.
+    primaryColor: Colors.teal.shade800,
+    backgroundColor: Colors.pink.shade100,
+
+    // Define the default font family.
+    fontFamily: 'Roboto',
+
+    // Define the default TextTheme. Use this to specify the default
+    // text styling for headlines, titles, bodies of text, and more.
+    textTheme: TextTheme(
+        headline3: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black),
+        headline4: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.teal.shade800),
+        headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
+        headline6: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Colors.black)),
+  ),),);
 
 /// UI screen for logging meal entries.
 class MealLogPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Diabetes App',
-        home: MealLogPageState(),
-        theme: ThemeData(
-          // Define the default brightness and colors.
-          primaryColor: Colors.teal.shade800,
-          backgroundColor: Colors.pink.shade100,
-
-          // Define the default font family.
-          fontFamily: 'Roboto',
-
-          // Define the default TextTheme. Use this to specify the default
-          // text styling for headlines, titles, bodies of text, and more.
-          textTheme: TextTheme(
-              headline3: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-              headline4: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal.shade800),
-              headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
-              headline6: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black)),
-        ));
+    return MealLogPageState();
   }
 }
 class MealLogPageState extends StatefulWidget {
@@ -77,17 +78,7 @@ class MealLogForm extends State<MealLogPageState> {
   Widget build(BuildContext context) {
     double progressValue = 153;
     return Scaffold(
-        appBar: AppBar(
-            title:
-            Text('Meal log', style: TextStyle(color: Colors.pink.shade100)),
-            centerTitle: true,
-            leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.pink.shade100,
-                ),
-                onPressed: null),
-            backgroundColor: Colors.teal.shade800),
+        appBar: CommonAppBar(title:"Meal Log"),
         body: SingleChildScrollView(
             child: Container(
                 padding: EdgeInsets.only(left: 20, right: 20),

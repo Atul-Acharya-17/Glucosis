@@ -4,8 +4,33 @@ import 'HomePage.dart';
 import 'NavigationBar.dart';
 
 void run() => MaterialApp(
-      home: GlucosePage(),
-    );
+  title: 'Diabetes App',
+  home: GlucosePage(),
+  theme: ThemeData(
+    // Define the default brightness and colors.
+    primaryColor: Colors.teal.shade800,
+    backgroundColor: Colors.pink.shade100,
+
+    // Define the default font family.
+    fontFamily: 'Roboto',
+
+    // Define the default TextTheme. Use this to specify the default
+    // text styling for headlines, titles, bodies of text, and more.
+    textTheme: TextTheme(
+        headline3: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black),
+        headline4: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.teal.shade800),
+        headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
+        headline6: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Colors.black)),
+  ),);
 
 /// UI for main glucose page.
 class GlucosePage extends StatelessWidget {

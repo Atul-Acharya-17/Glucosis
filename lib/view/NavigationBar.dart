@@ -58,7 +58,9 @@ class NavigationBar extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed('/food');
+            },
             child: Image.asset(
               'images/diet.jpg',
               height: navigationBarHeight,
