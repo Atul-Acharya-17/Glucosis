@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/controller/LogBookMgr.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
 import 'package:intl/intl.dart';
 import './AppBar.dart';
@@ -76,6 +77,9 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
+  double _glucoseLevel;
+  bool beforeMeal;
+
   DateTime currentDate = DateTime.now().toLocal();
   DateFormat formatter = DateFormat('yyyy-MM-dd');
 
@@ -107,6 +111,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
+    Widget customRadio = CustomRadio(text1: 'Before meal', text2: 'After meal');
     // Build a Form widget using the _formKey created above.
     return Form(
         key: _formKey,
@@ -144,6 +149,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 if (value.isEmpty) {
                                   return 'Please enter some text';
                                 }
+                                _glucoseLevel = double.parse(value);
                                 return null;
                               },
                             ),
@@ -166,8 +172,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                             style: TextStyle(
                                 fontSize: 20, color: Colors.teal.shade800),
                           ))),
-                  CustomRadio(text1: 'Before meal', text2: 'After meal'),
-
+                  customRadio,
                   // Add TextFormFields and ElevatedButton here.
                   Container(
                       child: Padding(
@@ -238,6 +243,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 // If the form is valid, display a snackbar. In the real world,
                                 // you'd often call a server or save the information in a database.
 
+                                bool beforeMeal = CustomRadio.beforeMeal;
+                                print(beforeMeal);
+                                print(_glucoseLevel);
+                                print(currentDate);
+                                print(_time);
+
+                                LogBookMgr.addGlucoseRecord(_glucoseLevel, currentDate, beforeMeal);
+
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible:
@@ -293,6 +306,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                             child: Text("Log Entry",
                                 style: Theme.of(context).textTheme.headline3),
                           )))
-                ])));
+                ],),),);
   }
 }

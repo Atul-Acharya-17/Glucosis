@@ -37,7 +37,7 @@ class FoodLogBook {
       chartData.add(
         Data(
           dateTime: record.dateTime,
-          y: record.calories,
+          y: double.parse(record.calories.toString()),
         ),
       );
     }
