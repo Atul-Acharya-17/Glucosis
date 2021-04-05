@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_core/firebase_core.dart';
 import '../model/User.dart';
+import '../model/GlucoseRecord.dart';
+import '../model/FoodRecord.dart';
+import '../model/ExerciseRecord.dart';
 
 /// Controller class for user entity, which retrieves user details from a users database.
 class UserManager
@@ -175,6 +178,21 @@ void updateOnSignup(DateTime dateOfBirth,String gender,String location, double w
     String getCurrentUserEmail()
     {
        return user.email;
+    }
+
+    void addGlucoseRecord(GlucoseRecord gr)
+    {
+
+    }
+
+    void addExerciseRecord(FoodRecord fr)
+    {
+
+    }
+
+    void addFoodRecord(ExerciseRecord er)
+    {
+
     }
 
 
