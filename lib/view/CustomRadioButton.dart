@@ -5,7 +5,7 @@ class CustomRadio extends StatefulWidget {
   CustomRadio({@required this.text1, this.text2});
   final String text1;
   final String text2;
-  static bool beforeMeal;
+  static bool toggle;
   @override
   createState() {
     return new CustomRadioState(text1, text2);
@@ -49,9 +49,9 @@ class CustomRadioState extends State<CustomRadio> {
                 sampleData.forEach((element) => element.isSelected = false);
                 sampleData[index].isSelected = true;
                 if(index == 0)
-                  CustomRadio.beforeMeal = true;
+                  CustomRadio.toggle = true;
                 else
-                  CustomRadio.beforeMeal = false;
+                  CustomRadio.toggle = false;
               });
             },
 

@@ -230,11 +230,21 @@ class MyCustomFormState extends State<MyCustomForm> {
                       if (_formKey.currentState.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
+
+                        DateTime now = new DateTime.now();
+
+                        GlucoseReminderMgr.addReminder(DateTime(now.year, now.month, now.day, _time.hour, _time.minute));
+                        
+                        /*
+
+                        Change to form data
+
                         GlucoseReminderMgr mgr =
                             new GlucoseReminderMgr('nishasnr@gmail.com');
                         DateTime date = DateTime.parse("1969-07-20 20:18:04Z");
                         GlucoseReminder ent = GlucoseReminder(timings: date);
                         mgr.addReminder(ent);
+                         */
                         return showDialog<void>(
                           context: context,
                           barrierDismissible: false, // user must tap button!

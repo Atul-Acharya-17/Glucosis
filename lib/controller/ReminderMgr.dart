@@ -5,7 +5,6 @@ import 'package:flutterapp/model/MedicationReminder.dart';
 
 /// Abstract class for reminder controllers.
 abstract class ReminderMgr {
-  CollectionReference medicationReminders;
 
   ReminderMgr(String email) {
     Future<void> addReminder() {}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutterapp/controller/MedicationReminderMgr.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
 import 'package:flutterapp/view/CustomRadioButton.dart';
 import './AppBar.dart';
@@ -294,6 +295,10 @@ class MyCustomFormState extends State<MyCustomForm> {
   String dropdownValue = 'mL';
   TimeOfDay _time = TimeOfDay.now();
 
+  String dosage;
+  String medicineName;
+  String type;
+
   void _selectTime(BuildContext context) async {
     final TimeOfDay newTime = await showTimePicker(
       context: context,
@@ -344,6 +349,9 @@ class MyCustomFormState extends State<MyCustomForm> {
               }
               return null;
             },
+          onSaved: (String value) {
+            medicineName = value;
+          },
           ),
           Container(
             child: Row(
@@ -369,6 +377,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                         return 'Please enter some text';
                       }
                       return null;
+                    },
+                    onSaved: (String value) {
+                      dosage = value;
                     },
                   ),
                 ),
@@ -463,6 +474,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                   if (_formKey.currentState.validate()) {
                     // If the form is valid, display a snackbar. In the real world,
                     // you'd often call a server or save the information in a database.
+                    _formKey.currentState.save();
+
+                    String type = CustomRadio.toggle? "Pills": "Syringe";
+                    DateTime now = new DateTime.now();
+
+                    MedicationReminderMgr.addReminder(medicineName, dosage, type, DateTime(now.year, now.month, now.day, _time.hour, _time.minute));
+
 
                     return showDialog<void>(
                       context: context,
