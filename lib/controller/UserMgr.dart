@@ -17,7 +17,7 @@ class UserManager {
   static User user;
 
   /// Adds a user to the user database.
-  static Future<void> addUser(
+  /*static Future<void> addUser(
       String email,
       DateTime birthday,
       String diabetesType,
@@ -51,7 +51,7 @@ class UserManager {
         })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
-  }
+  }*/
 
 //function to be called after initial signup
 
@@ -78,6 +78,9 @@ class UserManager {
           'name': name,
           'phone number': phoneNumber,
           'targetCalories': null,
+          'targetCarbs':null,
+          'minGlucose':null,
+          'maxGlucose':null,
           'weight': null,
           /*'DOB': Timestamp.fromDate(_dateOfBirth),
       'diabetes type':_diabetesType,
@@ -97,21 +100,25 @@ class UserManager {
         .catchError((error) => print("Failed to add  new user: $error"));
   }
 
-//function to be called after second page of signup
-
-  static void updateOnSignup(
+  static void updateProfilePage(
       DateTime dateOfBirth,
       String gender,
       String location,
       double weight,
       double height,
-      String diabetesType) async {
+      String diabetesType, //should be toggle in ui?
+      double minGluc, //should use the same ui element as accountdetailspage?
+      double maxGluc ,
+      String name,
+      String phoneNumber) async {
     user.setDob = dateOfBirth;
     user.setGender = gender;
     user.setLocation = location;
     user.setWeight = weight;
     user.setHeight = height;
     user.setDiabetesType = diabetesType;
+    user.setMinTargetGlucose=minGluc;
+    user.setMaxTargetGlucose=maxGluc;
     await users
         .doc(user.email)
         .update({
@@ -120,23 +127,64 @@ class UserManager {
           "location": location,
           "weight": weight,
           "height": height,
-          "diabetes type": diabetesType
+          "diabetes type": diabetesType,
+          'minGlucose':minGluc,
+          'maxGlucose':maxGluc
         })
         .then((value) => print("succesful update"))
         .catchError((error) => print("Failed to update"));
   }
 
+//function to be called after second page of signup to update corresponding user details
+
+  static void updateOnSignup(
+      DateTime dateOfBirth,
+      String gender,
+      String location,
+      double weight,
+      double height,
+      String diabetesType,
+      double minGluc,
+      double maxGluc ) async {
+    user.setDob = dateOfBirth;
+    user.setGender = gender;
+    user.setLocation = location;
+    user.setWeight = weight;
+    user.setHeight = height;
+    user.setDiabetesType = diabetesType;
+    user.setMinTargetGlucose=minGluc;
+    user.setMaxTargetGlucose=maxGluc;
+    await users
+        .doc(user.email)
+        .update({
+          'DOB': Timestamp.fromDate(dateOfBirth),
+          'gender': gender,
+          "location": location,
+          "weight": weight,
+          "height": height,
+          "diabetes type": diabetesType,
+          'minGlucose':minGluc,
+          'maxGlucose':maxGluc
+        })
+        .then((value) => print("succesful update"))
+        .catchError((error) => print("Failed to update"));
+  }
+
+  //to update food preferences
+
   static void updateFoodPref(List<String> dietaryRestrictions,
-      String foodPreference, int targetCalories) async {
+      String foodPreference, int targetCalories, int targetCarbs) async {
     user.setdietRestrictions = dietaryRestrictions;
     user.setFoodPreference = foodPreference;
     user.setTargetCalories = targetCalories;
+    user.setTargetCarbs=targetCarbs;
     await users
         .doc(user.email)
         .update({
           'dietary restrictions': dietaryRestrictions,
           'food preference': foodPreference,
-          'targetCalories': targetCalories
+          'targetCalories': targetCalories,
+          'targetCarbs': targetCarbs
         })
         .then((value) => print("succesful update"))
         .catchError((error) => print("Failed to update"));
@@ -165,6 +213,9 @@ class UserManager {
             phoneNumber: documentSnapshot['phone number'],
             //need to change this to int or update type to string in db
             targetCalories: documentSnapshot['targetCalories'],
+            targetCarbs: documentSnapshot['targetCarbs'],
+            minGlucose: documentSnapshot['minGlucose'],
+            maxGlucose: documentSnapshot['maxGlucose'],
             weight: documentSnapshot['weight'],
             email: email);
       } else {
@@ -175,6 +226,7 @@ class UserManager {
     print(getProfileDetails());
   }
 
+//to get all profile details for the profile page
   static Map<String, dynamic> getProfileDetails() {
     Map<String, dynamic> profileDetails = {
       'email': user.email,
@@ -185,6 +237,9 @@ class UserManager {
       'location': user.location,
       'diabetesType': user.diabetesType,
       'targetCalories': user.targetCalories,
+      'targetCarbs':user.targetCarbs,
+      'minGlucose':user.minGlucose,
+      'maxGlucose':user.maxGlucose,
       'dietaryRestrictions': user.dietRestrictions,
       'foodPreference': user.foodPreference,
       'exercisePreference': user.exercisePreference,
@@ -194,11 +249,13 @@ class UserManager {
     return profileDetails;
   }
 
+  // to display the info in the updatefoodpreferences page
   static Map<String, dynamic> getFoodPreferenceDetails() {
     Map<String, dynamic> foodProfileDetails = {
       'targetCalories': user.targetCalories,
       'dietaryRestrictions': user.dietRestrictions,
       'foodPreference': user.foodPreference,
+      'targetCarbs':user.targetCarbs
     };
     return foodProfileDetails;
   }

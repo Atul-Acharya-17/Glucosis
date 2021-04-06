@@ -48,6 +48,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
   Map<String,dynamic> foodPreference = UserManager.getFoodPreferenceDetails();
   String _foodPreference;
   int _targetCalories;
+  int _targetCarbs;
   List<String> _dietRestrictions;
   //need to add UI field for dietary restrictions
 
@@ -55,6 +56,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
     _foodPreference=foodPreference['foodPreference'];
     _targetCalories=foodPreference['targetCalories'];
     _dietRestrictions=foodPreference['dietaryRestrictions'];
+    _targetCarbs=foodPreference['targetCarbs'];
      switch(foodPreference['foodPreference'])
   {
     case 'Vegetarian':
@@ -188,7 +190,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
                     Column(
                       children: <Widget>[
                         Text(
-                          'Target Sugar',
+                          'Target Carbs',
                           style: TextStyle(
                             color: Colors.teal.shade600,
                             fontSize: 20,
@@ -199,6 +201,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
                           width: 120,
                           height: 50,
                           child: TextFormField(
+                               initialValue: foodPreference['targetCarbs'],
                               // The validator receives the text that the user has entered.
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
@@ -232,8 +235,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
                 ),
                 child: RaisedButton(
                   onPressed: () {
-                    UserManager usermgr=new UserManager();
-                    UserManager.updateFoodPref(_dietRestrictions, _foodPreference, _targetCalories);
+                    UserManager.updateFoodPref(_dietRestrictions, _foodPreference, _targetCalories,_targetCarbs);
                   },
                   color: Colors.pink[100],
                   child: Text(

@@ -184,6 +184,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildRange() {
+    _targetRange=RangeValues(profileDetails['minGlucose'],profileDetails['maxGlucose']);
     return RangeSlider(
       values: _targetRange,
       min: 70,
@@ -411,6 +412,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildCarbs() {
+    _carbs=profileDetails['targetCarbs'];
     return TextFormField(
       decoration: new InputDecoration(
         isDense: true,

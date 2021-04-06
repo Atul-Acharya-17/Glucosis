@@ -4,6 +4,10 @@ target range [min, max]
 import '../model/ExerciseLogBook.dart';
 import '../model/GlucoseLogBook.dart';
 import '../model/FoodLogBook.dart';
+import '../model/ExercisePlan.dart';
+import '../model/MealPlan.dart';
+import '../model/MedicationReminder.dart';
+import '../model/GlucoseReminders.dart';
 // need to check if date of birth and target range have been added to account details, profilepage and food preference
 /// Entity representing the user, their personal details, and the logbooks, plans and reminders associated with them.
 class User {
@@ -20,12 +24,16 @@ class User {
   String _gender;
   int _targetCalories;
   int _targetCarbs;
-  int _minGlucose;
-  int _maxGlucose;
+  double _minGlucose;
+  double _maxGlucose;
   DateTime _dateOfBirth;
   ExerciseLogBook _exerciseLogBook;
   FoodLogBook _foodLogBook;
   GlucoseLogBook _glucoseLogBook;
+  List<MedicationReminder> _medicationReminders;
+  List<GlucoseReminder> _glucoseReminders;
+  ExercisePlan _exercisePlan;
+  MealPlan _mealPlan;
 
 
   User(
@@ -42,8 +50,8 @@ class User {
       String gender,
       int targetCalories,
       int targetCarbs,
-      int minGlucose,
-      int maxGlucose,
+      double minGlucose,
+      double maxGlucose,
       DateTime dateOfBirth})
       : _name = name,
         _email = email,
@@ -100,6 +108,15 @@ class User {
 
   get glucoseLogBook => _glucoseLogBook;
 
+  get medicationReminders =>_medicationReminders;
+ 
+  get glucoseReminders => _glucoseReminders;
+
+  get exercisePlan => _exercisePlan;
+
+  get mealPlan =>_mealPlan;
+
+
   set setName(String name) {
     _name = name;
   }
@@ -148,11 +165,11 @@ class User {
     _targetCarbs = carbs;
   }
 
-  set setMinTargetGlucose(int minGlucose) {
+  set setMinTargetGlucose(double minGlucose) {
     _minGlucose = minGlucose;
   }
 
-  set setMaxTargetGlucose(int maxGlucose) {
+  set setMaxTargetGlucose(double maxGlucose) {
     _maxGlucose = maxGlucose;
   }
 
@@ -173,5 +190,35 @@ class User {
   set setFoodLogBook(FoodLogBook foodLogBook)
   {
     _foodLogBook=foodLogBook;
+  }
+
+  set setMedicationReminders(List<MedicationReminder> medicationReminders)
+  {
+    _medicationReminders=medicationReminders;
+  }
+
+  set setGlucoseReminders(List<GlucoseReminder> glucoseReminders)
+  {
+    _glucoseReminders=glucoseReminders;
+  }
+
+  set setExercisePlan(ExercisePlan exercisePlan)
+  {
+    _exercisePlan=exercisePlan;
+  }
+
+  set setMealPlan(MealPlan mealPlan)
+  {
+    _mealPlan=mealPlan;
+  }
+
+  void addGlucoseReminder(GlucoseReminder gr)
+  {
+    _glucoseReminders.add(gr);
+  }
+
+  void addMedicationReminder(MedicationReminder mr)
+  {
+    _medicationReminders.add(mr);
   }
 }
