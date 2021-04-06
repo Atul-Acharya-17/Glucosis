@@ -61,6 +61,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => FoodLibraryPage());
       case '/updateFoodPref':
         return MaterialPageRoute(builder: (context) => UpdateFoodPreference());
+      case '/password':
+        return MaterialPageRoute(builder: (context) => PasswordPage());
 
     }
   }

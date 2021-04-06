@@ -21,9 +21,7 @@ void main() {
         // text styling for headlines, titles, bodies of text, and more.
         textTheme: TextTheme(
             headline3: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black),
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
             headline4: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -33,8 +31,106 @@ void main() {
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
                 color: Colors.black)),
-      ),),
+      ),
+    ),
   );
+}
+
+/// UI screen for changing password.
+class PasswordPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return PasswordScreen();
+  }
+}
+
+class PasswordScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return PasswordScreenState();
+  }
+}
+
+class PasswordScreenState extends State<PasswordScreen> {
+  String _password;
+  String _passwordn1;
+  String _passwordn2;
+
+  Widget _buildText(String text) {
+    return Text(
+      text,
+      style: TextStyle(fontSize: 16, color: Theme.of(context).backgroundColor),
+    );
+  }
+
+  Widget _buildPassword(String varValue, String hintText) {
+    return TextFormField(
+      decoration: new InputDecoration(
+        isDense: true,
+        contentPadding:
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+        border: OutlineInputBorder(),
+        hintText: hintText,
+        filled: true,
+        fillColor: Colors.white,
+      ),
+      keyboardType: TextInputType.visiblePassword,
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Password is Required';
+        }
+        return null;
+      },
+      onSaved: (String value) {
+        varValue = value;
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CommonAppBar(
+        title: 'Change Password',
+      ),
+      bottomNavigationBar: NavigationBar(),
+      body: Container(
+        padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+        width: double.infinity,
+        color: Theme.of(context).canvasColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _buildText("Enter old password:"),
+            _buildPassword(_password, "Old password"),
+            const SizedBox(height: 5),
+            _buildText("Enter new password:"),
+            _buildPassword(_passwordn1, "New password"),
+            const SizedBox(height: 5),
+            _buildText("Re-enter new password:"),
+            _buildPassword(_passwordn2, "New password"),
+            const SizedBox(height: 15),
+            Center(
+              child: ElevatedButton(
+                    child: Text("Change password",
+                        style: TextStyle(fontSize: 20, color: Colors.black)),
+                    style: ElevatedButton.styleFrom(
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      primary: Theme.of(context).primaryColor,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/profile');
+                    }),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 /// UI screen for viewing and editing user's details.
@@ -53,10 +149,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class ProfileScreenState extends State<ProfileScreen> {
-
-   //integration for password and target range needs to be done 
-   //replace carbs with date of birth?
-  Map<String, dynamic> profileDetails= UserManager.getProfileDetails();
+  //integration for password and target range needs to be done
+  Map<String, dynamic> profileDetails = UserManager.getProfileDetails();
   String _name = "my name";
   String _gender = "female";
   double _weight = 50;
@@ -86,6 +180,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         dateOfBirth = pickedDate;
       });
   }
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildHeader(String header) {
@@ -93,28 +188,27 @@ class ProfileScreenState extends State<ProfileScreen> {
       width: double.infinity,
       child: Row(
         children: <Widget>[
-            Expanded(
-              child: new Container(
-                  margin: const EdgeInsets.only(right: 20.0),
-                  child: Divider(
-                    color: Colors.black,
-                    height: 0,
-                  )
-              ),
-            ),
-            Text(header),
-            Expanded(
-              child: new Container(
-                  margin: const EdgeInsets.only(left: 20.0),
-                  child: Divider(
-                    color: Colors.black,
-                    height: 0,
-                  ),
-              ),
-            ),
-          ],
+          Expanded(
+            child: new Container(
+                margin: const EdgeInsets.only(right: 20.0),
+                child: Divider(
+                  color: Colors.black,
+                  height: 0,
+                )),
           ),
-      );
+          Text(header),
+          Expanded(
+            child: new Container(
+              margin: const EdgeInsets.only(left: 20.0),
+              child: Divider(
+                color: Colors.black,
+                height: 0,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildDOB() {
@@ -140,7 +234,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildEmail() {
-    _email=profileDetails['email'];
+    _email = profileDetails['email'];
     return TextFormField(
       initialValue: _email,
       decoration: new InputDecoration(
@@ -169,33 +263,8 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildPassword() {
-    return TextFormField(
-      initialValue: _password,
-      decoration: new InputDecoration(
-        isDense: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
-        hintText: "Password",
-        filled: true,
-        fillColor: Colors.white,
-      ),
-      keyboardType: TextInputType.visiblePassword,
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Password is Required';
-        }
-        return null;
-      },
-      onSaved: (String value) {
-        _password = value;
-      },
-    );
-  }
-
   Widget _buildName() {
-    _name=profileDetails['name'];
+    _name = profileDetails['name'];
     return TextFormField(
       initialValue: _name,
       decoration: new InputDecoration(
@@ -222,7 +291,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildPhoneNumber() {
-    _phoneNumber=profileDetails['phoneNumber'];
+    _phoneNumber = profileDetails['phoneNumber'];
     return TextFormField(
       initialValue: _phoneNumber,
       decoration: new InputDecoration(
@@ -249,7 +318,8 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildRange() {
-    _targetRange=RangeValues(profileDetails['minGlucose'],profileDetails['maxGlucose']);
+    _targetRange =
+        RangeValues(profileDetails['minGlucose'], profileDetails['maxGlucose']);
     return RangeSlider(
       values: _targetRange,
       min: 70,
@@ -270,7 +340,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildLocation() {
-    _location=profileDetails['location'];
+    _location = profileDetails['location'];
     return TextFormField(
       initialValue: _location,
       decoration: new InputDecoration(
@@ -295,10 +365,9 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-
- //need to change this to toggle buttons
+  //need to change this to toggle buttons
   Widget _buildFoodPreference() {
-    _foodPreference= profileDetails['foodPreference'];
+    _foodPreference = profileDetails['foodPreference'];
     return TextFormField(
       initialValue: _foodPreference,
       decoration: new InputDecoration(
@@ -324,9 +393,8 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildDietRestrictions() {
-    if(profileDetails['dietaryRestrictions']!=null)
-    {
-    _dietRestrictions=profileDetails['dietaryRestrictions'];
+    if (profileDetails['dietaryRestrictions'] != null) {
+      _dietRestrictions = profileDetails['dietaryRestrictions'];
     }
     return TextFormField(
       initialValue: _dietRestrictions,
@@ -347,7 +415,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildExercisePreference() {
-    _exercisePreference= profileDetails['exercisePreference'];
+    _exercisePreference = profileDetails['exercisePreference'];
     return TextFormField(
       initialValue: _exercisePreference,
       decoration: new InputDecoration(
@@ -373,59 +441,50 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildGender() {
-    _gender= profileDetails['gender'];
-    return TextFormField(
-      initialValue: _gender,
-      decoration: new InputDecoration(
-        isDense: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
-        hintText: "Gender",
-        filled: true,
-        fillColor: Colors.white,
-      ),
-      keyboardType: TextInputType.text,
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Gender is Required';
-        }
-        return null;
-      },
-      onSaved: (String value) {
-        _gender = value;
-      },
-    );
+    return _buildDropDown(
+        ['female', 'Male', 'Other'], _gender = profileDetails['gender']);
   }
 
   Widget _buildType() {
-    _type= profileDetails['diabetesType'];
-    return TextFormField(
-      initialValue: _type,
-      decoration: new InputDecoration(
-        isDense: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
-        hintText: "Type",
-        filled: true,
-        fillColor: Colors.white,
+    return _buildDropDown(['Type I', 'type2', 'Prediabetes'],
+        _type = profileDetails['diabetesType']);
+  }
+
+  Widget _buildDropDown(List<String> dropdownMenuItemList, String varValue) {
+    _gender = profileDetails['gender'];
+    return Container(
+      height: 30,
+      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        border: Border.all(
+          color: Colors.black,
+          width: 1,
+        ),
       ),
-      keyboardType: TextInputType.text,
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Type is Required';
-        }
-        return null;
-      },
-      onSaved: (String value) {
-        _type = value;
-      },
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: varValue,
+          style: TextStyle(color: Colors.black),
+          items: dropdownMenuItemList
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+          onChanged: (String value) {
+            setState(() {
+              varValue = value;
+            });
+          },
+        ),
+      ),
     );
   }
 
   Widget _buildWeight() {
-    _weight=profileDetails['weight'];
+    _weight = profileDetails['weight'];
     return TextFormField(
       decoration: new InputDecoration(
         isDense: true,
@@ -451,7 +510,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildHeight() {
-    _height=profileDetails['height'];
+    _height = profileDetails['height'];
     return TextFormField(
       decoration: new InputDecoration(
         isDense: true,
@@ -477,7 +536,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildCarbs() {
-    _carbs=profileDetails['targetCarbs'];
+    _carbs = profileDetails['targetCarbs'];
     return TextFormField(
       decoration: new InputDecoration(
         isDense: true,
@@ -503,7 +562,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildCalories() {
-    _calories=profileDetails['targetCalories'];
+    _calories = profileDetails['targetCalories'];
     return TextFormField(
       decoration: new InputDecoration(
         isDense: true,
@@ -553,15 +612,14 @@ class ProfileScreenState extends State<ProfileScreen> {
                       fontSize: 16, color: Theme.of(context).backgroundColor),
                 ),
                 _buildEmail(),
-                const SizedBox(height: 5),
-                Text(
-                  "Change password",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).backgroundColor),
+                TextButton(
+                  child: Text("Change password",
+                      style: TextStyle(
+                          fontSize: 16, color: Theme.of(context).primaryColor)),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/password');
+                  },
                 ),
-                _buildPassword(),
-                const SizedBox(height: 5),
-
                 // Divider(
                 //   color: Colors.black,
                 //   height: 10,
@@ -651,8 +709,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                 Text(
                   "Date of birth",
                   style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).backgroundColor),),
+                      fontSize: 16, color: Theme.of(context).backgroundColor),
+                ),
                 const SizedBox(height: 5),
                 Container(
                   child: _buildDOB(),
@@ -671,7 +729,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 color: Theme.of(context).backgroundColor),
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.3,
+                            width: MediaQuery.of(context).size.width * 0.35,
                             child: _buildType(),
                           ),
                         ],
@@ -685,8 +743,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 color: Theme.of(context).backgroundColor),
                           ),
                           Container(
-                            height:30,
-                            width: MediaQuery.of(context).size.width * 0.55,
+                            height: 30,
+                            width: MediaQuery.of(context).size.width * 0.5,
                             child: _buildRange(),
                           ),
                         ],
@@ -753,7 +811,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                             return;
                           }
                           _formKey.currentState.save();
-                          UserManager usermgr=new UserManager();
+                          UserManager usermgr = new UserManager();
                           //need to add dob and target range to profile page screen
                           //usermgr.addUser(_email, _dob, _type, _dietRestrictions.split(','), _exercisePreference,_foodPreference, _gender, _height, _location, _name, _phoneNumber, _calories, _weight, _targetRange);
                         }),
