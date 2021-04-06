@@ -9,6 +9,10 @@ import '../controller/LogBookMgr.dart';
 import '../model/ExerciseLogBook.dart';
 import '../model/GlucoseLogBook.dart';
 import '../model/FoodLogBook.dart';
+import '../model/ExercisePlan.dart';
+import '../model/MealPlan.dart';
+import '../model/MedicationReminder.dart';
+import '../model/GlucoseReminders.dart';
 
 /// Controller class for user entity, which retrieves user details from a users database.
 class UserManager {
@@ -278,6 +282,22 @@ class UserManager {
     user.foodLogBook.addRecord(fr);
   }
 
+  static void addMedicationReminder(MedicationReminder mr) {
+    user.addMedicationReminder(mr);
+  }
+
+  static void addGlucoseReminder(GlucoseReminder gr) {
+    user.addGlucoseReminder(gr);
+  }
+
+  static void setUserMealPlan(MealPlan mp){
+    user.setMealPlan=mp;
+  }
+
+  static void setUserExercisePlan(ExercisePlan ep){
+    user.setExercisePlan=ep;
+  }
+
   static Future<void> setLogBooks() async {
     await setUserGlucoseLogBook();
     print("111");
@@ -327,5 +347,25 @@ class UserManager {
   static FoodLogBook getFoodLogBook() {
     print(user.foodLogBook);
     return user.foodLogBook;
+  }
+
+  static List<MedicationReminder> getMedicationReminders()
+  {
+     return user.medicationReminders;
+  } 
+
+  static List<GlucoseReminder> getGlucoseReminders()
+  {
+    return user.glucoseReminders;
+  }
+
+  static ExercisePlan getExercisePlan()
+  {
+    return user.exercisePlan;
+  }
+
+  static MealPlan getMealPlan()
+  {
+    return user.mealPlan;
   }
 }
