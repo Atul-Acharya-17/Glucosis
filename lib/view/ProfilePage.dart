@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'NavigationBar.dart';
 import 'AppBar.dart';
 import '../controller/UserMgr.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(
@@ -71,8 +72,72 @@ class ProfileScreenState extends State<ProfileScreen> {
   String _phoneNumber = "65659393";
   String _email = "hello@gmail.com";
   String _password = "********";
+  DateTime dateOfBirth = DateTime.now().toLocal();
+  DateFormat formatter = DateFormat('yyyy-MM-dd');
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
+        context: context,
+        initialDate: dateOfBirth,
+        firstDate: DateTime(1900),
+        lastDate: DateTime(2022));
+    if (pickedDate != null && pickedDate != dateOfBirth)
+      setState(() {
+        dateOfBirth = pickedDate;
+      });
+  }
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  Widget _buildHeader(String header) {
+    return Container(
+      width: double.infinity,
+      child: Row(
+        children: <Widget>[
+            Expanded(
+              child: new Container(
+                  margin: const EdgeInsets.only(right: 20.0),
+                  child: Divider(
+                    color: Colors.black,
+                    height: 0,
+                  )
+              ),
+            ),
+            Text(header),
+            Expanded(
+              child: new Container(
+                  margin: const EdgeInsets.only(left: 20.0),
+                  child: Divider(
+                    color: Colors.black,
+                    height: 0,
+                  ),
+              ),
+            ),
+          ],
+          ),
+      );
+  }
+
+  Widget _buildDOB() {
+    return Container(
+      padding: new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+      //width: MediaQuery.of(context).size.width * 0.40,
+      height: 50,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.grey[400]),
+          borderRadius: BorderRadius.circular(3.0)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(formatter.format(dateOfBirth),
+              style: TextStyle(fontSize: 16, color: Colors.black)),
+          IconButton(
+              icon: Icon(Icons.calendar_today_sharp),
+              onPressed: () => _selectDate(context)),
+        ],
+      ),
+    );
+  }
 
   Widget _buildEmail() {
     _email=profileDetails['email'];
@@ -481,6 +546,28 @@ class ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: 5),
+                _buildHeader("Account details"),
+                Text(
+                  "Email address",
+                  style: TextStyle(
+                      fontSize: 16, color: Theme.of(context).backgroundColor),
+                ),
+                _buildEmail(),
+                const SizedBox(height: 5),
+                Text(
+                  "Change password",
+                  style: TextStyle(
+                      fontSize: 16, color: Theme.of(context).backgroundColor),
+                ),
+                _buildPassword(),
+                const SizedBox(height: 5),
+
+                // Divider(
+                //   color: Colors.black,
+                //   height: 10,
+                // ),
+                _buildHeader("Personal details"),
+                const SizedBox(height: 5),
                 Text(
                   "Name",
                   style: TextStyle(
@@ -561,6 +648,17 @@ class ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ]),
                 const SizedBox(height: 5),
+                Text(
+                  "Date of birth",
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).backgroundColor),),
+                const SizedBox(height: 5),
+                Container(
+                  child: _buildDOB(),
+                  height: 40,
+                ),
+                const SizedBox(height: 5),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -587,89 +685,13 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 color: Theme.of(context).backgroundColor),
                           ),
                           Container(
+                            height:30,
                             width: MediaQuery.of(context).size.width * 0.55,
                             child: _buildRange(),
                           ),
                         ],
                       ),
                     ]),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            "Food preference",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.32,
-                                child: _buildFoodPreference(),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "Target carbs",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.21,
-                                child: _buildCarbs(),
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                "g",
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.black),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "Target calories",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.21,
-                                child: _buildCalories(),
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                "kcal",
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.black),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ]),
-                const SizedBox(height: 5),
-                Text(
-                  "Dietary restrictions",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).backgroundColor),
-                ),
-                _buildDietRestrictions(),
                 const SizedBox(height: 5),
                 Text(
                   "Exercise preference",
@@ -711,20 +733,6 @@ class ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ]),
-                const SizedBox(height: 5),
-                Text(
-                  "Email address",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).backgroundColor),
-                ),
-                _buildEmail(),
-                const SizedBox(height: 5),
-                Text(
-                  "Change password",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).backgroundColor),
-                ),
-                _buildPassword(),
                 const SizedBox(height: 15),
                 Center(
                   child: Align(
