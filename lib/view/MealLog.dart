@@ -166,7 +166,9 @@ class MealLogForm extends State<MealLogPageState> {
                             decoration: InputDecoration(
                                 suffixIcon: new IconButton(
                                     icon: const Icon(Icons.search),
-                                    onPressed: (){}
+                                    onPressed: (){
+                                      Navigator.of(context).pushNamed('/library');
+                                    }
                                 ),
                                 border: OutlineInputBorder(),
                                 //labelText: "kcals",

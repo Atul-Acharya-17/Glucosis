@@ -286,6 +286,33 @@ class MealLogForm extends State<MealLogPageState> {
                                 backgroundColor: MaterialStateProperty.all<Color>(
                                     Colors.pink.shade100)),
                           ))),
+
+                  Container (
+                      margin: EdgeInsets.only(
+                          left: 0, right: 0, top: 10, bottom: 10),
+                      child: SizedBox(
+                          width: 300,
+                          height:40,
+                          child: ElevatedButton.icon(
+                            onPressed: (){
+                              Navigator.of(context).pushNamed('/updateFoodPref');
+                            },
+
+                            icon: Icon(
+                              Icons.edit_outlined,
+                              size: 18,
+                            ),
+                            label: Text("Update Food Preference",
+                                style: Theme.of(context).textTheme.headline3),
+                            style: ButtonStyle(
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(18.0),
+                                        side: BorderSide(color: Colors.pink.shade100)
+                                    )),
+                                backgroundColor: MaterialStateProperty.all<Color>(
+                                    Colors.pink.shade100)),
+                          ))),
                 ]
                 )
             )

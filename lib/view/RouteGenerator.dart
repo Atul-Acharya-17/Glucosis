@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/view/LoginPage.dart';
 import 'ChooseMealPlanScreen.dart';
 import 'FoodMainPage.dart';
+import 'Library.dart';
 import 'LoginPage.dart';
 import 'HomePage.dart';
 import 'CreateAccountPage.dart';
@@ -15,6 +16,7 @@ import 'LogGlucose.dart';
 import 'LogExercise.dart';
 import 'DailySchedule.dart';
 import 'LogbookPage.dart';
+import 'UpdateFoodPreference.dart';
 
 /// A class for linking UI pages in the application.
 class RouteGenerator {
@@ -55,6 +57,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => MealLogPage());
       case '/mealPlanChange':
         return MaterialPageRoute(builder: (context) => ChooseMealPlan());
+      case '/library':
+        return MaterialPageRoute(builder: (context) => FoodLibraryPage());
+      case '/updateFoodPref':
+        return MaterialPageRoute(builder: (context) => UpdateFoodPreference());
 
     }
   }
