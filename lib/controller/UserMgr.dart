@@ -218,8 +218,8 @@ class UserManager {
             //need to change this to int or update type to string in db
             targetCalories: documentSnapshot['targetCalories'],
             targetCarbs: documentSnapshot['targetCarbs'],
-            minGlucose: documentSnapshot['minGlucose'],
-            maxGlucose: documentSnapshot['maxGlucose'],
+            minGlucose: documentSnapshot['minGlucose'].toDouble(),
+            maxGlucose: documentSnapshot['maxGlucose'].toDouble(),
             weight: documentSnapshot['weight'],
             email: email);
       } else {
@@ -300,11 +300,8 @@ class UserManager {
 
   static Future<void> setLogBooks() async {
     await setUserGlucoseLogBook();
-    print("111");
     await setUserFoodLogBook();
-    print("111");
     await setUserExerciseLogBook();
-    print("111");
   }
 
   static Future<void> setUserGlucoseLogBook() async {
