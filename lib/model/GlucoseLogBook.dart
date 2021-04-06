@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import '../model/GlucoseRecord.dart';
 import '../model/Data.dart';
 
@@ -14,7 +15,7 @@ class GlucoseLogBook {
   /// Gets data to create chart on home page.
   List<Data> getHomePageData() {
     List<Data> chartData = logBookToData();
-    int end = chartData.length >= 7? 7 : chartData.length;
+    int end = chartData.length >= 7 ? 7 : chartData.length;
     return chartData.sublist(0, end);
   }
 
@@ -29,7 +30,7 @@ class GlucoseLogBook {
     _glucoseRecordsList.add(glucoseRecord);
   }
 
-  /// Get glucose records history.
+  /// Get glucose records for the charts.
   List<Data> logBookToData() {
     List<Data> chartData = [];
     for (int i = 0; i < glucoseRecordsList.length; i++) {
@@ -43,5 +44,32 @@ class GlucoseLogBook {
     }
     chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     return chartData;
+  }
+
+  /// Get glucose records for displaying log book.
+  List<List<String>> getListOfRecords() {
+    List<List<String>> listOfRecords = [];
+
+    List<String> record = [
+      'Date',
+      'Time',
+      'Glucose Level',
+      'Before/After Meal',
+    ];
+    listOfRecords.add(
+      record,
+    );
+
+    _glucoseRecordsList.forEach((glucoseRecord) {
+      record = [];
+      record.add(DateFormat.yMMMMEEEEd().format(glucoseRecord.dateTime));
+      record.add(DateFormat('kk:mm').format(glucoseRecord.dateTime));
+      record.add(glucoseRecord.glucoseLevel.toString());
+      record
+          .add(glucoseRecord.beforeMeal == true ? 'Before Meal' : 'After Meal');
+      listOfRecords.add(record);
+    });
+
+    return listOfRecords;
   }
 }

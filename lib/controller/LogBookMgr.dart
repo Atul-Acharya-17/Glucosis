@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/GlucoseLogBook.dart';
 import '../model/FoodLogBook.dart';
 import '../model/ExerciseLogBook.dart';
@@ -12,6 +11,12 @@ import '../model/ExerciseRecord.dart';
 import '../controller/UserMgr.dart';
 
 class LogBookMgr {
+  static instantiateLogBooks(String email) {
+    FirebaseFirestore.instance.collection('GlucoseLogBook').doc(email).set({});
+    FirebaseFirestore.instance.collection('FoodLogBook').doc(email).set({});
+    FirebaseFirestore.instance.collection('ExerciseLogBook').doc(email).set({});
+  }
+
   static Future<void> addGlucoseRecord(
       double glucoseLevel,
       DateTime dateTime,
@@ -38,14 +43,9 @@ class LogBookMgr {
         .catchError((error) => print('Failed to add record: $error'));
   }
 
-  static Future<void> addFoodRecord(
-      DateTime dateTime,
-      String food,
-      int carbs,
-      int calories,
-      double servingSize,
-      {String notes = ""}
-      ) {
+  static Future<void> addFoodRecord(DateTime dateTime, String food, int carbs,
+      int calories, double servingSize,
+      {String notes = ""}) {
     String email = UserManager.getCurrentUserEmail();
     UserManager.addFoodRecord(
       FoodRecord(
@@ -79,10 +79,9 @@ class LogBookMgr {
       int duration,
       ) {
     String email = UserManager.getCurrentUserEmail();
-    ExerciseRecord exerciseRecord = new ExerciseRecord(exercise: exercise, dateTime: dateTime, duration: duration);
-    UserManager.addExerciseRecord(
-      exerciseRecord
-    );
+    ExerciseRecord exerciseRecord = new ExerciseRecord(
+        exercise: exercise, dateTime: dateTime, duration: duration);
+    UserManager.addExerciseRecord(exerciseRecord);
     print(email);
     return FirebaseFirestore.instance
         .collection('ExerciseLogBook')
@@ -120,8 +119,10 @@ class LogBookMgr {
     })
         .catchError((error) => print('Failed to get logbook: $error'));
 
-    print("GLUCOSE:");
-    print(recordsList);
+    print("glucose:");
+    recordsList.forEach((record) {
+      print(record.glucoseLevel);
+    });
     return new GlucoseLogBook(
       glucoseRecordsList: recordsList,
     );
@@ -193,6 +194,7 @@ class LogBookMgr {
   }
 
   static Map getHomePageData() {
+    print('Getting home page data');
     print(UserManager.getFoodLogBook());
     print(UserManager.getFoodLogBook().runtimeType);
     return {
@@ -210,34 +212,21 @@ class LogBookMgr {
     };
   }
 
+  static Map getPopUpData() {
+    return {
+      'Glucose': UserManager.getGlucoseLogBook().getListOfRecords(),
+      'Food': UserManager.getFoodLogBook().getListOfRecords(),
+      'Exercise': UserManager.getExerciseLogBook().getListOfRecords(),
+    };
+  }
+
   static Future<void> downloadGlucoseLogBook() async {
-    List<List<String>> listOfRecords = [];
-    List<GlucoseRecord> glucoseRecordsList =
-        UserManager.getGlucoseLogBook().glucoseRecordsList;
-
-    List<String> record = [
-      'Date',
-      'Time',
-      'Glucose Level',
-      'Before/After Meal',
-    ];
-    listOfRecords.add(
-      record,
-    );
-
-    glucoseRecordsList.forEach((glucoseRecord) {
-      record = [];
-      record.add(DateFormat.yMMMMEEEEd().format(glucoseRecord.dateTime));
-      record.add(DateFormat('kk:mm').format(glucoseRecord.dateTime));
-      record.add(glucoseRecord.glucoseLevel.toString());
-      record
-          .add(glucoseRecord.beforeMeal == true ? 'Before Meal' : 'After Meal');
-      listOfRecords.add(record);
-    });
+    List<List<String>> listOfRecords =
+    UserManager.getGlucoseLogBook().getListOfRecords();
 
     String csvData = ListToCsvConverter().convert(listOfRecords);
     final String directory = (await getApplicationDocumentsDirectory()).path;
-    final path = "$directory/Glucose Records (${DateTime.now()}).csv";
+    final path = '$directory/Glucose_Records_(${DateTime.now()}).csv';
     final File file = File(path);
     await file.writeAsString(csvData);
   }

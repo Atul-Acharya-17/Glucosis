@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import '../model/ExerciseRecord.dart';
 import '../model/Data.dart';
 
@@ -14,7 +15,7 @@ class ExerciseLogBook {
   /// Gets data to create chart on home page.
   List<Data> getHomePageData() {
     List<Data> chartData = logBookToData();
-    int end = chartData.length >= 7? 7 : chartData.length;
+    int end = chartData.length >= 7 ? 7 : chartData.length;
     return chartData.sublist(0, end);
   }
 
@@ -45,5 +46,31 @@ class ExerciseLogBook {
     }
     chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     return chartData;
+  }
+
+  /// Get exercise records for displaying log book.
+  List<List<String>> getListOfRecords() {
+    List<List<String>> listOfRecords = [];
+
+    List<String> record = [
+      'Date',
+      'Time',
+      'Exercise',
+      'Duration',
+    ];
+    listOfRecords.add(
+      record,
+    );
+
+    _exerciseRecordsList.forEach((exerciseRecord) {
+      record = [];
+      record.add(DateFormat.yMMMMEEEEd().format(exerciseRecord.dateTime));
+      record.add(DateFormat('kk:mm').format(exerciseRecord.dateTime));
+      record.add(exerciseRecord.exercise);
+      record.add(exerciseRecord.duration.toString());
+      listOfRecords.add(record);
+    });
+
+    return listOfRecords;
   }
 }

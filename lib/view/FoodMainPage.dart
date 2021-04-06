@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/view/AppBar.dart';
+import 'package:flutterapp/view/NavigationBar.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:intl/intl.dart';
 
@@ -79,6 +80,7 @@ class MealLogForm extends State<MealLogPageState> {
     double progressValue = 153;
     return Scaffold(
         appBar: CommonAppBar(title: "Food Main Page"),
+        bottomNavigationBar: NavigationBar(),
         body: SingleChildScrollView(
             child: Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
