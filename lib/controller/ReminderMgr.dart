@@ -17,14 +17,14 @@ class ReminderMgr {
         .collection('reminders')
         .get()
         .then((QuerySnapshot querySnapshot) => {
-              querySnapshot.docs.forEach((doc) async {
-                var now = DateTime.now();
-                if (doc['timings'] == now.add(const Duration(minutes: 15))) {
-                  reminderList.add(GlucoseReminder().toMap());
-                  print("added to list");
-                }
-              })
-            })
+      querySnapshot.docs.forEach((doc) async {
+        var now = DateTime.now();
+        if (doc['timings'] == now.add(const Duration(minutes: 15))) {
+          reminderList.add(GlucoseReminder().toMap());
+          print("added to list");
+        }
+      })
+    })
         .catchError((error) => print('Failed to get logbook: $error'));
 
     await FirebaseFirestore.instance
@@ -33,14 +33,14 @@ class ReminderMgr {
         .collection('reminders')
         .get()
         .then((QuerySnapshot querySnapshot) => {
-              querySnapshot.docs.forEach((doc) async {
-                var now = DateTime.now();
-                if (doc['timings'] == now.add(const Duration(minutes: 15))) {
-                  reminderList.add(MedicationReminder().toMap());
-                  print("added to list");
-                }
-              })
-            })
+      querySnapshot.docs.forEach((doc) async {
+        var now = DateTime.now();
+        if (doc['timings'] == now.add(const Duration(minutes: 15))) {
+          reminderList.add(MedicationReminder().toMap());
+          print("added to list");
+        }
+      })
+    })
         .catchError((error) => print('Failed to get logbook: $error'));
 
     return reminderList;

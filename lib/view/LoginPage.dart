@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/controller/LogBookMgr.dart';
+import 'package:flutterapp/controller/ReminderMgr.dart';
 import 'package:flutterapp/controller/UserMgr.dart';
 import '../controller/AuthenticationMgr.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -197,7 +198,6 @@ class LoginScreenState extends State<LoginScreen> {
 
                             AuthenticationManager auth =
                                 new AuthenticationManager();
-                            UserManager userMgr = new UserManager();
                             await auth.login(_email, _password).then((loginSuccess) async => {
                                   if(loginSuccess)
                                   {
