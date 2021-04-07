@@ -1,9 +1,10 @@
 import 'package:intl/intl.dart';
 import '../model/ExerciseRecord.dart';
+import '../model/LogBook.dart';
 import '../model/Data.dart';
 
 /// Log book collection entity containing a user's past exercise records.
-class ExerciseLogBook {
+class ExerciseLogBook extends LogBook {
   List<ExerciseRecord> _exerciseRecordsList;
 
   ExerciseLogBook({
@@ -11,19 +12,6 @@ class ExerciseLogBook {
   }) : _exerciseRecordsList = exerciseRecordsList;
 
   get exerciseRecordsList => _exerciseRecordsList;
-
-  /// Gets data to create chart on home page.
-  List<Data> getHomePageData() {
-    List<Data> chartData = logBookToData();
-    int end = chartData.length >= 7 ? 7 : chartData.length;
-    return chartData.sublist(0, end);
-  }
-
-  /// Gets data to create chart on log book page.
-  List<Data> getLogBookPageData() {
-    List<Data> chartData = logBookToData();
-    return chartData;
-  }
 
   /// Add exercise record.
   void addRecord(ExerciseRecord exerciseRecord) {
@@ -33,6 +21,7 @@ class ExerciseLogBook {
   }
 
   /// Get exercise records history.
+  @override
   List<Data> logBookToData() {
     List<Data> chartData = [];
     for (int i = 0; i < exerciseRecordsList.length; i++) {
@@ -49,6 +38,7 @@ class ExerciseLogBook {
   }
 
   /// Get exercise records for displaying log book.
+  @override
   List<List<String>> getListOfRecords() {
     List<List<String>> listOfRecords = [];
 

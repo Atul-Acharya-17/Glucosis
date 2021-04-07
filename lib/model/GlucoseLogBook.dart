@@ -1,9 +1,10 @@
 import 'package:intl/intl.dart';
 import '../model/GlucoseRecord.dart';
+import '../model/LogBook.dart';
 import '../model/Data.dart';
 
 /// Collection entity containing past glucose entries of a user.
-class GlucoseLogBook {
+class GlucoseLogBook extends LogBook {
   List<GlucoseRecord> _glucoseRecordsList;
 
   GlucoseLogBook({
@@ -12,25 +13,13 @@ class GlucoseLogBook {
 
   get glucoseRecordsList => _glucoseRecordsList;
 
-  /// Gets data to create chart on home page.
-  List<Data> getHomePageData() {
-    List<Data> chartData = logBookToData();
-    int end = chartData.length >= 7 ? 7 : chartData.length;
-    return chartData.sublist(0, end);
-  }
-
-  /// Gets data to create chart on log book page.
-  List<Data> getLogBookPageData() {
-    List<Data> chartData = logBookToData();
-    return chartData;
-  }
-
   /// Add glucose record.
   void addRecord(GlucoseRecord glucoseRecord) {
     _glucoseRecordsList.add(glucoseRecord);
   }
 
   /// Get glucose records for the charts.
+  @override
   List<Data> logBookToData() {
     List<Data> chartData = [];
     for (int i = 0; i < glucoseRecordsList.length; i++) {
@@ -47,6 +36,7 @@ class GlucoseLogBook {
   }
 
   /// Get glucose records for displaying log book.
+  @override
   List<List<String>> getListOfRecords() {
     List<List<String>> listOfRecords = [];
 

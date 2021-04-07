@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/controller/LogBookMgr.dart';
+import 'package:flutterapp/model/Data.dart';
 import 'package:flutterapp/view/AppBar.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:intl/intl.dart';
 
@@ -49,6 +52,9 @@ class MealLogPageState extends StatefulWidget {
 
 }
 class MealLogForm extends State<MealLogPageState> {
+  final double borderRadius = 10;
+  final double margin = 5;
+  final double padding = 5;
   // DateTime currentDate = DateTime.now().toLocal();
   // DateFormat formatter = DateFormat('yyyy-MM-dd');
   //
@@ -142,27 +148,46 @@ class MealLogForm extends State<MealLogPageState> {
                   //     ])),
 
 
-                  SizedBox(
-                      width: 400,
-                      height: 300,
-
-                      child: Card(
-                          elevation: 5,
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                    child: Text('Calorie Intake (7 days)',
-                                      style:
-                                      TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),),
-                                    margin: EdgeInsets.only(
-                                        left: 80, right: 0, top: 10)),
-                              ]
-                          )
-                      )
+                  Container(
+                    width: MediaQuery.of(context).size.width*0.9,
+                    child: Card(
+                      elevation: 5,
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(borderRadius),
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.all(padding),
+                        child: SfCartesianChart(
+                          backgroundColor: Colors.white,
+                          primaryXAxis: CategoryAxis(), // dk what
+                          title: ChartTitle(
+                            text: 'Glucose Log Book',
+                          ),
+                          series: <ChartSeries>[
+                            LineSeries<Data, DateTime>(
+                              dataSource: LogBookMgr.getHomePageData()['Food'],
+                              xValueMapper: (Data datum, _) => datum.dateTime,
+                              yValueMapper: (Data datum, _) => datum.y,
+                              color: Colors.pink.shade200,
+                              markerSettings: MarkerSettings(
+                                color: Colors.pink.shade800,
+                                isVisible: true,
+                              ),
+                              animationDuration: 0,
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Graphs(
+                      //   borderRadius: borderRadius,
+                      //   padding: padding,
+                      //   graphsHeight: graphsHeight,
+                      //   //imagesPathList: [
+                      //   //  'images/random.png',
+                      //   //],
+                      // ),
+                    ),
                   ),
                   Container (
                       margin: EdgeInsets.only(

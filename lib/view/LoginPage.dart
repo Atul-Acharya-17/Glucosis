@@ -203,7 +203,7 @@ class LoginScreenState extends State<LoginScreen> {
                                   {
                                     await UserManager.retrieveDetails(_email).then((value) async =>
                                     {
-                                      UserManager.setLogBooks().then((value) => {
+                                      UserManager.setData().then((value) => {
                             setState(() {
                             showSpinner =  false;
                             }),

@@ -117,7 +117,6 @@ class BooksView extends StatelessWidget {
   final double borderRadius = 25;
   final double iconSize = 40;
 
-
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -127,90 +126,91 @@ class BooksView extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height * 1.5,
-          padding: EdgeInsets.all(10),
-          color: backgroundColor,
-              child: Column(
-                      children: [
-                        Graph(
-                          logBook: book,
-                          chartData: chartData,
-                          graphsHeight: height * 0.3,
-                          padding: padding,
-                          borderRadius: 10,
-                        ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(
-                            0,
-                            margin,
-                            0,
-                            2 * margin,
-                          ),
-                          child: Text(
-                            textMap[book],
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              color: darkPink,
-                            ),
-                          ),
-                        ),
-                        Container(
-                            height: 300,
-                            width: 300,
-                            child: getRadialGraph(book)),
-                SizedBox(height: 20,),
-                Container(
-                  margin: EdgeInsets.fromLTRB(
-                    0,
-                    margin,
-                    0,
-                    2 * margin,
-                  ),
-                  child: ViewLogBookButton(
-                          pink: lightPink,
-                          fontSize: fontSize,
-                          width: width,
-                          borderRadius: borderRadius,
-                          padding: padding,
-                          popUpData: popUpData,
-                        ),
+        padding: EdgeInsets.all(10),
+        color: backgroundColor,
+        child: Column(
+          children: [
+            Graph(
+              logBook: book,
+              chartData: chartData,
+              graphsHeight: height * 0.3,
+              padding: padding,
+              borderRadius: 10,
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(
+                0,
+                margin,
+                0,
+                2 * margin,
+              ),
+              child: Text(
+                textMap[book],
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: darkPink,
                 ),
-                SizedBox(height: 20,),
-                Container(
-                  margin: EdgeInsets.fromLTRB(
-                    0,
-                    margin,
-                    0,
-                    2 * margin,
-                  ), child:     DownloadHistoryButton(
-                          width: width,
-                          borderRadius: borderRadius,
-                          padding: padding,
-                          iconSize: iconSize,
-                          fontSize: fontSize,
-                          lightPink: lightPink,
-                        ),
-                ),
-                      ],
-                    ),
-                ),
-            );
+              ),
+            ),
+            Container(height: 300, width: 300, child: getRadialGraph(book)),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(
+                0,
+                margin,
+                0,
+                2 * margin,
+              ),
+              child: ViewLogBookButton(
+                pink: lightPink,
+                fontSize: fontSize,
+                width: width,
+                borderRadius: borderRadius,
+                padding: padding,
+                popUpData: popUpData,
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(
+                0,
+                margin,
+                0,
+                2 * margin,
+              ),
+              child: DownloadHistoryButton(
+                width: width,
+                borderRadius: borderRadius,
+                padding: padding,
+                iconSize: iconSize,
+                fontSize: fontSize,
+                lightPink: lightPink,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  Widget getRadialGraph(String logBook){
-
+  Widget getRadialGraph(String logBook) {
     int min = 0;
     int max;
 
     var profileDetails = UserManager.getProfileDetails();
 
-    switch(logBook){
+    switch (logBook) {
       case 'Glucose':
         min = profileDetails['minGlucose'].toInt();
         max = profileDetails['maxGlucose'].toInt();
         break;
       case 'Exercise':
-        // Need to change
+      // Need to change
         min = 0;
         max = 60;
         break;
@@ -219,8 +219,9 @@ class BooksView extends StatelessWidget {
         max = profileDetails['targetCalories'];
     }
 
-    Widget radialGraph = gauge.SfRadialGauge(axes: <gauge.RadialAxis>[
-      gauge.RadialAxis(
+    Widget radialGraph = gauge.SfRadialGauge(
+      axes: <gauge.RadialAxis>[
+        gauge.RadialAxis(
           minimum: double.parse(min.toString()),
           maximum: double.parse(max.toString()),
           showLabels: false,
@@ -235,26 +236,31 @@ class BooksView extends StatelessWidget {
           ),
           pointers: <gauge.GaugePointer>[
             gauge.RangePointer(
-                value: chartData.length > 0 ? chartData[chartData.length - 1].y : 0,
-                cornerStyle: gauge.CornerStyle.bothFlat,
-                width: 0.2,
-                sizeUnit: gauge.GaugeSizeUnit.factor,
-                color: Colors.pink.shade500)
+              value:
+              chartData.length > 0 ? chartData[chartData.length - 1].y : 0,
+              cornerStyle: gauge.CornerStyle.bothFlat,
+              width: 0.2,
+              sizeUnit: gauge.GaugeSizeUnit.factor,
+              color: Colors.pink.shade500,
+            )
           ],
           annotations: <gauge.GaugeAnnotation>[
             gauge.GaugeAnnotation(
-                positionFactor: 0.1,
-                angle: 90,
-                widget: Text(
-                  chartData.length > 0 ?
-                  ((chartData[chartData.length-1].y)).toStringAsFixed(0) +
-                      '/${max.toString()}\n'
-                  : 0.toString() + '/${UserManager.getProfileDetails()['maxGlucose'].toInt()}',
-                  style: TextStyle(
-                      fontSize: 40, fontWeight: FontWeight.bold),
-                ))
-          ])
-    ]);
+              positionFactor: 0.1,
+              angle: 90,
+              widget: Text(
+                chartData.length > 0
+                    ? ((chartData[chartData.length - 1].y)).toStringAsFixed(0) +
+                    '/${max.toString()}\n'
+                    : 0.toString() +
+                    '/${UserManager.getProfileDetails()['maxGlucose'].toInt()}',
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
 
     return radialGraph;
   }
@@ -318,7 +324,7 @@ class GraphState extends State<Graph> {
   initState() {
     super.initState();
 
-    if (chartData.isNotEmpty){
+    if (chartData.isNotEmpty) {
       minDate = getMinDate(chartData).subtract(const Duration(days: 1));
       maxDate = getMaxDate(chartData).add(const Duration(days: 1));
       values = SfRangeValues(
@@ -329,8 +335,7 @@ class GraphState extends State<Graph> {
         start: values.start,
         end: values.end,
       );
-    }
-    else{
+    } else {
       minDate = DateTime.now().subtract(const Duration(days: 1));
       maxDate = DateTime.now().add(const Duration(days: 1));
       values = SfRangeValues(
@@ -342,7 +347,6 @@ class GraphState extends State<Graph> {
         end: values.end,
       );
     }
-
   }
 
   @override
@@ -560,7 +564,8 @@ class ViewLogBookButtonState extends State<ViewLogBookButton> {
     }
 
     return Table(
-      border: TableBorder.all(color: Colors.teal.shade800,style:BorderStyle.solid),
+      border: TableBorder.all(
+          color: Colors.teal.shade800, style: BorderStyle.solid),
       defaultColumnWidth: IntrinsicColumnWidth(),
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: tableRows,
@@ -654,9 +659,6 @@ class DownloadHistoryButton extends StatelessWidget {
     );
   }
 }
-
-
-
 
 /*
 gauge.SfRadialGauge(axes: <gauge.RadialAxis>[
