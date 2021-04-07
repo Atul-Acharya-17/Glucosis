@@ -176,7 +176,7 @@ class ReminderMgr {
 
     for (int i = 0; i < allGlucose.length; i++) {
       if (DateTime.now().difference(allGlucose[i].timing).inMinutes <= 15) {
-        if (!glucoseDismissed[i]) {
+        if (i < glucoseDismissed.length && !glucoseDismissed[i]) {
           reminderList.add(
             allGlucose[i].toMap(
               i,
@@ -204,7 +204,7 @@ class ReminderMgr {
 
     for (int i = 0; i < allMedication.length; i++) {
       if (DateTime.now().difference(allMedication[i].timing).inMinutes <= 15) {
-        if (!medicationDismissed[i]) {
+        if (i < medicationDismissed.length && !medicationDismissed[i]) {
           reminderList.add(
             allMedication[i].toMap(
             ),
@@ -269,11 +269,13 @@ class ReminderMgr {
       return medReminderMap;
   }
 
-  static void deleteReminder(String key){
-    FirebaseFirestore.instance
+  static Future<void> deleteReminder(String key) async {
+    await FirebaseFirestore.instance
         .collection('MedicationReminders')
         .doc(UserManager.getCurrentUserEmail())
         .collection('reminders').doc(key).delete();
+    await UserManager.setGlucoseReminders();
+    await UserManager.setMedicationReminders();
   }
 
 }
