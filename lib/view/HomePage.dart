@@ -9,6 +9,8 @@ import '../view/AppBar.dart';
 import '../view/Drawer.dart';
 import '../controller/LogBookMgr.dart';
 import '../controller/ReminderMgr.dart';
+import 'Drawer.dart';
+import '../MyAppIcons.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -39,10 +41,74 @@ class Body extends StatelessWidget {
     final double normalFontSize = width * 0.06;
     final double miniFontSize = normalFontSize - 5;
 
+    final Color green = Color.fromRGBO(0, 110, 96, 1);
+    final Color pink = Color.fromRGBO(254, 179, 189, 1);
+
+    Widget _buildLogBookIcons(BuildContext context) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Container(
+            width: 60,
+            decoration: ShapeDecoration(
+              color: Theme.of(context).accentColor,
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+              ),
+            ),
+            child: IconButton(
+                icon: Icon(MyAppIcons.glucose),
+                iconSize: 30,
+                color: Theme.of(context).primaryColorLight,
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed('/logbook');
+                }),
+          ),
+          Container(
+            width: 60,
+            decoration: ShapeDecoration(
+              color: Theme.of(context).accentColor,
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+              ),
+            ),
+            child: IconButton(
+              icon: Icon(MyAppIcons.food),
+              iconSize: 30,
+              color: Theme.of(context).primaryColorLight,
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed('/logbook');
+              },
+            ),
+          ),
+          Container(
+            width: 60,
+            decoration: ShapeDecoration(
+              color: Theme.of(context).accentColor,
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+              ),
+            ),
+            child: IconButton(
+              icon: Icon(MyAppIcons.exercise),
+              iconSize: 30,
+              color: Theme.of(context).primaryColorLight,
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed('/logbook');
+              },
+            ),
+          ),
+        ],
+      );
+    }
+
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(10),
-        color: backgroundColor,
+        color: Theme.of(context).canvasColor,
         child: Column(
           children: [
             Container(
@@ -76,14 +142,7 @@ class Body extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    LogBookIcons(
-                      iconSize: iconSize,
-                      iconPaths: [
-                        'images/user_icon.jpeg',
-                        'images/user_icon.jpeg',
-                        'images/user_icon.jpeg',
-                      ],
-                    ),
+                    _buildLogBookIcons(context),
                   ],
                 ),
               ),
@@ -141,34 +200,6 @@ class Body extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class LogBookIcons extends StatelessWidget {
-  LogBookIcons({this.iconSize, @required this.iconPaths});
-
-  final double iconSize;
-  final List<String> iconPaths;
-
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> icons = List<Widget>(iconPaths.length);
-    for (int i = 0; i < iconPaths.length; i++) {
-      icons[i] = iconButton(iconPaths[i]);
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: icons,
-    );
-  }
-
-  IconButton iconButton(String iconPath) {
-    return IconButton(
-      icon: new Image.asset(iconPath),
-      iconSize: iconSize,
-      onPressed: () {},
     );
   }
 }
