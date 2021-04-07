@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/controller/AuthenticationMgr.dart';
 import '../controller/UserMgr.dart';
+import '../MyAppIcons.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -18,13 +19,13 @@ class CustomDrawer extends StatelessWidget {
                 child: Column(
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.15,
+                    width: MediaQuery.of(context).size.width * 0.2,
                     height: MediaQuery.of(context).size.height * 0.1,
                     child: CircleAvatar(
-                      backgroundImage: AssetImage('images/user_icon.jpeg',
+                      child: Icon(MyAppIcons.profile, size:50, color: Theme.of(context).primaryColor),
+                      backgroundColor: Theme.of(context).backgroundColor,
                       ),
                     ),
-                  ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
                   Text(UserManager.getProfileDetails()['name'],
                   style: TextStyle(fontSize: 20,

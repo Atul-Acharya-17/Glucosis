@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/view/HomePage.dart';
-//import './ExercisePage.dart';
+import '../MyAppIcons.dart';
 
 /// Navigation bar UI component for use on all screens.
 class NavigationBar extends StatelessWidget {
@@ -23,35 +22,39 @@ class NavigationBar extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-                Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/home', (route) => false);
             },
-            child: Image.asset(
-              'images/home.jpg',
+            child: Container(
               height: navigationBarHeight,
               width: iconWidth,
-              fit: BoxFit.fill,
+              color: Theme.of(context).backgroundColor,
+              child: Icon(MyAppIcons.home,
+                  size: 30, color: Theme.of(context).primaryColor),
             ),
           ),
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushNamed('/glucose');
             },
-            child: Image.asset(
-              'images/glucose.jpg',
+            child: Container(
               height: navigationBarHeight,
               width: iconWidth,
-              fit: BoxFit.fill,
+              color: Theme.of(context).backgroundColor,
+              child: Icon(MyAppIcons.glucose,
+                  size: 30, color: Theme.of(context).primaryColor),
             ),
           ),
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushNamed('/medication');
             },
-            child: Image.asset(
-              'images/medicine.jpg',
+            child: Container(
               height: navigationBarHeight,
               width: iconWidth,
-              fit: BoxFit.fill,
+              color: Theme.of(context).backgroundColor,
+              child: Icon(MyAppIcons.medicine,
+                  size: 30, color: Theme.of(context).primaryColor),
             ),
           ),
           GestureDetector(
@@ -69,11 +72,12 @@ class NavigationBar extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushNamed('/exercise');
             },
-            child: Image.asset(
-              'images/exercise.jpg',
+            child: Container(
               height: navigationBarHeight,
               width: iconWidth,
-              fit: BoxFit.fill,
+              color: Theme.of(context).backgroundColor,
+              child: Icon(MyAppIcons.exercise,
+                  size: 30, color: Theme.of(context).primaryColor),
             ),
           ),
         ],
