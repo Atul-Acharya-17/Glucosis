@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutterapp/controller/UserMgr.dart';
 
 import 'package:flutterapp/model/GlucoseReminders.dart';
 import 'package:flutterapp/model/MedicationReminder.dart';
@@ -88,21 +89,6 @@ class ReminderMgr {
     //     .catchError((error) => print('Failed to get logbook: $error'));
 
     //retrieving medication
-    await FirebaseFirestore.instance
-        .collection('MedicationReminders')
-        .doc(userEmail)
-        .collection('reminders')
-        .get()
-        .then((QuerySnapshot querySnapshot) => {
-              querySnapshot.docs.forEach((doc) async {
-                var now = DateTime.now();
-                if (doc['timing'] <= now.add(const Duration(minutes: 15))) {
-                  reminderList.add(MedicationReminder().toMap());
-                  print("added to list");
-                }
-              })
-            })
-        .catchError((error) => print('Failed to get logbook: $error'));
 
     return reminderList;
   }

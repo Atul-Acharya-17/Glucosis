@@ -120,7 +120,6 @@ class BooksView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(this.chartData[chartData.length-1].y);
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final double fontSize = width * 0.06;
@@ -215,7 +214,7 @@ class BooksView extends StatelessWidget {
           ),
           pointers: <gauge.GaugePointer>[
             gauge.RangePointer(
-                value: chartData[chartData.length - 1].y,
+                value: chartData.length > 0 ? chartData[chartData.length - 1].y : 0,
                 cornerStyle: gauge.CornerStyle.bothFlat,
                 width: 0.2,
                 sizeUnit: gauge.GaugeSizeUnit.factor,
@@ -226,8 +225,10 @@ class BooksView extends StatelessWidget {
                 positionFactor: 0.1,
                 angle: 90,
                 widget: Text(
+                  chartData.length > 0 ?
                   ((chartData[chartData.length-1].y)).toStringAsFixed(0) +
-                      '/${UserManager.getProfileDetails()['maxGlucose'].toInt()}\n   Min',
+                      '/${UserManager.getProfileDetails()['maxGlucose'].toInt()}\n'
+                  : 0.toString() + '/${UserManager.getProfileDetails()['maxGlucose'].toInt()}',
                   style: TextStyle(
                       fontSize: 40, fontWeight: FontWeight.bold),
                 ))
@@ -296,16 +297,32 @@ class GraphState extends State<Graph> {
   @override
   initState() {
     super.initState();
-    minDate = getMinDate(chartData).subtract(const Duration(days: 1));
-    maxDate = getMaxDate(chartData).add(const Duration(days: 1));
-    values = SfRangeValues(
-      minDate,
-      maxDate,
-    );
-    rangeController = RangeController(
-      start: values.start,
-      end: values.end,
-    );
+
+    if (chartData.isNotEmpty){
+      minDate = getMinDate(chartData).subtract(const Duration(days: 1));
+      maxDate = getMaxDate(chartData).add(const Duration(days: 1));
+      values = SfRangeValues(
+        minDate,
+        maxDate,
+      );
+      rangeController = RangeController(
+        start: values.start,
+        end: values.end,
+      );
+    }
+    else{
+      minDate = DateTime.now().subtract(const Duration(days: 1));
+      maxDate = DateTime.now().add(const Duration(days: 1));
+      values = SfRangeValues(
+        minDate,
+        maxDate,
+      );
+      rangeController = RangeController(
+        start: values.start,
+        end: values.end,
+      );
+    }
+
   }
 
   @override
@@ -452,6 +469,7 @@ class ViewLogBookButtonState extends State<ViewLogBookButton> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.teal.shade100,
           scrollable: true,
           title: Text(
             '${DateFormat.yMMMMEEEEd().format(selectedDate)}',
@@ -522,7 +540,7 @@ class ViewLogBookButtonState extends State<ViewLogBookButton> {
     }
 
     return Table(
-      border: TableBorder.all(),
+      border: TableBorder.all(color: Colors.teal.shade800,style:BorderStyle.solid),
       defaultColumnWidth: IntrinsicColumnWidth(),
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: tableRows,

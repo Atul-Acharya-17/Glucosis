@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutterapp/model/GlucoseRecord.dart';
 import 'package:flutterapp/model/GlucoseReminders.dart';
 // import 'package:flutter/services.dart';
@@ -161,137 +162,161 @@ class MyCustomFormState extends State<MyCustomForm> {
 
     return Form(
       key: _formKey,
-      child: Column(
-        children: <Widget>[
-          SizedBox(
-            width: 700,
-            child: Container(
-                child: Padding(
-                    padding: EdgeInsets.only(top: 20, left: 10),
-                    child: Text(
-                      'Set Reminder',
-                      style:
-                          TextStyle(fontSize: 20, color: Colors.teal.shade800),
-                    ))),
-          ),
-          Row(
-            children: [
-              SizedBox(width: 10),
-              SizedBox(
-                width: 350,
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 10, top: 10),
-                  padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-                  width: MediaQuery.of(context).size.width * 0.40,
-                  height: 60,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey[400]),
-                      borderRadius: BorderRadius.circular(5.0)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("${_time.format(context)}",
-                          style: TextStyle(fontSize: 20, color: Colors.black)),
-                      IconButton(
-                          icon: Icon(Icons.alarm_add_rounded),
-                          onPressed: () => _selectTime(context))
-                    ],
+      child: Padding(
+        padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.01,
+            left: MediaQuery.of(context).size.width * 0.04),
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              width: 700,
+              child: Container(
+                  child: Padding(
+                      padding: EdgeInsets.only(top: 20, left: 10),
+                      child: Text(
+                        'Set Reminder',
+                        style: TextStyle(
+                            fontSize: 20, color: Colors.teal.shade800),
+                      ))),
+            ),
+            Row(
+              children: [
+                SizedBox(width: 10),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 10, top: 10),
+                    padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+                    width: MediaQuery.of(context).size.width * 0.40,
+                    height: 60,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey[400]),
+                        borderRadius: BorderRadius.circular(5.0)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("${_time.format(context)}",
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.black)),
+                        IconButton(
+                            icon: Icon(Icons.alarm_add_rounded),
+                            onPressed: () => _selectTime(context))
+                      ],
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.05),
+              child: SizedBox(
+                width: 400,
+                child: Text(
+                  '+ Add reminder',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.teal.shade800,
                   ),
                 ),
               ),
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () {},
-              ),
-            ],
-          ),
-          SizedBox(
-            width: 400,
-            child: Text(
-              '+ Add reminder',
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.teal.shade800,
-              ),
             ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Center(
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0),
-                      ),
-                      primary: Colors.pink[100], // background
-                      onPrimary: Colors.black, // foreground
-                    ),
-                    onPressed: () {
-                      // Validate returns true if the form is valid, otherwise false.
-                      if (_formKey.currentState.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
+            SizedBox(
+              height: 30,
+            ),
+            Center(
+                child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width * 0.05),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0),
+                            ),
+                            primary: Colors.pink[100], // background
+                            onPrimary: Colors.black, // foreground
+                          ),
+                          onPressed: () {
+                            // Validate returns true if the form is valid, otherwise false.
+                            if (_formKey.currentState.validate()) {
+                              // If the form is valid, display a snackbar. In the real world,
+                              // you'd often call a server or save the information in a database.
 
-                        DateTime now = new DateTime.now();
+                              DateTime now = new DateTime.now();
 
-                        ReminderMgr().addGlucoseReminder(DateTime(now.year,
-                            now.month, now.day, _time.hour, _time.minute));
+                              ReminderMgr().addGlucoseReminder(DateTime(
+                                  now.year,
+                                  now.month,
+                                  now.day,
+                                  _time.hour,
+                                  _time.minute));
 
-                        /*
+                              /*
 
-                        Change to form data
+                              Change to form data
 
-                        GlucoseReminderMgr mgr =
-                            new GlucoseReminderMgr('nishasnr@gmail.com');
-                        DateTime date = DateTime.parse("1969-07-20 20:18:04Z");
-                        GlucoseReminder ent = GlucoseReminder(timings: date);
-                        mgr.addReminder(ent);
-                         */
-                        return showDialog<void>(
-                          context: context,
-                          barrierDismissible: false, // user must tap button!
-                          builder: (BuildContext context) {
-                            // can add logic to store entry here
-                            return AlertDialog(
-                              //title: Text('AlertDialog Title'),
-                              content: SingleChildScrollView(
-                                child: ListBody(
-                                  children: <Widget>[
-                                    Text('Glucose reminder is set',
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black)),
-                                    SizedBox(height: 20),
-                                    TextButton(
-                                      child: Text('OK',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black)),
-                                      style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.green[500])),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
+                              GlucoseReminderMgr mgr =
+                                  new GlucoseReminderMgr('nishasnr@gmail.com');
+                              DateTime date = DateTime.parse("1969-07-20 20:18:04Z");
+                              GlucoseReminder ent = GlucoseReminder(timings: date);
+                              mgr.addReminder(ent);
+                               */
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible:
+                                    false, // user must tap button!
+                                builder: (BuildContext context) {
+                                  // can add logic to store entry here
+                                  return AlertDialog(
+                                    //title: Text('AlertDialog Title'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text('Glucose reminder is set',
+                                              style: TextStyle(
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black)),
+                                          SizedBox(height: 20),
+                                          TextButton(
+                                            child: Text('OK',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black)),
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all<
+                                                            Color>(
+                                                        Colors.green[500])),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            );
+                                  );
+                                },
+                              );
+                            }
                           },
-                        );
-                      }
-                    },
-                    child:
-                        Text("Create Schedule", style: TextStyle(fontSize: 25)),
-                  )))
-        ],
+                          child: Text("Create Schedule",
+                              style: TextStyle(fontSize: 20)),
+                        ),
+                      ),
+                    )))
+          ],
+        ),
       ),
     );
   }

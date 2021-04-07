@@ -112,19 +112,18 @@ class PasswordScreenState extends State<PasswordScreen> {
             const SizedBox(height: 15),
             Center(
               child: ElevatedButton(
-                    child: Text("Change password",
-                        style: TextStyle(fontSize: 20, color: Colors.black)),
-                    style: ElevatedButton.styleFrom(
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0),
-                      ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                      primary: Theme.of(context).primaryColor,
+                  child: Text("Change password",
+                      style: TextStyle(fontSize: 20, color: Colors.black)),
+                  style: ElevatedButton.styleFrom(
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/profile');
-                    }),
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                    primary: Theme.of(context).primaryColor,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/profile');
+                  }),
             ),
           ],
         ),
@@ -151,28 +150,27 @@ class ProfileScreen extends StatefulWidget {
 class ProfileScreenState extends State<ProfileScreen> {
   //integration for password and target range needs to be done
   Map<String, dynamic> profileDetails = UserManager.getProfileDetails();
-  String _name = "my name";
-  String _gender = "female";
-  double _weight = 50;
-  double _height = 1.50;
-  String _type = "Prediabetes";
-  RangeValues _targetRange = RangeValues(UserManager.getProfileDetails()['minGlucose'], UserManager.getProfileDetails()['maxGlucose']);
-  String _foodPreference = "Non-vegetarian";
-  int _carbs = 50;
-  int _calories = 2000;
-  String _location = "Singapore";
-  String _dietRestrictions = "Peanuts, ketchup";
-  String _exercisePreference = "Basic";
+  String _name;
+  String _gender = UserManager.getProfileDetails()['gender'];
+  double _weight;
+  double _height;
+  String _type = UserManager.getProfileDetails()['diabetesType'];
+  RangeValues _targetRange = RangeValues(
+      UserManager.getProfileDetails()['minGlucose'],
+      UserManager.getProfileDetails()['maxGlucose']);
+  String _location;
+  String _exercisePreference =
+      (UserManager.getProfileDetails()['exercisePreference']);
   String _phoneNumber = "65659393";
   String _email = "hello@gmail.com";
-  String _password = "********";
-  DateTime dateOfBirth = (UserManager.getProfileDetails()['dateOfBirth']).toLocal();
-  
+  DateTime dateOfBirth =
+      (UserManager.getProfileDetails()['dateOfBirth']).toLocal();
+
   DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   Future<void> _selectDate(BuildContext context) async {
     //DateTime dateOfBirth = UserManager.getProfileDetails()['dateOfBirth'];
-    print('Date'+ dateOfBirth.toString());
+    print('Date' + dateOfBirth.toString());
     final DateTime pickedDate = await showDatePicker(
         context: context,
         initialDate: dateOfBirth,
@@ -323,8 +321,8 @@ class ProfileScreenState extends State<ProfileScreen> {
   Widget _buildRange() {
     return RangeSlider(
       values: _targetRange,
-      min: 20,
-      max: 250,
+      min: 70,
+      max: 180,
       divisions: 110,
       activeColor: Theme.of(context).accentColor,
       inactiveColor: Theme.of(context).primaryColorLight,
@@ -366,123 +364,61 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  //need to change this to toggle buttons
-  Widget _buildFoodPreference() {
-    _foodPreference = profileDetails['foodPreference'];
-    return TextFormField(
-      initialValue: _foodPreference,
-      decoration: new InputDecoration(
-        isDense: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
-        hintText: "Vegan/vegetarian/non-vegetarian",
-        filled: true,
-        fillColor: Colors.white,
-      ),
-      keyboardType: TextInputType.text,
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Food preference is Required';
-        }
-        return null;
-      },
-      onSaved: (String value) {
-        _foodPreference = value;
-      },
-    );
-  }
-
-  Widget _buildDietRestrictions() {
-    if (profileDetails['dietaryRestrictions'] != null) {
-      _dietRestrictions = profileDetails['dietaryRestrictions'];
-    }
-    return TextFormField(
-      initialValue: _dietRestrictions,
-      decoration: new InputDecoration(
-        isDense: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
-        hintText: "Dietary restrictions",
-        filled: true,
-        fillColor: Colors.white,
-      ),
-      keyboardType: TextInputType.text,
-      onSaved: (String value) {
-        _dietRestrictions = value;
-      },
-    );
-  }
-
   Widget _buildExercisePreference() {
-    _exercisePreference = profileDetails['exercisePreference'];
-    return TextFormField(
-      initialValue: _exercisePreference,
-      decoration: new InputDecoration(
-        isDense: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
-        hintText: "Basic/intermediate/advanced",
-        filled: true,
-        fillColor: Colors.white,
-      ),
-      keyboardType: TextInputType.text,
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Exercise preference is Required';
-        }
-        return null;
-      },
-      onSaved: (String value) {
-        _foodPreference = value;
-      },
-    );
-  }
-
-  Widget _buildGender() {
-    return _buildDropDown(
-        ['female', 'Male', 'Other'], _gender = profileDetails['gender']);
-  }
-
-  Widget _buildType() {
-    return _buildDropDown(['type1', 'type2', 'Prediabetes'],
-        _type = profileDetails['diabetesType']);
-  }
-
-  Widget _buildDropDown(List<String> dropdownMenuItemList, String varValue) {
-    _gender = profileDetails['gender'];
-    return Container(
-      height: 30,
-      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-        border: Border.all(
-          color: Colors.black,
-          width: 1,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width * 0.1,
+          child: Radio(
+            value: 'Basic',
+            groupValue: _exercisePreference,
+            onChanged: (String value) {
+              setState(() {
+                _exercisePreference = value;
+              });
+            },
+          ),
         ),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: varValue,
+        Text(
+          'Basic',
           style: TextStyle(color: Colors.black),
-          items: dropdownMenuItemList
-              .map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-          onChanged: (String value) {
-            setState(() {
-              varValue = value;
-              
-              
-            });
-          },
         ),
-      ),
+        const SizedBox(width: 10),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.1,
+          child: Radio(
+            value: 'Intermediate',
+            groupValue: _exercisePreference,
+            onChanged: (String value) {
+              setState(() {
+                _exercisePreference = value;
+              });
+            },
+          ),
+        ),
+        Text(
+          'Intermediate',
+          style: TextStyle(color: Colors.black),
+        ),
+        const SizedBox(width: 10),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.1,
+          child: Radio(
+            value: 'Advanced',
+            groupValue: _exercisePreference,
+            onChanged: (String value) {
+              setState(() {
+                _exercisePreference = value;
+              });
+            },
+          ),
+        ),
+        Text(
+          'Advanced',
+          style: TextStyle(color: Colors.black),
+        ),
+      ],
     );
   }
 
@@ -538,55 +474,77 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildCarbs() {
-    _carbs = profileDetails['targetCarbs'];
-    return TextFormField(
-      decoration: new InputDecoration(
-        isDense: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
-        hintText: "Carbs",
-        filled: true,
-        fillColor: Colors.white,
+  Widget _buildGender() {
+    return Container(
+        height: 30,
+        width: double.infinity,
+        padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+    decoration: BoxDecoration(
+    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+    border: Border.all(
+    color: Colors.grey,
+    width: 1,
+    ),
+    ),
+    child: DropdownButtonHideUnderline(
+    child: DropdownButton<String>(
+      value: _gender,
+      elevation: 0,
+      style: TextStyle(
+          color: Colors.black
       ),
-      keyboardType: TextInputType.number,
-      initialValue: _carbs.toString(),
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Carbs is Required';
-        }
-        return null;
+      onChanged: (String newValue) {
+        setState(() {
+          _gender = newValue;
+        });
       },
-      onSaved: (String value) {
-        _carbs = value as int;
-      },
+      items: <String>['female', 'Male', 'Other']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      })
+          .toList(),
+    ),
+    ),
     );
   }
 
-  Widget _buildCalories() {
-    _calories = profileDetails['targetCalories'];
-    return TextFormField(
-      decoration: new InputDecoration(
-        isDense: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
-        hintText: "Calories",
-        filled: true,
-        fillColor: Colors.white,
+  Widget _buildType() {
+    return Container(
+      height: 30,
+      width: double.infinity,
+      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        border: Border.all(
+          color: Colors.grey,
+          width: 1,
+        ),
       ),
-      keyboardType: TextInputType.number,
-      initialValue: _calories.toString(),
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Calories is Required';
-        }
-        return null;
-      },
-      onSaved: (String value) {
-        _calories = value as int;
-      },
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: _type,
+          elevation: 0,
+          style: TextStyle(
+              color: Colors.black
+          ),
+          onChanged: (String newValue) {
+            setState(() {
+              _type = newValue;
+            });
+          },
+          items: <String>['type1', 'type2', 'Prediabetes']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          })
+              .toList(),
+        ),
+      ),
     );
   }
 
@@ -627,6 +585,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                 //   color: Colors.black,
                 //   height: 10,
                 // ),
+
                 _buildHeader("Personal details"),
                 const SizedBox(height: 5),
                 Text(
@@ -720,80 +679,46 @@ class ProfileScreenState extends State<ProfileScreen> {
                   height: 40,
                 ),
                 const SizedBox(height: 5),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            "Diabetes Type",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.35,
-                            child: _buildType(),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "Target Blood Glucose",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Container(
-                            height: 30,
-                            width: MediaQuery.of(context).size.width * 0.5,
-                            child: _buildRange(),
-                          ),
-                        ],
-                      ),
-                    ]),
+                Text(
+                  "Diabetes Type",
+                  style: TextStyle(
+                      fontSize: 16, color: Theme.of(context).backgroundColor),
+                ),
+                _buildType(),
+                const SizedBox(height: 5),
+                Text(
+                  "Target Blood Glucose",
+                  style: TextStyle(
+                      fontSize: 16, color: Theme.of(context).backgroundColor),
+                ),
+                Container(
+                  height: 30,
+                  child: _buildRange(),
+                ),
                 const SizedBox(height: 5),
                 Text(
                   "Exercise preference",
                   style: TextStyle(
                       fontSize: 16, color: Theme.of(context).backgroundColor),
                 ),
-                _buildExercisePreference(),
+                Container(
+                  height: 30,
+                  child: _buildExercisePreference(),
+                ),
                 const SizedBox(height: 5),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            "Location",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.42,
-                            child: _buildLocation(),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 5),
-                      Column(
-                        children: [
-                          Text(
-                            "Phone number",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.42,
-                            child: _buildPhoneNumber(),
-                          ),
-                        ],
-                      ),
-                    ]),
+                Text(
+                  "Location",
+                  style: TextStyle(
+                      fontSize: 16, color: Theme.of(context).backgroundColor),
+                ),
+                _buildLocation(),
+                const SizedBox(height: 5),
+                Text(
+                  "Phone number",
+                  style: TextStyle(
+                      fontSize: 16, color: Theme.of(context).backgroundColor),
+                ),
+                _buildPhoneNumber(),
                 const SizedBox(height: 15),
                 Center(
                   child: Align(
@@ -816,7 +741,17 @@ class ProfileScreenState extends State<ProfileScreen> {
                           _formKey.currentState.save();
                           print(_targetRange.start);
                           print(_targetRange.end);
-                          UserManager.updateProfilePage(dateOfBirth, _gender, _location, _weight, _height, _type, _targetRange.start, _targetRange.end, _name, _phoneNumber);
+                          UserManager.updateProfilePage(
+                              dateOfBirth,
+                              _gender,
+                              _location,
+                              _weight,
+                              _height,
+                              _type,
+                              _targetRange.start,
+                              _targetRange.end,
+                              _name,
+                              _phoneNumber);
                           //need to add dob and target range to profile page screen
                           //usermgr.addUser(_email, _dob, _type, _dietRestrictions.split(','), _exercisePreference,_foodPreference, _gender, _height, _location, _name, _phoneNumber, _calories, _weight, _targetRange);
                         }),

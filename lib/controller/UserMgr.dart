@@ -13,6 +13,7 @@ import '../model/ExercisePlan.dart';
 import '../model/MealPlan.dart';
 import '../model/MedicationReminder.dart';
 import '../model/GlucoseReminders.dart';
+import '../controller/ReminderMgr.dart';
 
 /// Controller class for user entity, which retrieves user details from a users database.
 class UserManager {
@@ -306,6 +307,26 @@ class UserManager {
     await setUserFoodLogBook();
     await setUserExerciseLogBook();
   }
+
+  /*static Future<void> setGlucoseReminders() async {
+    await ReminderMgr.getGlucoseReminders(user.email).then((glucoseReminder) => {
+      if (glucoseReminder != null)
+        user.setGlucoseReminders = glucoseReminder
+      else
+        user.setGlucoseReminders =  new List<GlucoseReminder>()
+    });
+  }
+
+  static Future<void> setMedicationReminders() async {
+    await ReminderMgr.getMedicationReminders(user.email).then((medicationReminder) => {
+      if (medicationReminder != null)
+        user.setMedicationReminders = medicationReminder
+      else
+        user.setMedicationReminders =  new List<MedicationReminder>()
+    });
+  }*/
+
+ 
 
   static Future<void> setUserGlucoseLogBook() async {
     await LogBookMgr.getGlucoseLogBook(user.email).then((glucoseLogBook) => {
