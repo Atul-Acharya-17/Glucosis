@@ -2,16 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Controller which retrieves and manages user's chosen exercise plan from an exercise plan database.
 class ExercisePlanMgr{
-  final String _emailID;
-  final CollectionReference _exercisePlan;
-  final CollectionReference _chosenPlan;
-  ExercisePlanMgr({String email})
-      : _emailID = email,
-        _exercisePlan = FirebaseFirestore.instance.collection('ExercisePlan'),
-        _chosenPlan = FirebaseFirestore.instance.collection('ChosenPlan');
+  static String _emailID;
+  static final CollectionReference _exercisePlan = FirebaseFirestore.instance.collection('ExercisePlan');
+  static final CollectionReference _chosenPlan = FirebaseFirestore.instance.collection('ChosenPlan');
 
 
-  Future<Map<String, dynamic>> setExercisePlan(String exercisePlanID) async{
+  static Future<Map<String, dynamic>> setExercisePlan(String exercisePlanID) async{
 
     String message;
     _chosenPlan
@@ -27,11 +23,11 @@ class ExercisePlanMgr{
     };
   }
 
-  Future<Map<String, dynamic>> choosePlan(String options) async{
+  static Future<Map<String, dynamic>> choosePlan(String options) async{
     Map exerciseMap = {
-      'Beginner': "1",
-      'Intermediate':"2",
-      'Advanced': "3"
+      'Basic': "0",
+      'Intermediate':"1",
+      'Advanced': "2"
     };
 
     List objects = [];
@@ -39,15 +35,16 @@ class ExercisePlanMgr{
     try {
       String exIndex = exerciseMap[options];
       String identifier = exIndex;
-      _exercisePlan.
-      doc(identifier)
-          .get()
-          .then((querySnapshot){
-        message = "Success";
-        objects.add(querySnapshot.data());
+      await _exercisePlan.
+      doc(identifier).collection('ExerciseScheme')
+          .get().then((value) => {
+         value.docs.forEach((element) {
+           objects.add(element);
+         })
       });
+      print(objects.length);
       return {
-        "message": message,
+        "message": "Success",
         "objects": objects
       };
 
