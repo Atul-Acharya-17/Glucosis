@@ -6,14 +6,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Controller class for user's medication reminders. Retrieves user's reminders from a medication reminder database.
 class MedicationReminderMgr extends ReminderMgr {
-  static CollectionReference medicationReminders = FirebaseFirestore.instance.collection('MedicationReminders');
+  static CollectionReference medicationReminders =
+      FirebaseFirestore.instance.collection('MedicationReminders');
 
-  MedicationReminderMgr(String email) : super(email);
-  static Future<void> addReminder(String medicineName, String dosage, String type, DateTime timing) {
-    
+  MedicationReminderMgr(String email) : super();
+  static Future<void> addReminder(
+      String medicineName, String dosage, String type, DateTime timing) {
     String email = UserManager.getCurrentUserEmail();
-    
-    medicationReminders.doc(email).collection('reminders')
+
+    medicationReminders
+        .doc(email)
+        .collection('reminders')
         .add({
           'name': medicineName,
           'dosage': dosage,

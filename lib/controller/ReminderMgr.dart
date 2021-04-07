@@ -1,12 +1,48 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:flutterapp/model/GlucoseReminders.dart';
 import 'package:flutterapp/model/MedicationReminder.dart';
-//import 'package:firebase_core/firebase_core.dart';
-//import '../model/User.dart';
 
-/// Abstract class for reminder controllers.
-abstract class ReminderMgr {
+class ReminderMgr {
+  final databaseReference = FirebaseFirestore.instance;
+  final userEmail = FirebaseAuth.instance.currentUser.email;
+  bool isLoading = true;
+  List reminderList = new List();
 
-  ReminderMgr(String email) {
-    Future<void> addReminder() {}
+  Future<List<Map>> getReminders() async {
+    await FirebaseFirestore.instance
+        .collection('GlucoseReminders')
+        .doc(userEmail)
+        .collection('reminders')
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+              querySnapshot.docs.forEach((doc) async {
+                var now = DateTime.now();
+                if (doc['timings'] == now.add(const Duration(minutes: 15))) {
+                  reminderList.add(GlucoseReminder().toMap());
+                  print("added to list");
+                }
+              })
+            })
+        .catchError((error) => print('Failed to get logbook: $error'));
+
+    await FirebaseFirestore.instance
+        .collection('MedicationReminders')
+        .doc(userEmail)
+        .collection('reminders')
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+              querySnapshot.docs.forEach((doc) async {
+                var now = DateTime.now();
+                if (doc['timings'] == now.add(const Duration(minutes: 15))) {
+                  reminderList.add(MedicationReminder().toMap());
+                  print("added to list");
+                }
+              })
+            })
+        .catchError((error) => print('Failed to get logbook: $error'));
+
+    return reminderList;
   }
 }
