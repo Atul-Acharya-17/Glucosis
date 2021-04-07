@@ -7,18 +7,19 @@ import '../view/NavigationBar.dart';
 import '../view/AppBar.dart';
 import '../controller/LogBookMgr.dart';
 import 'Drawer.dart';
+import '../MyAppIcons.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        endDrawer: CustomDrawer(),
-        appBar: CommonAppBar(
-          title: 'Overview',
-        ),
-        body: Body(),
-        bottomNavigationBar: NavigationBar(),
-      );
+      appBar: CommonAppBar(
+        title: 'Overview',
+      ),
+      body: Body(),
+      endDrawer: CustomDrawer(),
+      bottomNavigationBar: NavigationBar(),
+    );
   }
 }
 
@@ -30,6 +31,68 @@ class Body extends StatelessWidget {
   final Color backgroundColor = Color.fromRGBO(180, 180, 180, 0.2);
   final Color green = Color.fromRGBO(0, 110, 96, 1);
   final Color pink = Color.fromRGBO(254, 179, 189, 1);
+
+  Widget _buildLogBookIcons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Container(
+          width: 60,
+          decoration: ShapeDecoration(
+            color: Theme.of(context).accentColor,
+            shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(10.0),
+            ),
+          ),
+          child: IconButton(
+            icon: Icon(MyAppIcons.glucose),
+            iconSize: 30,
+            color: Theme.of(context).primaryColorLight,
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed('/logbook');
+                  }),
+          ),
+        Container(
+          width: 60,
+          decoration: ShapeDecoration(
+            color: Theme.of(context).accentColor,
+            shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(10.0),
+            ),
+          ),
+          child: IconButton(
+            icon: Icon(MyAppIcons.food),
+            iconSize: 30,
+            color: Theme.of(context).primaryColorLight,
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed('/logbook');
+            },
+          ),
+        ),
+        Container(
+          width: 60,
+          decoration: ShapeDecoration(
+            color: Theme.of(context).accentColor,
+            shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(10.0),
+            ),
+          ),
+          child: IconButton(
+            icon: Icon(MyAppIcons.exercise),
+            iconSize: 30,
+            color: Theme.of(context).primaryColorLight,
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed('/logbook');
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -76,14 +139,7 @@ class Body extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    LogBookIcons(
-                      iconSize: iconSize,
-                      iconPaths: [
-                        'images/user_icon.jpeg',
-                        'images/user_icon.jpeg',
-                        'images/user_icon.jpeg',
-                      ],
-                    ),
+                    _buildLogBookIcons(context),
                   ],
                 ),
               ),
@@ -203,12 +259,12 @@ class Graphs extends StatefulWidget {
 
   @override
   GraphsState createState() => GraphsState(
-    logBooks: logBooks,
-    graphsHeight: graphsHeight,
-    padding: padding,
-    borderRadius: borderRadius,
-    color: color,
-  );
+        logBooks: logBooks,
+        graphsHeight: graphsHeight,
+        padding: padding,
+        borderRadius: borderRadius,
+        color: color,
+      );
 }
 
 class GraphsState extends State<Graphs> {
@@ -311,14 +367,14 @@ class Reminders extends StatefulWidget {
 
   @override
   RemindersState createState() => RemindersState(
-    margin: margin,
-    padding: padding,
-    borderRadius: borderRadius,
-    fontSize: fontSize,
-    green: green,
-    pink: pink,
-    reminders: reminders,
-  );
+        margin: margin,
+        padding: padding,
+        borderRadius: borderRadius,
+        fontSize: fontSize,
+        green: green,
+        pink: pink,
+        reminders: reminders,
+      );
 }
 
 class RemindersState extends State<Reminders> {
@@ -360,11 +416,11 @@ class RemindersState extends State<Reminders> {
   }
 
   Card reminderCard(
-      double fontSize,
-      String timestamp,
-      String message,
-      bool logNow,
-      ) {
+    double fontSize,
+    String timestamp,
+    String message,
+    bool logNow,
+  ) {
     final GestureDetector logNowButton = GestureDetector(
       child: Text(
         'Log now',
@@ -395,7 +451,7 @@ class RemindersState extends State<Reminders> {
       child: Container(
         //margin: EdgeInsets.only(bottom: margin),
         padding:
-        EdgeInsets.fromLTRB(2 * padding, padding, 2 * padding, padding),
+            EdgeInsets.fromLTRB(2 * padding, padding, 2 * padding, padding),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
             Radius.circular(borderRadius),

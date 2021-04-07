@@ -140,7 +140,7 @@ class LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 40),
                   Center(
                     child: Align(
-                      child: Image.asset('images/user_icon.jpeg',
+                      child: Image.asset('images/Glucosis.png',
                           width: 100, height: 100),
                     ),
                   ),
