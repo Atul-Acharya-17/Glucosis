@@ -207,7 +207,6 @@ class ReminderMgr {
         if (!medicationDismissed[i]) {
           reminderList.add(
             allMedication[i].toMap(
-              i,
             ),
           );
         }
@@ -241,4 +240,40 @@ class ReminderMgr {
       print(medicationDismissed);
     }
   }
+
+  static Future<Map<String, MedicationReminder>> getMedicationRemindersWithKey() async {
+      Map<String, MedicationReminder> medReminderMap = {};
+      await FirebaseFirestore.instance
+          .collection('MedicationReminders')
+          .doc(UserManager.getCurrentUserEmail())
+          .collection('reminders')
+          .get()
+          .then((QuerySnapshot querySnapshot) => {
+        querySnapshot.docs.forEach((doc) async {
+
+          medReminderMap[doc.id] =  MedicationReminder(
+            dosage: doc['dosage'],
+            medicineName: doc['name'],
+            type: doc['type'],
+            timing: DateTime.fromMicrosecondsSinceEpoch(
+              doc['timing'].microsecondsSinceEpoch,
+            ),
+          );
+          print("added to list");
+        })
+      })
+          .catchError((error) => print('Failed to get logbook: $error'));
+      print("med reminder list returned");
+
+      print(medReminderMap.keys);
+      return medReminderMap;
+  }
+
+  static void deleteReminder(String key){
+    FirebaseFirestore.instance
+        .collection('MedicationReminders')
+        .doc(UserManager.getCurrentUserEmail())
+        .collection('reminders').doc(key).delete();
+  }
+
 }
