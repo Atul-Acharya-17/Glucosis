@@ -447,7 +447,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildType() {
-    return _buildDropDown(['Type I', 'type2', 'Prediabetes'],
+    return _buildDropDown(['type1', 'type2', 'Prediabetes'],
         _type = profileDetails['diabetesType']);
   }
 
@@ -477,6 +477,8 @@ class ProfileScreenState extends State<ProfileScreen> {
           onChanged: (String value) {
             setState(() {
               varValue = value;
+              
+              
             });
           },
         ),
