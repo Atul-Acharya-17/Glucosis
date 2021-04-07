@@ -1,39 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterapp/controller/MedicationReminderMgr.dart';
+import 'package:flutterapp/controller/ReminderMgr.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
 import 'package:flutterapp/view/CustomRadioButton.dart';
 import './AppBar.dart';
 import 'Drawer.dart';
 
 void main() => MaterialApp(
-  title: 'Diabetes App',
-  home: MedicationPage(),
-  theme: ThemeData(
-    // Define the default brightness and colors.
-    primaryColor: Colors.teal.shade800,
-    backgroundColor: Colors.pink.shade100,
+      title: 'Diabetes App',
+      home: MedicationPage(),
+      theme: ThemeData(
+        // Define the default brightness and colors.
+        primaryColor: Colors.teal.shade800,
+        backgroundColor: Colors.pink.shade100,
 
-    // Define the default font family.
-    fontFamily: 'Roboto',
+        // Define the default font family.
+        fontFamily: 'Roboto',
 
-    // Define the default TextTheme. Use this to specify the default
-    // text styling for headlines, titles, bodies of text, and more.
-    textTheme: TextTheme(
-        headline3: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black),
-        headline4: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.teal.shade800),
-        headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
-        headline6: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-            color: Colors.black)),
-  ),);
+        // Define the default TextTheme. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: TextTheme(
+            headline3: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+            headline4: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal.shade800),
+            headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
+            headline6: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
+      ),
+    );
 
 /// UI screen for viewing and creating medication reminders.
 class MedicationPage extends StatelessWidget {
@@ -351,9 +350,9 @@ class MyCustomFormState extends State<MyCustomForm> {
               }
               return null;
             },
-          onSaved: (String value) {
-            medicineName = value;
-          },
+            onSaved: (String value) {
+              medicineName = value;
+            },
           ),
           Container(
             child: Row(
@@ -478,11 +477,15 @@ class MyCustomFormState extends State<MyCustomForm> {
                     // you'd often call a server or save the information in a database.
                     _formKey.currentState.save();
 
-                    String type = CustomRadio.toggle? "Pills": "Syringe";
+                    String type = CustomRadio.toggle ? "Pills" : "Syringe";
                     DateTime now = new DateTime.now();
 
-                    MedicationReminderMgr.addReminder(medicineName, dosage, type, DateTime(now.year, now.month, now.day, _time.hour, _time.minute));
-
+                    ReminderMgr().addMedicationReminder(
+                        medicineName,
+                        dosage,
+                        type,
+                        DateTime(now.year, now.month, now.day, _time.hour,
+                            _time.minute));
 
                     return showDialog<void>(
                       context: context,

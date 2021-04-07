@@ -5,6 +5,7 @@ class GlucoseReminder {
   GlucoseReminder({DateTime timings}) : _timings = timings;
 
   get timings => _timings;
+
   Map<String, dynamic> toMap() {
     return {
       'type': "glucose",

@@ -5,39 +5,40 @@ import 'package:flutterapp/model/GlucoseReminders.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
 // import 'package:flutterapp/view/CustomRadioButton.dart';
 import './AppBar.dart';
-import 'package:flutterapp/controller/GlucoseReminderMgr.dart';
+import 'package:flutterapp/controller/ReminderMgr.dart';
 
 import 'Drawer.dart';
 
 void main() => runApp(
-  MaterialApp(
-    title: 'Diabetes App',
-    home: DailySchedule(),
-    theme: ThemeData(
-      // Define the default brightness and colors.
-      primaryColor: Colors.teal.shade800,
-      backgroundColor: Colors.pink.shade100,
+      MaterialApp(
+        title: 'Diabetes App',
+        home: DailySchedule(),
+        theme: ThemeData(
+          // Define the default brightness and colors.
+          primaryColor: Colors.teal.shade800,
+          backgroundColor: Colors.pink.shade100,
 
-      // Define the default font family.
-      fontFamily: 'Roboto',
+          // Define the default font family.
+          fontFamily: 'Roboto',
 
-      // Define the default TextTheme. Use this to specify the default
-      // text styling for headlines, titles, bodies of text, and more.
-      textTheme: TextTheme(
-          headline3: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black),
-          headline4: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.teal.shade800),
-          headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
-          headline6: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.black)),
-    ),),
+          // Define the default TextTheme. Use this to specify the default
+          // text styling for headlines, titles, bodies of text, and more.
+          textTheme: TextTheme(
+              headline3: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+              headline4: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal.shade800),
+              headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
+              headline6: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black)),
+        ),
+      ),
     );
 
 /// UI component for setting daily blood glucose reading reminders.
@@ -236,8 +237,9 @@ class MyCustomFormState extends State<MyCustomForm> {
 
                         DateTime now = new DateTime.now();
 
-                        GlucoseReminderMgr.addReminder(DateTime(now.year, now.month, now.day, _time.hour, _time.minute));
-                        
+                        ReminderMgr().addGlucoseReminder(DateTime(now.year,
+                            now.month, now.day, _time.hour, _time.minute));
+
                         /*
 
                         Change to form data

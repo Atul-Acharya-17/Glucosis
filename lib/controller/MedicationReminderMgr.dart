@@ -1,29 +1,31 @@
-import 'package:flutter/material.dart';
-import 'package:flutterapp/controller/ReminderMgr.dart';
-import 'package:flutterapp/controller/UserMgr.dart';
-import 'package:flutterapp/model/MedicationReminder.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutterapp/controller/ReminderMgr.dart';
+// import 'package:flutterapp/controller/UserMgr.dart';
+// import 'package:flutterapp/model/MedicationReminder.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
-/// Controller class for user's medication reminders. Retrieves user's reminders from a medication reminder database.
-class MedicationReminderMgr extends ReminderMgr {
-  static CollectionReference medicationReminders =
-      FirebaseFirestore.instance.collection('MedicationReminders');
+// /// Controller class for user's medication reminders. Retrieves user's reminders from a medication reminder database.
+// class MedicationReminderMgr extends ReminderMgr {
+//   static CollectionReference medicationReminders =
+//       FirebaseFirestore.instance.collection('MedicationReminders');
 
-  MedicationReminderMgr(String email) : super();
-  static Future<void> addReminder(
-      String medicineName, String dosage, String type, DateTime timing) {
-    String email = UserManager.getCurrentUserEmail();
+//   MedicationReminderMgr({String medicineName, String dosage, String type, DateTime timing}) : super(){
 
-    medicationReminders
-        .doc(email)
-        .collection('reminders')
-        .add({
-          'name': medicineName,
-          'dosage': dosage,
-          'timing': timing,
-          'type': type,
-        })
-        .then((value) => print('Medication Reminder added!'))
-        .catchError((error) => print('Failed to add reminder: $error'));
-  }
-}
+//   }
+//   static Future<void> addMedicationReminder(
+//     String medicineName, String dosage, String type, DateTime timing) {
+//     String email = UserManager.getCurrentUserEmail();
+
+//     medicationReminders
+//         .doc(email)
+//         .collection('reminders')
+//         .add({
+//           'name': medicineName,
+//           'dosage': dosage,
+//           'timing': timing,
+//           'type': type,
+//         })
+//         .then((value) => print('Medication Reminder added!'))
+//         .catchError((error) => print('Failed to add reminder: $error'));
+//   }
+// }
