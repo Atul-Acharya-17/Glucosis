@@ -469,6 +469,7 @@ class ViewLogBookButtonState extends State<ViewLogBookButton> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.teal.shade100,
           scrollable: true,
           title: Text(
             '${DateFormat.yMMMMEEEEd().format(selectedDate)}',
@@ -539,7 +540,7 @@ class ViewLogBookButtonState extends State<ViewLogBookButton> {
     }
 
     return Table(
-      border: TableBorder.all(),
+      border: TableBorder.all(color: Colors.teal.shade800,style:BorderStyle.solid),
       defaultColumnWidth: IntrinsicColumnWidth(),
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: tableRows,
