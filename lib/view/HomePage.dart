@@ -6,19 +6,19 @@ import '../model/Data.dart';
 import '../view/NavigationBar.dart';
 import '../view/AppBar.dart';
 import '../controller/LogBookMgr.dart';
+import 'Drawer.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
+        endDrawer: CustomDrawer(),
         appBar: CommonAppBar(
           title: 'Overview',
         ),
         body: Body(),
         bottomNavigationBar: NavigationBar(),
-      ),
-    );
+      );
   }
 }
 
