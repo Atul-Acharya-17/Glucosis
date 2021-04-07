@@ -166,10 +166,13 @@ class ProfileScreenState extends State<ProfileScreen> {
   String _phoneNumber = "65659393";
   String _email = "hello@gmail.com";
   String _password = "********";
-  DateTime dateOfBirth = DateTime.now().toLocal();
+  DateTime dateOfBirth = (UserManager.getProfileDetails()['dateOfBirth']).toLocal();
+  
   DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   Future<void> _selectDate(BuildContext context) async {
+    //DateTime dateOfBirth = UserManager.getProfileDetails()['dateOfBirth'];
+    print('Date'+ dateOfBirth.toString());
     final DateTime pickedDate = await showDatePicker(
         context: context,
         initialDate: dateOfBirth,

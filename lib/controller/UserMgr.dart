@@ -204,6 +204,9 @@ class UserManager {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         print(documentSnapshot.data());
+        print(documentSnapshot['DOB'].toDate().toLocal());
+        print(DateTime.now());
+        print(DateTime.now().toLocal());
         UserManager.user = new User(
             dateOfBirth: documentSnapshot['DOB'].toDate(),
             diabetesType: documentSnapshot['diabetes type'],
