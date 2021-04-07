@@ -204,7 +204,7 @@ class ExercisePageState extends StatelessWidget {
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline4),
-                                    onPressed: null)
+                                    onPressed: (){Navigator.of(context).pushNamed('/profile');})
                               ]),
                         ]))),
             Container(

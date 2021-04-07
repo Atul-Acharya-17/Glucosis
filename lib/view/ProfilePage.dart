@@ -156,7 +156,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   double _weight = 50;
   double _height = 1.50;
   String _type = "Prediabetes";
-  RangeValues _targetRange = const RangeValues(90, 160);
+  RangeValues _targetRange = RangeValues(UserManager.getProfileDetails()['minGlucose'], UserManager.getProfileDetails()['maxGlucose']);
   String _foodPreference = "Non-vegetarian";
   int _carbs = 50;
   int _calories = 2000;
@@ -166,10 +166,13 @@ class ProfileScreenState extends State<ProfileScreen> {
   String _phoneNumber = "65659393";
   String _email = "hello@gmail.com";
   String _password = "********";
-  DateTime dateOfBirth = DateTime.now().toLocal();
+  DateTime dateOfBirth = (UserManager.getProfileDetails()['dateOfBirth']).toLocal();
+  
   DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   Future<void> _selectDate(BuildContext context) async {
+    //DateTime dateOfBirth = UserManager.getProfileDetails()['dateOfBirth'];
+    print('Date'+ dateOfBirth.toString());
     final DateTime pickedDate = await showDatePicker(
         context: context,
         initialDate: dateOfBirth,
@@ -318,12 +321,10 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildRange() {
-    _targetRange =
-        RangeValues(profileDetails['minGlucose'], profileDetails['maxGlucose']);
     return RangeSlider(
       values: _targetRange,
-      min: 70,
-      max: 180,
+      min: 20,
+      max: 250,
       divisions: 110,
       activeColor: Theme.of(context).accentColor,
       inactiveColor: Theme.of(context).primaryColorLight,
@@ -448,7 +449,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildType() {
-    return _buildDropDown(['Type I', 'type2', 'Prediabetes'],
+    return _buildDropDown(['type1', 'type2', 'Prediabetes'],
         _type = profileDetails['diabetesType']);
   }
 
@@ -479,6 +480,8 @@ class ProfileScreenState extends State<ProfileScreen> {
           onChanged: (String value) {
             setState(() {
               varValue = value;
+              
+              
             });
           },
         ),
@@ -507,7 +510,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         return null;
       },
       onSaved: (String value) {
-        _weight = value as double;
+        _weight = double.parse(value);
       },
     );
   }
@@ -533,7 +536,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         return null;
       },
       onSaved: (String value) {
-        _height = value as double;
+        _height = double.parse(value);
       },
     );
   }
@@ -780,7 +783,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                             return;
                           }
                           _formKey.currentState.save();
-                          UserManager usermgr = new UserManager();
+                          print(_targetRange.start);
+                          print(_targetRange.end);
+                          UserManager.updateProfilePage(dateOfBirth, _gender, _location, _weight, _height, _type, _targetRange.start, _targetRange.end, _name, _phoneNumber);
                           //need to add dob and target range to profile page screen
                           //usermgr.addUser(_email, _dob, _type, _dietRestrictions.split(','), _exercisePreference,_foodPreference, _gender, _height, _location, _name, _phoneNumber, _calories, _weight, _targetRange);
                         }),
