@@ -157,7 +157,7 @@ class BooksView extends StatelessWidget {
                         Container(
                             height: 300,
                             width: 300,
-                            child: getRadialGraph()),
+                            child: getRadialGraph(book)),
                 SizedBox(height: 20,),
                 Container(
                   margin: EdgeInsets.fromLTRB(
@@ -197,11 +197,32 @@ class BooksView extends StatelessWidget {
             );
   }
 
-  Widget getRadialGraph(){
+  Widget getRadialGraph(String logBook){
+
+    int min = 0;
+    int max;
+
+    var profileDetails = UserManager.getProfileDetails();
+
+    switch(logBook){
+      case 'Glucose':
+        min = profileDetails['minGlucose'].toInt();
+        max = profileDetails['maxGlucose'].toInt();
+        break;
+      case 'Exercise':
+        // Need to change
+        min = 0;
+        max = 60;
+        break;
+      case 'Food':
+        min = 0;
+        max = profileDetails['targetCalories'];
+    }
+
     Widget radialGraph = gauge.SfRadialGauge(axes: <gauge.RadialAxis>[
       gauge.RadialAxis(
-          minimum: UserManager.getProfileDetails()['minGlucose'],
-          maximum: UserManager.getProfileDetails()['maxGlucose'],
+          minimum: double.parse(min.toString()),
+          maximum: double.parse(max.toString()),
           showLabels: false,
           showTicks: false,
           startAngle: 270,
@@ -227,16 +248,15 @@ class BooksView extends StatelessWidget {
                 widget: Text(
                   chartData.length > 0 ?
                   ((chartData[chartData.length-1].y)).toStringAsFixed(0) +
-                      '/${UserManager.getProfileDetails()['maxGlucose'].toInt()}\n'
+                      '/${max.toString()}\n'
                   : 0.toString() + '/${UserManager.getProfileDetails()['maxGlucose'].toInt()}',
                   style: TextStyle(
                       fontSize: 40, fontWeight: FontWeight.bold),
                 ))
           ])
     ]);
-        if (book == 'Glucose')
-          return radialGraph;
-        return Container();
+
+    return radialGraph;
   }
 }
 
