@@ -1,8 +1,23 @@
+import '../model/Data.dart';
+
 /// Abstract class for user's various log books.
 abstract class LogBook {
-  String _email;
+  /// Gets data to create chart on home page.
+  List<Data> getHomePageData() {
+    List<Data> chartData = logBookToData();
+    int end = chartData.length >= 7 ? 7 : chartData.length;
+    return chartData.sublist(0, end);
+  }
 
-  LogBook({String email}) : _email = email;
+  /// Gets data to create chart on log book page.
+  List<Data> getLogBookPageData() {
+    List<Data> chartData = logBookToData();
+    return chartData;
+  }
 
-  get email => _email;
+  /// Get glucose records for the charts.
+  List<Data> logBookToData();
+
+  /// Get glucose records for displaying log book.
+  List<List<String>> getListOfRecords();
 }

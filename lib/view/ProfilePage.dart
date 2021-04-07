@@ -95,7 +95,6 @@ class PasswordScreenState extends State<PasswordScreen> {
       appBar: CommonAppBar(
         title: 'Change Password',
       ),
-      endDrawer: CustomDrawer(),
       bottomNavigationBar: NavigationBar(),
       body: Container(
         padding: EdgeInsets.only(left: 20, right: 20, top: 10),
@@ -393,6 +392,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         if (value.isEmpty) {
           return 'Phone number is Required';
         }
+
         return null;
       },
       onSaved: (String value) {
@@ -722,7 +722,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                               _targetRange.start,
                               _targetRange.end,
                               _name,
-                              _phoneNumber,);
+                              _phoneNumber,
+                          _exercisePreference);
                           //need to add dob and target range to profile page screen
                           //usermgr.addUser(_email, _dob, _type, _dietRestrictions.split(','), _exercisePreference,_foodPreference, _gender, _height, _location, _name, _phoneNumber, _calories, _weight, _targetRange);
                         }),

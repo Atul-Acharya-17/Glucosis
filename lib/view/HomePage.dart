@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import '../model/Data.dart';
 import '../view/NavigationBar.dart';
 import '../view/AppBar.dart';
+import '../view/Drawer.dart';
 import '../controller/LogBookMgr.dart';
+import '../controller/ReminderMgr.dart';
 import 'Drawer.dart';
 import '../MyAppIcons.dart';
 
@@ -29,70 +32,6 @@ class Body extends StatelessWidget {
   final double padding = 5;
   final double iconSize = 56;
   final Color backgroundColor = Color.fromRGBO(180, 180, 180, 0.2);
-  final Color green = Color.fromRGBO(0, 110, 96, 1);
-  final Color pink = Color.fromRGBO(254, 179, 189, 1);
-
-  Widget _buildLogBookIcons(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Container(
-          width: 60,
-          decoration: ShapeDecoration(
-            color: Theme.of(context).accentColor,
-            shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(10.0),
-            ),
-          ),
-          child: IconButton(
-            icon: Icon(MyAppIcons.glucose),
-            iconSize: 30,
-            color: Theme.of(context).primaryColorLight,
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamed('/logbook');
-                  }),
-          ),
-        Container(
-          width: 60,
-          decoration: ShapeDecoration(
-            color: Theme.of(context).accentColor,
-            shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(10.0),
-            ),
-          ),
-          child: IconButton(
-            icon: Icon(MyAppIcons.food),
-            iconSize: 30,
-            color: Theme.of(context).primaryColorLight,
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamed('/logbook');
-            },
-          ),
-        ),
-        Container(
-          width: 60,
-          decoration: ShapeDecoration(
-            color: Theme.of(context).accentColor,
-            shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(10.0),
-            ),
-          ),
-          child: IconButton(
-            icon: Icon(MyAppIcons.exercise),
-            iconSize: 30,
-            color: Theme.of(context).primaryColorLight,
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamed('/logbook');
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +41,74 @@ class Body extends StatelessWidget {
     final double normalFontSize = width * 0.06;
     final double miniFontSize = normalFontSize - 5;
 
+    final Color green = Color.fromRGBO(0, 110, 96, 1);
+    final Color pink = Color.fromRGBO(254, 179, 189, 1);
+
+    Widget _buildLogBookIcons(BuildContext context) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Container(
+            width: 60,
+            decoration: ShapeDecoration(
+              color: Theme.of(context).accentColor,
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+              ),
+            ),
+            child: IconButton(
+                icon: Icon(MyAppIcons.glucose),
+                iconSize: 30,
+                color: Theme.of(context).primaryColorLight,
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed('/logbook');
+                }),
+          ),
+          Container(
+            width: 60,
+            decoration: ShapeDecoration(
+              color: Theme.of(context).accentColor,
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+              ),
+            ),
+            child: IconButton(
+              icon: Icon(MyAppIcons.food),
+              iconSize: 30,
+              color: Theme.of(context).primaryColorLight,
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed('/logbook');
+              },
+            ),
+          ),
+          Container(
+            width: 60,
+            decoration: ShapeDecoration(
+              color: Theme.of(context).accentColor,
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+              ),
+            ),
+            child: IconButton(
+              icon: Icon(MyAppIcons.exercise),
+              iconSize: 30,
+              color: Theme.of(context).primaryColorLight,
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed('/logbook');
+              },
+            ),
+          ),
+        ],
+      );
+    }
+
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(10),
-        color: backgroundColor,
+        color: Theme.of(context).canvasColor,
         child: Column(
           children: [
             Container(
@@ -119,7 +122,7 @@ class Body extends StatelessWidget {
                 graphsHeight: graphsHeight,
                 padding: padding,
                 borderRadius: borderRadius,
-                color: pink,
+                color: Theme.of(context).accentColor,
               ),
             ),
             Card(
@@ -192,52 +195,11 @@ class Body extends StatelessWidget {
               padding: padding,
               borderRadius: borderRadius,
               fontSize: miniFontSize,
-              green: green,
-              pink: pink,
-              reminders: [
-                {
-                  'type': 'Glucose',
-                  'message': 'Check your blood sugar',
-                  'time': '9:00 am',
-                },
-                {
-                  'type': 'Medication',
-                  'message': 'Take insulin medication',
-                  'time': '10:00 am',
-                }
-              ],
+              reminders: ReminderMgr.getReminders(),
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class LogBookIcons extends StatelessWidget {
-  LogBookIcons({this.iconSize, @required this.iconPaths});
-
-  final double iconSize;
-  final List<String> iconPaths;
-
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> icons = List<Widget>(iconPaths.length);
-    for (int i = 0; i < iconPaths.length; i++) {
-      icons[i] = iconButton(iconPaths[i]);
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: icons,
-    );
-  }
-
-  IconButton iconButton(String iconPath) {
-    return IconButton(
-      icon: new Image.asset(iconPath),
-      iconSize: iconSize,
-      onPressed: () {},
     );
   }
 }
@@ -259,12 +221,12 @@ class Graphs extends StatefulWidget {
 
   @override
   GraphsState createState() => GraphsState(
-        logBooks: logBooks,
-        graphsHeight: graphsHeight,
-        padding: padding,
-        borderRadius: borderRadius,
-        color: color,
-      );
+    logBooks: logBooks,
+    graphsHeight: graphsHeight,
+    padding: padding,
+    borderRadius: borderRadius,
+    color: color,
+  );
 }
 
 class GraphsState extends State<Graphs> {
@@ -352,8 +314,6 @@ class Reminders extends StatefulWidget {
     this.padding,
     this.borderRadius,
     this.fontSize,
-    this.green,
-    this.pink,
     this.reminders,
   });
 
@@ -361,20 +321,16 @@ class Reminders extends StatefulWidget {
   final double padding;
   final double borderRadius;
   final double fontSize;
-  final Color green;
-  final Color pink;
   final List<Map> reminders;
 
   @override
   RemindersState createState() => RemindersState(
-        margin: margin,
-        padding: padding,
-        borderRadius: borderRadius,
-        fontSize: fontSize,
-        green: green,
-        pink: pink,
-        reminders: reminders,
-      );
+    margin: margin,
+    padding: padding,
+    borderRadius: borderRadius,
+    fontSize: fontSize,
+    reminders: reminders,
+  );
 }
 
 class RemindersState extends State<Reminders> {
@@ -383,8 +339,6 @@ class RemindersState extends State<Reminders> {
     this.padding,
     this.borderRadius,
     this.fontSize,
-    this.green,
-    this.pink,
     this.reminders,
   });
 
@@ -392,8 +346,6 @@ class RemindersState extends State<Reminders> {
   final double padding;
   final double borderRadius;
   final double fontSize;
-  final Color green;
-  final Color pink;
   List<Map> reminders;
 
   @override
@@ -401,11 +353,17 @@ class RemindersState extends State<Reminders> {
     List<Widget> columnChildren = [];
     reminders.forEach((reminder) {
       columnChildren.add(
-        reminderCard(
+        reminderSlidable(
           fontSize,
-          reminder['time'],
+          reminder['timings'],
           reminder['message'],
+          reminder['index'],
           reminder['type'] == 'Glucose' ? true : false,
+        ),
+      );
+      columnChildren.add(
+        SizedBox(
+          height: 5,
         ),
       );
     });
@@ -415,93 +373,79 @@ class RemindersState extends State<Reminders> {
     );
   }
 
-  Card reminderCard(
-    double fontSize,
-    String timestamp,
-    String message,
-    bool logNow,
-  ) {
-    final GestureDetector logNowButton = GestureDetector(
-      child: Text(
-        'Log now',
-        style: TextStyle(
-          fontSize: fontSize - 1,
-          color: logNow == true ? green : Colors.white,
-        ),
-      ),
-      onTap: () {},
+  Slidable reminderSlidable(
+      double fontSize,
+      String timestamp,
+      String message,
+      int index,
+      bool logNow,
+      ) {
+    IconSlideAction deleteButton = IconSlideAction(
+      caption: 'Delete',
+      color: Theme.of(context).backgroundColor,
+      icon: Icons.delete,
+      onTap: () {
+        setState(() {
+          reminders.removeWhere((reminder) => reminder['index'] == index);
+        });
+        print(reminders);
+        ReminderMgr.setDismissed(
+          logNow ? 'Glucose' : 'Medication',
+          index,
+        );
+      },
     );
-    final GestureDetector dismissButton = GestureDetector(
-      child: Text(
-        'Dismiss',
-        style: TextStyle(
-          fontSize: fontSize - 1,
-          color: pink,
-        ),
-      ),
-      onTap: () {},
+    IconSlideAction logNowButton = IconSlideAction(
+      caption: 'Log Now',
+      color: Theme.of(context).primaryColor,
+      icon: Icons.edit,
+      onTap: () {
+        Navigator.of(context).pushNamed('/logbloodglucose');
+      },
     );
 
-    return Card(
-      elevation: 2,
-      margin: EdgeInsets.only(bottom: margin),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius),
-      ),
-      child: Container(
-        //margin: EdgeInsets.only(bottom: margin),
-        padding:
-            EdgeInsets.fromLTRB(2 * padding, padding, 2 * padding, padding),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(borderRadius),
+    return Slidable(
+      actionPane: SlidableDrawerActionPane(),
+      actionExtentRatio: 0.25,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(
+          borderRadius,
+        ),
+        child: Container(
+          color: Colors.white,
+          alignment: Alignment.center,
+          child: ListTile(
+            visualDensity: VisualDensity(
+              horizontal: 0,
+              vertical: -3.5,
+            ),
+            title: Text(
+              '$timestamp',
+              style: TextStyle(
+                color: Theme.of(context).backgroundColor,
+                fontWeight: FontWeight.w500,
+                fontSize: 17,
+              ),
+            ),
+            subtitle: Text(
+              '$message',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              ),
+            ),
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                timeText(
-                  timestamp,
-                  fontSize,
-                ),
-                messageText(
-                  message,
-                  fontSize,
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                logNowButton,
-                dismissButton,
-              ],
-            ),
-          ],
-        ),
       ),
-    );
-  }
-
-  Text timeText(String timestamp, double fontSize) {
-    return Text(
-      timestamp,
-      style: TextStyle(
-        fontSize: fontSize,
-        color: green,
-      ),
-    );
-  }
-
-  Text messageText(String message, double fontSize) {
-    return Text(
-      message,
-      style: TextStyle(
-        fontSize: fontSize,
-      ),
+      actions: logNow
+          ? <Widget>[
+        deleteButton,
+        logNowButton,
+      ]
+          : <Widget>[
+        deleteButton,
+      ],
     );
   }
 }

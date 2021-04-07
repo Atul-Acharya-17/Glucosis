@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutterapp/controller/LogBookMgr.dart';
 import 'package:flutterapp/view/AppBar.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:intl/intl.dart';
-
+import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'Drawer.dart';
 
 
@@ -55,6 +56,8 @@ class MealLogForm extends State<MealLogPageState> {
   String _foodItem;
   double _servings;
   int _calories;
+  int _carbs = 200;
+
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
@@ -83,6 +86,24 @@ class MealLogForm extends State<MealLogPageState> {
   }
   @override
   Widget build(BuildContext context) {
+    var slider = SleekCircularSlider(
+        min: 0,
+        max: 400,
+        initialValue: double.parse(_carbs.toString()),
+        appearance: CircularSliderAppearance(
+          counterClockwise: true,
+          startAngle: 0,
+          angleRange: 360,
+            infoProperties: InfoProperties(
+                topLabelText: "Carbs",
+                modifier: (double percentage){
+                  return percentage.ceil().toInt().toString();
+                }
+            ),
+        ),
+        onChange: (double value) {
+          _carbs = value.toInt();
+        });
     double progressValue = 153;
     return Form(
       key: _formKey,
@@ -92,59 +113,14 @@ class MealLogForm extends State<MealLogPageState> {
           body: SingleChildScrollView(
               child: Container(
                   padding: EdgeInsets.only(left: 20, right: 20),
+                  height: MediaQuery.of(context).size.height * 1,
                   child: Column(children: [
                     Container(
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
                         width: 200,
                         height: 200,
-                        child: SfRadialGauge(axes: <RadialAxis>[
-                          RadialAxis(
-                              minimum: 0,
-                              maximum: 100,
-                              showLabels: false,
-                              showTicks: false,
-                              startAngle: 270,
-                              endAngle: 270,
-                              axisLineStyle: AxisLineStyle(
-                                thickness: 0.2,
-                                cornerStyle: CornerStyle.bothFlat,
-                                color: Colors.pink.shade100,
-                                thicknessUnit: GaugeSizeUnit.factor,
-                              ),
-                              pointers: <GaugePointer>[
-                                RangePointer(
-                                    value: (progressValue/250 *100),
-                                    cornerStyle: CornerStyle.bothFlat,
-                                    width: 0.2,
-                                    sizeUnit: GaugeSizeUnit.factor,
-                                    color: Colors.pink.shade300)
-                              ],
-                              annotations: <GaugeAnnotation>[
-                                GaugeAnnotation(
-                                    positionFactor: 0.7,
-                                    angle: 90,
-                                    widget: Container(
-                                        padding: EdgeInsets.only(left: 20, right: 20),
-                                        child: Column(
-                                            children: [
-                                              Text(
-                                                (progressValue).toStringAsFixed(0),
-                                                style: TextStyle(
-                                                  fontSize: 40,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Carbs',
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                              )       ]//children array
-                                        )
-                                    )
-                                )
-                              ])
-                        ])),
+                        child: slider
+                    ),
 
                     Container(
 
@@ -327,8 +303,7 @@ class MealLogForm extends State<MealLogPageState> {
                             print(_calories);
 
                             // Need to get form for Carbs
-
-                            LogBookMgr.addFoodRecord(currentDate, _foodItem, 20, _calories, _servings);
+                            LogBookMgr.addFoodRecord(currentDate, _foodItem, _carbs, _calories, _servings);
                           },
 
 

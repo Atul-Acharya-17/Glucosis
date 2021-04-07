@@ -1,9 +1,10 @@
 import 'package:intl/intl.dart';
 import '../model/FoodRecord.dart';
+import '../model/LogBook.dart';
 import '../model/Data.dart';
 
 /// Collection entity containing past food entries of a user.
-class FoodLogBook {
+class FoodLogBook extends LogBook {
   List<FoodRecord> _foodRecordsList;
 
   FoodLogBook({
@@ -12,25 +13,13 @@ class FoodLogBook {
 
   get foodRecordsList => _foodRecordsList;
 
-  /// Gets data to create chart on home page.
-  List<Data> getHomePageData() {
-    List<Data> chartData = logBookToData();
-    int end = chartData.length >= 7 ? 7 : chartData.length;
-    return chartData.sublist(0, end);
-  }
-
-  /// Gets data to create chart on log book page.
-  List<Data> getLogBookPageData() {
-    List<Data> chartData = logBookToData();
-    return chartData;
-  }
-
   /// Add food record.
   void addRecord(FoodRecord foodRecord) {
     _foodRecordsList.add(foodRecord);
   }
 
   /// Get food records history.
+  @override
   List<Data> logBookToData() {
     List<Data> chartData = [];
     for (int i = 0; i < foodRecordsList.length; i++) {
@@ -47,6 +36,7 @@ class FoodLogBook {
   }
 
   /// Get food records for displaying log book.
+  @override
   List<List<String>> getListOfRecords() {
     List<List<String>> listOfRecords = [];
 

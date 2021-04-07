@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutterapp/constants.dart';
+import 'package:flutterapp/controller/ExercisePlanMgr.dart';
 // import './LoginPage.dart';
 // import './CreateAccountPage.dart';
 // import './HomePage.dart';

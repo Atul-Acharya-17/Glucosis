@@ -9,12 +9,14 @@ import 'package:flutterapp/controller/UserMgr.dart';
 
 class ReminderMgr {
   static CollectionReference glucoseReminders =
-      FirebaseFirestore.instance.collection('GlucoseReminders');
+  FirebaseFirestore.instance.collection('GlucoseReminders');
   static CollectionReference medicationReminders =
-      FirebaseFirestore.instance.collection('MedicationReminders');
+  FirebaseFirestore.instance.collection('MedicationReminders');
   final databaseReference = FirebaseFirestore.instance;
   final userEmail = FirebaseAuth.instance.currentUser.email;
   bool isLoading = true; //can be used in future development
+  static List<bool> glucoseDismissed;
+  static List<bool> medicationDismissed;
 
   //This function to be called in userMgr
   static void addGlucoseReminder(DateTime timing) async {
@@ -38,18 +40,22 @@ class ReminderMgr {
     String email = UserManager.getCurrentUserEmail();
     //setting new object in user
     MedicationReminder M = new MedicationReminder(
-        medicineName: medicineName, dosage: dosage, type: type, timing: timing);
+      medicineName: medicineName,
+      dosage: dosage,
+      type: type,
+      timing: timing,
+    );
     UserManager.addMedicationReminder(M);
     //setting object in database
     await medicationReminders
         .doc(email)
         .collection('reminders')
         .add({
-          'name': medicineName,
-          'dosage': dosage,
-          'timing': timing,
-          'type': type,
-        })
+      'name': medicineName,
+      'dosage': dosage,
+      'timing': timing,
+      'type': type,
+    })
         .then((value) => print('Medication Reminder added!'))
         .catchError((error) => print('Failed to add reminder: $error'));
 
@@ -58,21 +64,21 @@ class ReminderMgr {
 
   //This function returns a list of reminders which need to be displayed in the next 15 mins.
   //HomePage calls this function
-  static Future<List<Map>> getReminders() async {
-    List reminderList = new List();
+  /*static List<Map> getReminders() {
+    List<Map> reminderList = new List();
     //retrieving glucose
     List allGlucose = UserManager.getGlucoseReminders();
-    for (int i = 0; i <= allGlucose.length; i++) {
-      if (allGlucose[i].timings <= 15) {
-        reminderList.add(allGlucose[i].toMap());
-      }
+    for (int i = 0; i < allGlucose.length; i++) {
+      //if (allGlucose[i].timings <= 15) {
+      reminderList.add(allGlucose[i].toMap());
+      //}
     }
 
     List allMedication = UserManager.getMedicationReminders();
-    for (int i = 0; i <= allMedication.length; i++) {
-      if (allMedication[i].timing <= 15) {
-        reminderList.add(allMedication[i].toMap());
-      }
+    for (int i = 0; i < allMedication.length; i++) {
+      //if (allMedication[i].timing <= 15) {
+      reminderList.add(allMedication[i].toMap());
+      //}
     }
 
     // await FirebaseFirestore.instance
@@ -93,31 +99,35 @@ class ReminderMgr {
 
     //retrieving medication
     print("combined list enters");
+    print(reminderList);
     return reminderList;
-  }
+  }*/
 
   //This function returns a list of all Medication reminders
   //UserMgr calls this function to maintain a local copy of all existing medication reminders
-  static Future<List> getMedicationReminders(userEmail) async {
-    List medReminderList = [];
+  static Future<List<MedicationReminder>> getMedicationReminders(
+      userEmail) async {
+    List<MedicationReminder> medReminderList = [];
     await FirebaseFirestore.instance
         .collection('MedicationReminders')
         .doc(userEmail)
         .collection('reminders')
         .get()
         .then((QuerySnapshot querySnapshot) => {
-              querySnapshot.docs.forEach((doc) async {
-                medReminderList.add(
-                  MedicationReminder(
-                    dosage: doc['dosage'],
-                    medicineName: doc['name'],
-                    type: doc['type'],
-                    timing: doc['timings'],
-                  ),
-                );
-                print("added to list");
-              })
-            })
+      querySnapshot.docs.forEach((doc) async {
+        medReminderList.add(
+          MedicationReminder(
+            dosage: doc['dosage'],
+            medicineName: doc['name'],
+            type: doc['type'],
+            timing: DateTime.fromMicrosecondsSinceEpoch(
+              doc['timing'].microsecondsSinceEpoch,
+            ),
+          ),
+        );
+        print("added to list");
+      })
+    })
         .catchError((error) => print('Failed to get logbook: $error'));
     print("med reminder list returned");
     return medReminderList;
@@ -125,7 +135,7 @@ class ReminderMgr {
 
   //This function returns a list of all glucose reminders
   //User Mgr calls this function to maintain a local copy of all existing glucose reminders
-  static Future<List> getGlucoseReminders(userEmail) async {
+  static Future<List<GlucoseReminder>> getGlucoseReminders(userEmail) async {
     List<GlucoseReminder> glucReminderList = [];
     await FirebaseFirestore.instance
         .collection('GlucoseReminders')
@@ -133,16 +143,102 @@ class ReminderMgr {
         .collection('reminders')
         .get()
         .then((QuerySnapshot querySnapshot) => {
-              querySnapshot.docs.forEach((doc) async {
-                glucReminderList.add(
-                  GlucoseReminder(timings: doc['timings']),
-                );
-                print("added to list");
-              })
-            })
+      querySnapshot.docs.forEach((doc) async {
+        glucReminderList.add(
+          GlucoseReminder(
+            timings: DateTime.fromMicrosecondsSinceEpoch(
+              doc['timings'].microsecondsSinceEpoch,
+            ),
+          ),
+        );
+        print("added to list");
+      })
+    })
         .catchError((error) => print('Failed to get logbook: $error'));
 
     print("gluc rem list returned");
     return glucReminderList;
+  }
+
+  static List<Map> getReminders() {
+    List<Map> reminderList = new List();
+    print('getting reminders');
+    print(glucoseDismissed);
+    print(medicationDismissed);
+
+    List allGlucose = UserManager.getGlucoseReminders();
+    if (glucoseDismissed == null) {
+      glucoseDismissed = List.filled(
+        allGlucose.length,
+        false,
+      );
+    }
+
+    for (int i = 0; i < allGlucose.length; i++) {
+      if (DateTime.now().difference(allGlucose[i].timing).inMinutes <= 15) {
+        if (!glucoseDismissed[i]) {
+          reminderList.add(
+            allGlucose[i].toMap(
+              i,
+            ),
+          );
+        }
+      } else {
+        // to delete
+        /*reminderList.add(
+          allGlucose[i].toMap(
+            i,
+          ),
+        );*/
+        glucoseDismissed[i] = false;
+      }
+    }
+
+    List allMedication = UserManager.getMedicationReminders();
+    if (medicationDismissed == null) {
+      medicationDismissed = List.filled(
+        allMedication.length,
+        false,
+      );
+    }
+
+    for (int i = 0; i < allMedication.length; i++) {
+      if (DateTime.now().difference(allMedication[i].timing).inMinutes <= 15) {
+        if (!medicationDismissed[i]) {
+          reminderList.add(
+            allMedication[i].toMap(
+              i,
+            ),
+          );
+        }
+      } else {
+        // to delete
+        /*reminderList.add(
+          allMedication[i].toMap(
+            i,
+          ),
+        );*/
+        medicationDismissed[i] = false;
+      }
+    }
+
+    print(glucoseDismissed);
+    print(medicationDismissed);
+
+    return reminderList;
+  }
+
+  static void setDismissed(
+      String type,
+      int i,
+      ) {
+    print('Setting dismissed');
+    if (type == 'Glucose') {
+      glucoseDismissed[i] = true;
+      print(glucoseDismissed);
+    } else if (type == 'Medication') {
+      medicationDismissed[i] = true;
+      print(medicationDismissed);
+    }
   }
 }
