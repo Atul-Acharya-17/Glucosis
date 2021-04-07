@@ -18,6 +18,38 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     final double appBarIconSize = appBarHeight * 0.6;
     return AppBar(
       backgroundColor: green,
+      iconTheme: IconThemeData(color: Colors.pink.shade100),
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+          size: appBarIconSize,
+          color: pink,
+        ),
+        onPressed: () {
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          }
+        },
+      ),
+      title: Center(
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: appBarTextSize,
+            color: Color.fromRGBO(254, 179, 189, 1),
+          ),
+        ),
+      ),
+    );
+  }
+
+/*
+  @override
+  Widget build(BuildContext context) {
+    final double appBarTextSize = appBarHeight * 0.6;
+    final double appBarIconSize = appBarHeight * 0.6;
+    return AppBar(
+      backgroundColor: green,
       leading: IconButton(
         icon: Icon(
           Icons.arrow_back,
@@ -45,10 +77,13 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
           iconSize: appBarIconSize,
           padding: EdgeInsets.only(right: 18.0),
           onPressed: () {
-            Navigator.of(context).pushNamed('/profile');
+
+            //Navigator.of(context).pushNamed('/profile');
           },
         ),
       ],
     );
   }
+
+ */
 }

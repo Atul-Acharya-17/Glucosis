@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'AppBar.dart';
+import 'Drawer.dart';
 import 'HomePage.dart';
 import 'NavigationBar.dart';
 
@@ -37,6 +38,7 @@ class GlucosePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: CustomDrawer(),
       appBar: CommonAppBar(
         title: 'Blood Glucose',
       ),

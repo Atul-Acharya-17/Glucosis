@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/view/AppBar.dart';
 import 'AppBar.dart';
+import 'Drawer.dart';
 import 'NavigationBar.dart';
 
 void main() {
@@ -200,6 +201,7 @@ class _ChooseMealPlanState extends State<ChooseMealPlan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        endDrawer: CustomDrawer(),
         appBar: CommonAppBar(title: 'Choose Meal Plan'),
         bottomNavigationBar: NavigationBar(),
         body: Container(

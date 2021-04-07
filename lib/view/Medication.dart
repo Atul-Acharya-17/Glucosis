@@ -4,6 +4,7 @@ import 'package:flutterapp/controller/MedicationReminderMgr.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
 import 'package:flutterapp/view/CustomRadioButton.dart';
 import './AppBar.dart';
+import 'Drawer.dart';
 
 void main() => MaterialApp(
   title: 'Diabetes App',
@@ -43,6 +44,7 @@ class MedicationPage extends StatelessWidget {
         title: 'Medication',
       ),
       body: MedicationBody(),
+      endDrawer: CustomDrawer(),
       bottomNavigationBar: NavigationBar(),
     );
   }

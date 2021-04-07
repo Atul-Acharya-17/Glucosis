@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'AppBar.dart';
+import 'Drawer.dart';
 import 'NavigationBar.dart';
 import 'package:customtogglebuttons/customtogglebuttons.dart';
 import '../controller/UserMgr.dart';
@@ -71,6 +72,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
     return Form(
       key: _formKey,
       child: Scaffold(
+        endDrawer: CustomDrawer(),
           appBar: CommonAppBar(
             title: "Food Preference",
           ),

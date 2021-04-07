@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutterapp/view/Drawer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../model/Data.dart';
 import '../view/NavigationBar.dart';
@@ -50,11 +51,17 @@ class HomePage extends StatelessWidget {
         ),
         body: Body(),
         bottomNavigationBar: NavigationBar(),
+      endDrawer: CustomDrawer(),
       );
   }
 }
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
   final double borderRadius = 10;
   final double margin = 5;
   final double padding = 5;
@@ -129,10 +136,7 @@ class Body extends StatelessWidget {
                 ),
                 padding: EdgeInsets.all(padding),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LogBookPage()),
-                  );
+                  Navigator.of(context).pushNamed('/logbook').then((value) => {print("HI"),setState(() {})});
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -216,11 +220,11 @@ class Body extends StatelessWidget {
   }
 
   Card reminder(
-    double fontSize,
-    String timestamp,
-    String messageString,
-    bool logNow,
-  ) {
+      double fontSize,
+      String timestamp,
+      String messageString,
+      bool logNow,
+      ) {
     final GestureDetector logNowButton = GestureDetector(
       child: Text(
         'Log now',
@@ -290,6 +294,7 @@ class Body extends StatelessWidget {
     );
   }
 }
+
 
 class Graphs extends StatefulWidget {
   Graphs({
