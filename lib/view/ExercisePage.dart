@@ -256,10 +256,10 @@ class ExercisePageState extends StatelessWidget {
                 width: 60,
                 height: 60,
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text('Awaiting result...'),
-              )
+              //Padding(
+                //padding: EdgeInsets.only(top: 16),
+                //child: Text('Awaiting result...'),
+              //)
             ]);
           }
 
