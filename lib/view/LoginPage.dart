@@ -212,7 +212,12 @@ class LoginScreenState extends State<LoginScreen> {
                                             '/home', ModalRoute.withName('/'))
                                       })
                                     })
-                                  },
+                                  }
+                              else{
+                                setState(() {
+                                showSpinner =  false;
+                                }),
+                                }
                                 });
 
                             //print(_email);

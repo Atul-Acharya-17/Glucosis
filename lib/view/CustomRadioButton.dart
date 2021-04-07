@@ -79,7 +79,7 @@ class RadioItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           new Container(
-            height: 50.0,
+            height: MediaQuery.of(context).size.height * 0.05,
             width: 150.0,
             child: new Center(
               child: new Text(_item.buttonText,
