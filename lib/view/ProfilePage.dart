@@ -414,6 +414,8 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+
+
   Widget _buildExercisePreference() {
     _exercisePreference = profileDetails['exercisePreference'];
     return TextFormField(
@@ -454,6 +456,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     _gender = profileDetails['gender'];
     return Container(
       height: 30,
+      width: double.infinity,
       padding: const EdgeInsets.only(left: 5.0, right: 5.0),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(5.0)),
@@ -717,39 +720,24 @@ class ProfileScreenState extends State<ProfileScreen> {
                   height: 40,
                 ),
                 const SizedBox(height: 5),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            "Diabetes Type",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.35,
-                            child: _buildType(),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "Target Blood Glucose",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Container(
-                            height: 30,
-                            width: MediaQuery.of(context).size.width * 0.5,
-                            child: _buildRange(),
-                          ),
-                        ],
-                      ),
-                    ]),
+                Text(
+                  "Diabetes Type",
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).backgroundColor),
+                ),
+                _buildType(),
+                const SizedBox(height: 5),
+                Text(
+                  "Target Blood Glucose",
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).backgroundColor),
+                ),
+                Container(
+                  height: 30,
+                  child: _buildRange(),
+                ),
                 const SizedBox(height: 5),
                 Text(
                   "Exercise preference",
@@ -758,39 +746,20 @@ class ProfileScreenState extends State<ProfileScreen> {
                 ),
                 _buildExercisePreference(),
                 const SizedBox(height: 5),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            "Location",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.42,
-                            child: _buildLocation(),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 5),
-                      Column(
-                        children: [
-                          Text(
-                            "Phone number",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.42,
-                            child: _buildPhoneNumber(),
-                          ),
-                        ],
-                      ),
-                    ]),
+                Text(
+                  "Location",
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).backgroundColor),
+                ),
+                _buildLocation(),
+                Text(
+                  "Phone number",
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).backgroundColor),
+                ),
+                _buildPhoneNumber(),
                 const SizedBox(height: 15),
                 Center(
                   child: Align(
