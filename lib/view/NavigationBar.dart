@@ -14,9 +14,20 @@ class NavigationBar extends StatelessWidget {
     final double iconWidth = 0.195 * width;
 
     return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        boxShadow: [
+          BoxShadow(
+            offset: const Offset(0, 0.5),
+            blurRadius: 5.0,
+            spreadRadius: 0.5,
+            color: Colors.black,
+            //color: Theme.of(context).shadowColor,
+          ),
+        ],
+      ),
       height: navigationBarHeight,
       width: width,
-      color: Colors.white10,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

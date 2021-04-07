@@ -4,6 +4,7 @@ import 'NavigationBar.dart';
 import 'AppBar.dart';
 import '../controller/UserMgr.dart';
 import 'package:intl/intl.dart';
+import 'Drawer.dart';
 
 void main() {
   runApp(
@@ -94,6 +95,7 @@ class PasswordScreenState extends State<PasswordScreen> {
       appBar: CommonAppBar(
         title: 'Change Password',
       ),
+      endDrawer: CustomDrawer(),
       bottomNavigationBar: NavigationBar(),
       body: Container(
         padding: EdgeInsets.only(left: 20, right: 20, top: 10),
@@ -213,22 +215,16 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildDOB() {
+  Widget _dobEntry() {
     return Container(
-      padding: new EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
-      //width: MediaQuery.of(context).size.width * 0.40,
-      height: 50,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.grey[400]),
-          borderRadius: BorderRadius.circular(3.0)),
+      height: 25,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(formatter.format(dateOfBirth),
               style: TextStyle(fontSize: 16, color: Colors.black)),
           IconButton(
-              icon: Icon(Icons.calendar_today_sharp),
+              icon: Icon(Icons.calendar_today_sharp, size: 16),
               onPressed: () => _selectDate(context)),
         ],
       ),
@@ -237,43 +233,112 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildEmail() {
     _email = profileDetails['email'];
+    return Container(
+      width: double.infinity,
+      padding:
+          const EdgeInsets.only(left: 10.0, right: 10.0, top: 5, bottom: 5),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            offset: const Offset(1.5, 1.5),
+            blurRadius: 2.0,
+            spreadRadius: 0.2,
+            color: Theme.of(context).shadowColor,
+          ),
+        ],
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        border: Border.all(
+          color: Theme.of(context).shadowColor,
+          width: 0,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "Email address",
+            style:
+                TextStyle(
+                    fontWeight: FontWeight.w600, fontSize: 16, color: Theme.of(context).accentColor),
+          ),
+          Text(
+            _email,
+            style: TextStyle(fontSize: 16, color: Colors.black),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _locationEntry() {
+    _location = profileDetails['location'];
     return TextFormField(
-      initialValue: _email,
+      initialValue: _location,
       decoration: new InputDecoration(
         isDense: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
-        hintText: "Email address",
+        contentPadding: new EdgeInsets.symmetric(vertical: 3.0, horizontal: 0),
+        hintText: "Country",
         filled: true,
         fillColor: Colors.white,
       ),
+      keyboardType: TextInputType.text,
       validator: (String value) {
         if (value.isEmpty) {
-          return 'Email is Required';
-        }
-        if (!RegExp(
-                r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-            .hasMatch(value)) {
-          return 'Please enter a valid email Address';
+          return 'Country is Required';
         }
         return null;
       },
       onSaved: (String value) {
-        _email = value;
+        _location = value;
       },
     );
   }
 
-  Widget _buildName() {
+  Widget _buildTextBlock(String text, Widget textForm) {
+    return Container(
+      width: double.infinity,
+      padding:
+          const EdgeInsets.only(left: 10.0, right: 10.0, top: 5, bottom: 5),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            offset: const Offset(1.5, 1.5),
+            blurRadius: 2.0,
+            spreadRadius: 0.2,
+            color: Theme.of(context).shadowColor,
+          ),
+        ],
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        border: Border.all(
+          color: Theme.of(context).shadowColor,
+          width: 0,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            text,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+                fontSize: 16, color: Theme.of(context).backgroundColor),
+          ),
+          textForm,
+        ],
+      ),
+    );
+  }
+
+  Widget _nameEntry() {
     _name = profileDetails['name'];
     return TextFormField(
       initialValue: _name,
       decoration: new InputDecoration(
         isDense: true,
         contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
+            new EdgeInsets.symmetric(vertical: 3.0, horizontal: 0.0),
         hintText: "Name",
         filled: true,
         fillColor: Colors.white,
@@ -292,15 +357,33 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildPhoneNumber() {
+  Widget _buildExercisePreference() {
+    return _buildTextBlock(
+      "Exercise intensity",
+      Container(
+        height: 30,
+        child: _exerciseEntry(),
+      ),
+    );
+  }
+
+  Widget _buildRange() {
+    return _buildTextBlock(
+      "Target blood glucose (mg/dL)",
+      Container(
+        height: 30,
+        child: _rangeEntry(),
+      ),
+    );
+  }
+
+  Widget _phoneEntry() {
     _phoneNumber = profileDetails['phoneNumber'];
     return TextFormField(
       initialValue: _phoneNumber,
       decoration: new InputDecoration(
         isDense: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
+        contentPadding: new EdgeInsets.symmetric(vertical: 3.0, horizontal: 0),
         hintText: "Phone number",
         filled: true,
         fillColor: Colors.white,
@@ -310,7 +393,6 @@ class ProfileScreenState extends State<ProfileScreen> {
         if (value.isEmpty) {
           return 'Phone number is Required';
         }
-
         return null;
       },
       onSaved: (String value) {
@@ -319,7 +401,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildRange() {
+  Widget _rangeEntry() {
     return RangeSlider(
       values: _targetRange,
       min: 70,
@@ -339,38 +421,12 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildLocation() {
-    _location = profileDetails['location'];
-    return TextFormField(
-      initialValue: _location,
-      decoration: new InputDecoration(
-        isDense: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
-        hintText: "Country",
-        filled: true,
-        fillColor: Colors.white,
-      ),
-      keyboardType: TextInputType.text,
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Country is Required';
-        }
-        return null;
-      },
-      onSaved: (String value) {
-        _location = value;
-      },
-    );
-  }
-
-  Widget _buildExercisePreference() {
+  Widget _exerciseEntry() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Container(
-          width: MediaQuery.of(context).size.width * 0.1,
+          width: MediaQuery.of(context).size.width * 0.05,
           child: Radio(
             value: 'Basic',
             groupValue: _exercisePreference,
@@ -381,13 +437,14 @@ class ProfileScreenState extends State<ProfileScreen> {
             },
           ),
         ),
+        const SizedBox(width: 4),
         Text(
           'Basic',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(fontSize: 16, color: Colors.black),
         ),
         const SizedBox(width: 10),
         Container(
-          width: MediaQuery.of(context).size.width * 0.1,
+          width: MediaQuery.of(context).size.width * 0.05,
           child: Radio(
             value: 'Intermediate',
             groupValue: _exercisePreference,
@@ -398,13 +455,14 @@ class ProfileScreenState extends State<ProfileScreen> {
             },
           ),
         ),
+        const SizedBox(width: 4),
         Text(
           'Intermediate',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(fontSize: 16, color: Colors.black),
         ),
         const SizedBox(width: 10),
         Container(
-          width: MediaQuery.of(context).size.width * 0.1,
+          width: MediaQuery.of(context).size.width * 0.05,
           child: Radio(
             value: 'Advanced',
             groupValue: _exercisePreference,
@@ -415,136 +473,137 @@ class ProfileScreenState extends State<ProfileScreen> {
             },
           ),
         ),
+        const SizedBox(width: 4),
         Text(
           'Advanced',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(fontSize: 16, color: Colors.black),
         ),
       ],
     );
   }
 
-  Widget _buildWeight() {
+  Widget _weightEntry() {
     _weight = profileDetails['weight'];
-    return TextFormField(
-      decoration: new InputDecoration(
-        isDense: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
-        hintText: "0.00",
-        filled: true,
-        fillColor: Colors.white,
-      ),
-      keyboardType: TextInputType.number,
-      initialValue: _weight.toString(),
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Weight is Required';
-        }
-        return null;
-      },
-      onSaved: (String value) {
-        _weight = double.parse(value);
-      },
-    );
-  }
-
-  Widget _buildHeight() {
-    _height = profileDetails['height'];
-    return TextFormField(
-      decoration: new InputDecoration(
-        isDense: true,
-        contentPadding:
-            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-        border: OutlineInputBorder(),
-        hintText: "0.00",
-        filled: true,
-        fillColor: Colors.white,
-      ),
-      keyboardType: TextInputType.number,
-      initialValue: _height.toString(),
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Height is Required';
-        }
-        return null;
-      },
-      onSaved: (String value) {
-        _height = double.parse(value);
-      },
-    );
-  }
-
-  Widget _buildGender() {
-    return Container(
-        height: 30,
-        width: double.infinity,
-        padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-    decoration: BoxDecoration(
-    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-    border: Border.all(
-    color: Colors.grey,
-    width: 1,
-    ),
-    ),
-    child: DropdownButtonHideUnderline(
-    child: DropdownButton<String>(
-      value: _gender,
-      elevation: 0,
-      style: TextStyle(
-          color: Colors.black
-      ),
-      onChanged: (String newValue) {
-        setState(() {
-          _gender = newValue;
-        });
-      },
-      items: <String>['female', 'Male', 'Other']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      })
-          .toList(),
-    ),
-    ),
-    );
-  }
-
-  Widget _buildType() {
-    return Container(
-      height: 30,
-      width: double.infinity,
-      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-        border: Border.all(
-          color: Colors.grey,
-          width: 1,
+    return Row(children: <Widget>[
+      Container(
+        width: MediaQuery.of(context).size.width * 0.15,
+        child: TextFormField(
+          decoration: new InputDecoration(
+            isDense: true,
+            contentPadding:
+                new EdgeInsets.symmetric(vertical: 3.0, horizontal: 0.0),
+            hintText: "00.0",
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          keyboardType: TextInputType.number,
+          initialValue: _weight.toString(),
+          validator: (String value) {
+            if (value.isEmpty) {
+              return 'Weight is Required';
+            }
+            return null;
+          },
+          onSaved: (String value) {
+            _weight = double.parse(value);
+          },
         ),
       ),
+      Container(
+        width: MediaQuery.of(context).size.width * 0.06,
+        child: Text(
+          "kg",
+          style: TextStyle(fontSize: 16, color: Colors.black),
+        ),
+      )
+    ]);
+  }
+
+  Widget _heightEntry() {
+    _height = profileDetails['height'];
+    return Row(children: <Widget>[
+      Container(
+        width: MediaQuery.of(context).size.width * 0.15,
+        child: TextFormField(
+          decoration: new InputDecoration(
+            isDense: true,
+            contentPadding:
+                new EdgeInsets.symmetric(vertical: 3.0, horizontal: 0.0),
+            hintText: "0.00",
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          keyboardType: TextInputType.number,
+          initialValue: _height.toString(),
+          validator: (String value) {
+            if (value.isEmpty) {
+              return 'Height is Required';
+            }
+            return null;
+          },
+          onSaved: (String value) {
+            _height = double.parse(value);
+          },
+        ),
+      ),
+      Container(
+        width: MediaQuery.of(context).size.width * 0.05,
+        child: Text(
+          "m",
+          style: TextStyle(fontSize: 16, color: Colors.black),
+        ),
+      )
+    ]);
+  }
+
+  Widget _genderEntry() {
+    return Container(
+      height: 25,
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          value: _type,
+          value: _gender,
           elevation: 0,
-          style: TextStyle(
-              color: Colors.black
-          ),
+          style: TextStyle(fontSize: 16, color: Colors.black),
           onChanged: (String newValue) {
             setState(() {
-              _type = newValue;
+              _gender = newValue;
             });
           },
-          items: <String>['type1', 'type2', 'Prediabetes']
+          items: <String>['female', 'Male', 'Other']
               .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),
             );
-          })
-              .toList(),
+          }).toList(),
         ),
+      ),
+    );
+  }
+
+  Widget _typeEntry() {
+    return Container(
+      height: 25,
+      width: double.infinity,
+      child: DropdownButton<String>(
+        underline: Container(
+          height: 0,
+          color: Theme.of(context).backgroundColor,
+        ),
+        value: _type,
+        style: TextStyle(fontSize: 16, color: Colors.black),
+        onChanged: (String newValue) {
+          setState(() {
+            _type = newValue;
+          });
+        },
+        items: <String>['type1', 'type2', 'Prediabetes']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
       ),
     );
   }
@@ -555,10 +614,11 @@ class ProfileScreenState extends State<ProfileScreen> {
       appBar: CommonAppBar(
         title: 'My Profile',
       ),
+      endDrawer: CustomDrawer(),
       bottomNavigationBar: NavigationBar(),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: 15),
           width: double.infinity,
           color: Theme.of(context).canvasColor,
           child: Form(
@@ -566,23 +626,25 @@ class ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const SizedBox(height: 5),
+                const SizedBox(height: 7),
                 _buildHeader("Account details"),
-                Text(
-                  "Email address",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).backgroundColor),
-                ),
+                const SizedBox(height: 5),
                 _buildEmail(),
-                TextButton(
-                  child: Text("Change password",
-                      style: TextStyle(
-                          fontSize: 16, color: Theme.of(context).primaryColor)),
-                  onPressed: () {
-                    AuthenticationManager.changePassword();
-                    //Navigator.of(context).pushNamed('/password');
-                  },
+                Container(
+                  height: 36,
+                  child: TextButton(
+                    child: Text("Change password",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: Theme.of(context).accentColor)),
+                    onPressed: () {
+                      AuthenticationManager.changePassword();
+                      //Navigator.of(context).pushNamed('/password');
+                    },
+                  ),
                 ),
+
                 // Divider(
                 //   color: Colors.black,
                 //   height: 10,
@@ -590,144 +652,51 @@ class ProfileScreenState extends State<ProfileScreen> {
 
                 _buildHeader("Personal details"),
                 const SizedBox(height: 5),
-                Text(
-                  "Name",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).backgroundColor),
-                ),
-                _buildName(),
-                const SizedBox(height: 5),
+                _buildTextBlock("Name", _nameEntry()),
+                const SizedBox(height: 10),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        children: [
-                          Text(
-                            "Gender",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.24,
-                                child: _buildGender(),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 5),
-                      Column(
-                        children: [
-                          Text(
-                            "Weight",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.24,
-                                child: _buildWeight(),
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                "kg",
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.black),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 5),
-                      Column(
-                        children: [
-                          Text(
-                            "Height",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).backgroundColor),
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.24,
-                                child: _buildHeight(),
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                "m",
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.black),
-                              ),
-                            ],
-                          ),
-                        ],
+                      Container(
+                          width: 100,
+                          child: _buildTextBlock("Gender", _genderEntry())),
+                      Container(
+                          width: 100,
+                          child: _buildTextBlock("Weight", _weightEntry())),
+                      Container(
+                        width: 100,
+                        child: _buildTextBlock("Height", _heightEntry()),
                       ),
                     ]),
-                const SizedBox(height: 5),
-                Text(
-                  "Date of birth",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).backgroundColor),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      width: 164,
+                      child: _buildTextBlock("Date of birth", _dobEntry()),
+                    ),
+                    Container(
+                      width: 148,
+                      child: _buildTextBlock("Diabetes type", _typeEntry()),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 5),
-                Container(
-                  child: _buildDOB(),
-                  height: 40,
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  "Diabetes Type",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).backgroundColor),
-                ),
-                _buildType(),
-                const SizedBox(height: 5),
-                Text(
-                  "Target Blood Glucose",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).backgroundColor),
-                ),
-                Container(
-                  height: 30,
-                  child: _buildRange(),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  "Exercise preference",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).backgroundColor),
-                ),
-                Container(
-                  height: 30,
-                  child: _buildExercisePreference(),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  "Location",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).backgroundColor),
-                ),
-                _buildLocation(),
-                const SizedBox(height: 5),
-                Text(
-                  "Phone number",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).backgroundColor),
-                ),
-                _buildPhoneNumber(),
+                const SizedBox(height: 10),
+                _buildRange(),
+                const SizedBox(height: 10),
+                _buildExercisePreference(),
+                const SizedBox(height: 10),
+                _buildTextBlock("Location", _locationEntry()),
+                const SizedBox(height: 10),
+                _buildTextBlock("Phone Number", _phoneEntry()),
                 const SizedBox(height: 15),
                 Center(
                   child: Align(
                     child: ElevatedButton(
                         child: Text("Save changes",
                             style:
-                                TextStyle(fontSize: 20, color: Colors.black)),
+                                TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black)),
                         style: ElevatedButton.styleFrom(
                           shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(30.0),
@@ -753,13 +722,13 @@ class ProfileScreenState extends State<ProfileScreen> {
                               _targetRange.start,
                               _targetRange.end,
                               _name,
-                              _phoneNumber);
+                              _phoneNumber,);
                           //need to add dob and target range to profile page screen
                           //usermgr.addUser(_email, _dob, _type, _dietRestrictions.split(','), _exercisePreference,_foodPreference, _gender, _height, _location, _name, _phoneNumber, _calories, _weight, _targetRange);
                         }),
                   ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 20),
               ],
             ),
           ),

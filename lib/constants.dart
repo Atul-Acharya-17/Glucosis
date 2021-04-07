@@ -11,9 +11,11 @@ Widget materialApp = MaterialApp(
     accentColor: Color.fromRGBO(248, 139, 160, 1),
     primaryColor: Color.fromRGBO(248, 181, 188, 1),
     primaryColorLight: Color.fromRGBO(253, 225, 228, 1),
+    shadowColor: Color.fromRGBO(186, 186, 186, 1),
+    canvasColor: Color.fromRGBO(236, 236, 236, 1),
 
     // Define the default font family.
-    fontFamily: 'Roboto',
+    fontFamily: 'Inter',
 
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.
