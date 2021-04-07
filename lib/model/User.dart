@@ -8,6 +8,7 @@ import '../model/ExercisePlan.dart';
 import '../model/MealPlan.dart';
 import '../model/MedicationReminder.dart';
 import '../model/GlucoseReminders.dart';
+
 // need to check if date of birth and target range have been added to account details, profilepage and food preference
 /// Entity representing the user, their personal details, and the logbooks, plans and reminders associated with them.
 class User {
@@ -34,7 +35,6 @@ class User {
   List<GlucoseReminder> _glucoseReminders;
   ExercisePlan _exercisePlan;
   MealPlan _mealPlan;
-
 
   User(
       {String name,
@@ -108,14 +108,13 @@ class User {
 
   get glucoseLogBook => _glucoseLogBook;
 
-  get medicationReminders =>_medicationReminders;
- 
+  get medicationReminders => _medicationReminders;
+
   get glucoseReminders => _glucoseReminders;
 
   get exercisePlan => _exercisePlan;
 
-  get mealPlan =>_mealPlan;
-
+  get mealPlan => _mealPlan;
 
   set setName(String name) {
     _name = name;
@@ -177,48 +176,49 @@ class User {
     _dateOfBirth = dateOfBirth;
   }
 
-  set setGlucoseLogbook(GlucoseLogBook glucoseLogBook)
-  {
-    _glucoseLogBook=glucoseLogBook;
+  set setGlucoseLogbook(GlucoseLogBook glucoseLogBook) {
+    _glucoseLogBook = glucoseLogBook;
   }
 
-  set setExerciseLogBook(ExerciseLogBook exerciseLogBook)
-  {
-    _exerciseLogBook=exerciseLogBook;
+  set setExerciseLogBook(ExerciseLogBook exerciseLogBook) {
+    _exerciseLogBook = exerciseLogBook;
   }
 
-  set setFoodLogBook(FoodLogBook foodLogBook)
-  {
-    _foodLogBook=foodLogBook;
+  set setFoodLogBook(FoodLogBook foodLogBook) {
+    _foodLogBook = foodLogBook;
   }
 
-  set setMedicationReminders(List<MedicationReminder> medicationReminders)
-  {
-    _medicationReminders=medicationReminders;
+  set setMedicationReminders(List<MedicationReminder> medicationReminders) {
+    _medicationReminders = medicationReminders;
   }
 
-  set setGlucoseReminders(List<GlucoseReminder> glucoseReminders)
-  {
-    _glucoseReminders=glucoseReminders;
+  set setGlucoseReminders(List<GlucoseReminder> glucoseReminders) {
+    _glucoseReminders = glucoseReminders;
   }
 
-  set setExercisePlan(ExercisePlan exercisePlan)
-  {
-    _exercisePlan=exercisePlan;
+  set setExercisePlan(ExercisePlan exercisePlan) {
+    _exercisePlan = exercisePlan;
   }
 
-  set setMealPlan(MealPlan mealPlan)
-  {
-    _mealPlan=mealPlan;
+  set setMealPlan(MealPlan mealPlan) {
+    _mealPlan = mealPlan;
   }
 
-  void addGlucoseReminder(GlucoseReminder gr)
-  {
+  void addGlucoseReminder(GlucoseReminder gr) {
+    print(gr);
+    if (_glucoseReminders == null)
+      _glucoseReminders = new List<GlucoseReminder>();
+    print(_glucoseReminders);
+    print('Heloo');
     _glucoseReminders.add(gr);
   }
 
-  void addMedicationReminder(MedicationReminder mr)
-  {
+  void addMedicationReminder(MedicationReminder mr) {
+    print(mr);
+    if (_medicationReminders == null)
+      _medicationReminders = new List<MedicationReminder>();
+    print(_medicationReminders);
+    print('Heloo');
     _medicationReminders.add(mr);
   }
 }

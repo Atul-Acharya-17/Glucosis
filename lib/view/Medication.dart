@@ -483,7 +483,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       String type = CustomRadio.toggle ? "Pills" : "Syringe";
                       DateTime now = new DateTime.now();
 
-                      ReminderMgr().addMedicationReminder(
+                      ReminderMgr.addMedicationReminder(
                           medicineName,
                           dosage,
                           type,

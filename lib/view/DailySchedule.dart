@@ -7,6 +7,7 @@ import 'package:flutterapp/view/NavigationBar.dart';
 // import 'package:flutterapp/view/CustomRadioButton.dart';
 import './AppBar.dart';
 import 'package:flutterapp/controller/ReminderMgr.dart';
+import 'package:flutterapp/controller/UserMgr.dart';
 
 import 'Drawer.dart';
 
@@ -253,7 +254,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
                               DateTime now = new DateTime.now();
 
-                              ReminderMgr().addGlucoseReminder(DateTime(
+                              ReminderMgr.addGlucoseReminder(DateTime(
                                   now.year,
                                   now.month,
                                   now.day,
