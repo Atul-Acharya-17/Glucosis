@@ -1,67 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutterapp/view/Drawer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../model/Data.dart';
 import '../view/NavigationBar.dart';
 import '../view/AppBar.dart';
 import '../controller/LogBookMgr.dart';
-import './LogbookPage.dart';
-
-
-void main(){
-  runApp(MaterialApp(
-    title: 'Diabetes App',
-    home: HomePage(),
-    theme: ThemeData(
-      // Define the default brightness and colors.
-      primaryColor: Colors.teal.shade800,
-      backgroundColor: Colors.pink.shade100,
-
-      // Define the default font family.
-      fontFamily: 'Roboto',
-
-      // Define the default TextTheme. Use this to specify the default
-      // text styling for headlines, titles, bodies of text, and more.
-      textTheme: TextTheme(
-          headline3: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black),
-          headline4: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.teal.shade800),
-          headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
-          headline6: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.black)),
-    ),),);
-}
-
+import 'Drawer.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        endDrawer: CustomDrawer(),
         appBar: CommonAppBar(
           title: 'Overview',
         ),
         body: Body(),
         bottomNavigationBar: NavigationBar(),
-      endDrawer: CustomDrawer(),
       );
   }
 }
 
-class Body extends StatefulWidget {
-  @override
-  _BodyState createState() => _BodyState();
-}
-
-class _BodyState extends State<Body> {
+class Body extends StatelessWidget {
   final double borderRadius = 10;
   final double margin = 5;
   final double padding = 5;
@@ -72,7 +33,6 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final double graphsHeight = height * 0.3;
@@ -113,6 +73,7 @@ class _BodyState extends State<Body> {
                       'Log Entry',
                       style: TextStyle(
                         fontSize: normalFontSize,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     LogBookIcons(
@@ -136,7 +97,7 @@ class _BodyState extends State<Body> {
                 ),
                 padding: EdgeInsets.all(padding),
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/logbook').then((value) => {print("HI"),setState(() {})});
+                  Navigator.of(context).pushNamed('/logbook');
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -146,7 +107,7 @@ class _BodyState extends State<Body> {
                       width: 7.0,
                     ),
                     Text(
-                      'View Log Book',
+                      'View Log Books',
                       style: TextStyle(
                         fontSize: normalFontSize,
                       ),
@@ -170,122 +131,24 @@ class _BodyState extends State<Body> {
                 ),
               ),
             ),
-            reminder(
-              miniFontSize,
-              '9:00 am',
-              'Check your blood sugar',
-              true,
-            ),
-            reminder(
-              miniFontSize,
-              '9:00 am',
-              'Take insulin medication',
-              false,
-            ),
-            reminder(
-              miniFontSize,
-              '9:00 am',
-              'Breakfast: vegetable omelette',
-              true,
-            ),
-            reminder(
-              miniFontSize,
-              '10:00 am',
-              'Exercise: 20 sit-ups',
-              true,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Text time(String timestamp, double fontSize) {
-    return Text(
-      timestamp,
-      style: TextStyle(
-        fontSize: fontSize,
-        color: green,
-      ),
-    );
-  }
-
-  Text message(String messageString, double fontSize) {
-    return Text(
-      messageString,
-      style: TextStyle(
-        fontSize: fontSize,
-      ),
-    );
-  }
-
-  Card reminder(
-      double fontSize,
-      String timestamp,
-      String messageString,
-      bool logNow,
-      ) {
-    final GestureDetector logNowButton = GestureDetector(
-      child: Text(
-        'Log now',
-        style: TextStyle(
-          fontSize: fontSize - 1,
-          color: logNow == true ? green : Colors.white,
-        ),
-      ),
-      onTap: () {},
-    );
-    final GestureDetector dismissButton = GestureDetector(
-      child: Text(
-        'Dismiss',
-        style: TextStyle(
-          fontSize: fontSize - 1,
-          color: pink,
-        ),
-      ),
-      onTap: () {},
-    );
-
-    return Card(
-      elevation: 2,
-      margin: EdgeInsets.only(bottom: margin),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius),
-      ),
-      child: Container(
-        //margin: EdgeInsets.only(bottom: margin),
-        padding: EdgeInsets.fromLTRB(
-          2 * padding,
-          padding,
-          2 * padding,
-          padding,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(borderRadius),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                time(
-                  timestamp,
-                  fontSize,
-                ),
-                message(
-                  messageString,
-                  fontSize,
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                logNowButton,
-                dismissButton,
+            Reminders(
+              margin: margin,
+              padding: padding,
+              borderRadius: borderRadius,
+              fontSize: miniFontSize,
+              green: green,
+              pink: pink,
+              reminders: [
+                {
+                  'type': 'Glucose',
+                  'message': 'Check your blood sugar',
+                  'time': '9:00 am',
+                },
+                {
+                  'type': 'Medication',
+                  'message': 'Take insulin medication',
+                  'time': '10:00 am',
+                }
               ],
             ),
           ],
@@ -295,6 +158,33 @@ class _BodyState extends State<Body> {
   }
 }
 
+class LogBookIcons extends StatelessWidget {
+  LogBookIcons({this.iconSize, @required this.iconPaths});
+
+  final double iconSize;
+  final List<String> iconPaths;
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> icons = List<Widget>(iconPaths.length);
+    for (int i = 0; i < iconPaths.length; i++) {
+      icons[i] = iconButton(iconPaths[i]);
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: icons,
+    );
+  }
+
+  IconButton iconButton(String iconPath) {
+    return IconButton(
+      icon: new Image.asset(iconPath),
+      iconSize: iconSize,
+      onPressed: () {},
+    );
+  }
+}
 
 class Graphs extends StatefulWidget {
   Graphs({
@@ -313,12 +203,12 @@ class Graphs extends StatefulWidget {
 
   @override
   GraphsState createState() => GraphsState(
-        logBooks: logBooks,
-        graphsHeight: graphsHeight,
-        padding: padding,
-        borderRadius: borderRadius,
-        color: color,
-      );
+    logBooks: logBooks,
+    graphsHeight: graphsHeight,
+    padding: padding,
+    borderRadius: borderRadius,
+    color: color,
+  );
 }
 
 class GraphsState extends State<Graphs> {
@@ -400,227 +290,81 @@ class GraphsState extends State<Graphs> {
   }
 }
 
-class LogBookIcons extends StatelessWidget {
-  LogBookIcons({this.iconSize, @required this.iconPaths});
-  final double iconSize;
-  final List<String> iconPaths;
+class Reminders extends StatefulWidget {
+  Reminders({
+    this.margin,
+    this.padding,
+    this.borderRadius,
+    this.fontSize,
+    this.green,
+    this.pink,
+    this.reminders,
+  });
+
+  final double margin;
+  final double padding;
+  final double borderRadius;
+  final double fontSize;
+  final Color green;
+  final Color pink;
+  final List<Map> reminders;
 
   @override
-  Widget build(BuildContext context) {
-    List<Widget> icons = List<Widget>(iconPaths.length);
-    for (int i = 0; i < iconPaths.length; i++) {
-      icons[i] = iconButton(iconPaths[i]);
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: icons,
-    );
-  }
-
-  IconButton iconButton(String iconPath) {
-    return IconButton(
-      icon: new Image.asset(iconPath),
-      iconSize: iconSize,
-      onPressed: () {},
-    );
-  }
+  RemindersState createState() => RemindersState(
+    margin: margin,
+    padding: padding,
+    borderRadius: borderRadius,
+    fontSize: fontSize,
+    green: green,
+    pink: pink,
+    reminders: reminders,
+  );
 }
 
-/*
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:flutterapp/view/LogbookPageNew.dart';
-import '../model/GlucoseLogBook.dart';
-import '../model/FoodLogBook.dart';
-import '../model/ExerciseLogBook.dart';
-import '../model/Data.dart';
-import '../view/NavigationBar.dart';
-import '../view/AppBar.dart';
+class RemindersState extends State<Reminders> {
+  RemindersState({
+    this.margin,
+    this.padding,
+    this.borderRadius,
+    this.fontSize,
+    this.green,
+    this.pink,
+    this.reminders,
+  });
 
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: CommonAppBar(
-          title: 'Overview',
-        ),
-        body: Body(),
-        bottomNavigationBar: NavigationBar(),
-      ),
-    );
-  }
-}
-
-class Body extends StatelessWidget {
-  final double borderRadius = 10;
-  final double margin = 5;
-  final double padding = 5;
-  final double iconSize = 56;
-  final Color backgroundColor = Color.fromRGBO(180, 180, 180, 0.2);
-  final Color green = Color.fromRGBO(0, 110, 96, 1);
-  final Color pink = Color.fromRGBO(254, 179, 189, 1);
+  final double margin;
+  final double padding;
+  final double borderRadius;
+  final double fontSize;
+  final Color green;
+  final Color pink;
+  List<Map> reminders;
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
-    final double graphsHeight = height * 0.3;
-    final double normalFontSize = width * 0.06;
-    final double miniFontSize = normalFontSize - 5;
-
-    return SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.all(10),
-        color: backgroundColor,
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 2 * margin),
-              child: Graphs(
-                logBooks: [
-                  'Glucose',
-                  'Exercise',
-                  'Food',
-                ],
-                graphsHeight: graphsHeight,
-                padding: padding,
-                borderRadius: borderRadius,
-                color: pink,
-              ),
-            ),
-            Card(
-              elevation: 2,
-              margin: EdgeInsets.only(bottom: margin),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
-              ),
-              child: Container(
-                padding: EdgeInsets.all(padding),
-                child: Column(
-                  children: [
-                    Text(
-                      'Log Entry',
-                      style: TextStyle(
-                        fontSize: normalFontSize,
-                      ),
-                    ),
-                    LogBookIcons(
-                      iconSize: iconSize,
-                      iconPaths: [
-                        'images/user_icon.jpeg',
-                        'images/user_icon.jpeg',
-                        'images/user_icon.jpeg',
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: margin),
-              child: RaisedButton(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(borderRadius),
-                ),
-                padding: EdgeInsets.all(padding),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LogBookPage()),
-                  );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.sticky_note_2_outlined),
-                    SizedBox(
-                      width: 7.0,
-                    ),
-                    Text(
-                      'View Log Book',
-                      style: TextStyle(
-                        fontSize: normalFontSize,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: margin),
-              padding: EdgeInsets.all(padding),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Today at a glance',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: normalFontSize,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            reminder(
-              miniFontSize,
-              '9:00 am',
-              'Check your blood sugar',
-              true,
-            ),
-            reminder(
-              miniFontSize,
-              '9:00 am',
-              'Take insulin medication',
-              false,
-            ),
-            reminder(
-              miniFontSize,
-              '9:00 am',
-              'Breakfast: vegetable omelette',
-              true,
-            ),
-            reminder(
-              miniFontSize,
-              '10:00 am',
-              'Exercise: 20 sit-ups',
-              true,
-            ),
-          ],
+    List<Widget> columnChildren = [];
+    reminders.forEach((reminder) {
+      columnChildren.add(
+        reminderCard(
+          fontSize,
+          reminder['time'],
+          reminder['message'],
+          reminder['type'] == 'Glucose' ? true : false,
         ),
-      ),
+      );
+    });
+
+    return Column(
+      children: columnChildren,
     );
   }
 
-  Text time(String timestamp, double fontSize) {
-    return Text(
-      timestamp,
-      style: TextStyle(
-        fontSize: fontSize,
-        color: green,
-      ),
-    );
-  }
-
-  Text message(String messageString, double fontSize) {
-    return Text(
-      messageString,
-      style: TextStyle(
-        fontSize: fontSize,
-      ),
-    );
-  }
-
-  Card reminder(
-    double fontSize,
-    String timestamp,
-    String messageString,
-    bool logNow,
-  ) {
+  Card reminderCard(
+      double fontSize,
+      String timestamp,
+      String message,
+      bool logNow,
+      ) {
     final GestureDetector logNowButton = GestureDetector(
       child: Text(
         'Log now',
@@ -650,12 +394,8 @@ class Body extends StatelessWidget {
       ),
       child: Container(
         //margin: EdgeInsets.only(bottom: margin),
-        padding: EdgeInsets.fromLTRB(
-          2 * padding,
-          padding,
-          2 * padding,
-          padding,
-        ),
+        padding:
+        EdgeInsets.fromLTRB(2 * padding, padding, 2 * padding, padding),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
             Radius.circular(borderRadius),
@@ -667,12 +407,12 @@ class Body extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                time(
+                timeText(
                   timestamp,
                   fontSize,
                 ),
-                message(
-                  messageString,
+                messageText(
+                  message,
                   fontSize,
                 ),
               ],
@@ -689,144 +429,23 @@ class Body extends StatelessWidget {
       ),
     );
   }
-}
 
-class Graphs extends StatelessWidget {
-  Graphs({
-    this.logBooks,
-    this.graphsHeight,
-    this.padding,
-    this.borderRadius,
-    this.color,
-  });
-
-  final List<String> logBooks;
-  final double graphsHeight;
-  final double padding;
-  final double borderRadius;
-  final Color color;
-  final map = {
-    'Glucose': 'Blood Glucose Level (7 days)',
-    'Exercise': 'Exercise Level (7 days)',
-    'Food': 'Calorie Intake Level (7 days)',
-  };
-
-  @override
-  Widget build(BuildContext context) {
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: graphsHeight,
-        enlargeCenterPage: true,
-        enableInfiniteScroll: true,
-        viewportFraction: 0.81,
+  Text timeText(String timestamp, double fontSize) {
+    return Text(
+      timestamp,
+      style: TextStyle(
+        fontSize: fontSize,
+        color: green,
       ),
-      items: graphsList(logBooks),
     );
   }
 
-  List<Widget> graphsList(List<String> logBooks) {
-    List<Widget> graphs = List<Widget>(logBooks.length);
-    for (int i = 0; i < logBooks.length; i++) {
-      graphs[i] = graph(logBooks[i]);
-    }
-
-    return graphs;
-  }
-
-  Widget graph(String logBook) {
-    List<Data> chartData;
-
-    switch (logBook) {
-      case 'Glucose':
-        {
-          GlucoseLogBook glucoseLogBook = GlucoseLogBook('example@wtf.co.in');
-          chartData = glucoseLogBook.dataHomePage();
-          print(glucoseLogBook);
-          print(chartData);
-          break;
-        }
-      case 'Food':
-        {
-          FoodLogBook foodLogBook = FoodLogBook('example@wtf.co.in');
-          chartData = foodLogBook.dataHomePage();
-          print(foodLogBook);
-          print(chartData);
-          break;
-        }
-      case 'Exercise':
-        {
-          ExerciseLogBook exerciseLogBook =
-              ExerciseLogBook('example@wtf.co.in');
-          chartData = exerciseLogBook.dataHomePage();
-          print(exerciseLogBook);
-          print(chartData);
-          break;
-        }
-    }
-
-    return Card(
-      elevation: 2,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius),
-      ),
-      child: Container(
-        padding: EdgeInsets.all(padding),
-        child: SfCartesianChart(
-          backgroundColor: Colors.white,
-          primaryXAxis: CategoryAxis(), // dk what
-          title: ChartTitle(
-            text: map[logBook],
-          ),
-          series: <ChartSeries>[
-            LineSeries<Data, DateTime>(
-              dataSource: chartData,
-              xValueMapper: (Data datum, _) => datum.x,
-              yValueMapper: (Data datum, _) => datum.y,
-              color: color,
-              markerSettings: MarkerSettings(
-                color: color,
-                isVisible: true,
-              ),
-              animationDuration: 0,
-            ),
-          ],
-        ),
+  Text messageText(String message, double fontSize) {
+    return Text(
+      message,
+      style: TextStyle(
+        fontSize: fontSize,
       ),
     );
   }
 }
-
-class SalesData {
-  SalesData(this.year, this.sales);
-  final String year;
-  final double sales;
-}
-
-class LogBookIcons extends StatelessWidget {
-  LogBookIcons({this.iconSize, @required this.iconPaths});
-  final double iconSize;
-  final List<String> iconPaths;
-
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> icons = List<Widget>(iconPaths.length);
-    for (int i = 0; i < iconPaths.length; i++) {
-      icons[i] = iconButton(iconPaths[i]);
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: icons,
-    );
-  }
-
-  IconButton iconButton(String iconPath) {
-    return IconButton(
-      icon: new Image.asset(iconPath),
-      iconSize: iconSize,
-      onPressed: () {},
-    );
-  }
-}
-*/

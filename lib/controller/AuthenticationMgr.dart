@@ -47,7 +47,16 @@ class AuthenticationManager {
   }
 
   /// Gets email of the user currently logged in.
-  String getCurrentUser() {
+  static String getCurrentUser() {
     return _auth.currentUser.email != null ? _auth.currentUser.email : null;
+  }
+
+  static Future<bool> changePassword(){
+    String email = getCurrentUser();
+    if (email != null){
+      _auth.sendPasswordResetEmail(email: email).then((value) => {print('Sent')}).catchError((){
+        print('Error');
+      });
+    }
   }
 }

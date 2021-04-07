@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/controller/AuthenticationMgr.dart';
 import 'NavigationBar.dart';
 import 'AppBar.dart';
 import '../controller/UserMgr.dart';
@@ -578,7 +579,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                       style: TextStyle(
                           fontSize: 16, color: Theme.of(context).primaryColor)),
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/password');
+                    AuthenticationManager.changePassword();
+                    //Navigator.of(context).pushNamed('/password');
                   },
                 ),
                 // Divider(
