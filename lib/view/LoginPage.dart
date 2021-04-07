@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/controller/LogBookMgr.dart';
 import 'package:flutterapp/controller/UserMgr.dart';
 import '../controller/AuthenticationMgr.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 void main() {
   runApp(
@@ -57,6 +58,7 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   String _email;
   String _password;
+  bool showSpinner = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -110,122 +112,129 @@ class LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   leading: IconButton(
-      //       icon: Icon(
-      //         Icons.arrow_back,
-      //         color: Colors.transparent,
-      //       ),
-      //       onPressed: null),
-      //   backgroundColor: Theme.of(context).backgroundColor,
-      //   shadowColor: Colors.transparent,
-      // ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          width: double.infinity,
-          height: 5000,
-          color: Theme.of(context).backgroundColor,
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const SizedBox(height: 40),
-                Center(
-                  child: Align(
-                    child: Image.asset('images/user_icon.jpeg',
-                        width: 100, height: 100),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Center(
-                  child: Align(
-                    child: Text(
-                        "Managing your health shouldn't be hard, even with diabetes.",
-                        style: TextStyle(
-                            fontSize: 30,
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  "Enter your email address",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).primaryColor),
-                ),
-                const SizedBox(height: 10),
-                _buildEmail(),
-                const SizedBox(height: 10),
-                Text(
-                  "Enter your password",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).primaryColor),
-                ),
-                const SizedBox(height: 10),
-                _buildPassword(),
-                SizedBox(height: 30),
-                Center(
-                  child: Align(
-                    child: ElevatedButton(
-                        child: Text("Sign in",
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.black)),
-                        style: ElevatedButton.styleFrom(
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 50, vertical: 15),
-                          primary: Theme.of(context).primaryColor,
-                        ),
-                        onPressed: () async {
-                          if (!_formKey.currentState.validate()) {
-                            return;
-                          }
-                          _formKey.currentState.save();
-
-                          AuthenticationManager auth =
-                              new AuthenticationManager();
-                          UserManager userMgr = new UserManager();
-                          await auth.login(_email, _password).then((loginSuccess) async => {
-                                if(loginSuccess)
-                                {
-                                  await UserManager.retrieveDetails(_email).then((value) async =>
-                                  {
-                                    UserManager.setLogBooks().then((value) => {
-                                      loginSuccess
-                                          ? Navigator.of(context)
-                                          .pushNamedAndRemoveUntil(
-                                          '/home', ModalRoute.withName('/'))
-                                          : print("Failure")
-                                    })
-                                  })
-                                },
-                              });
-
-                          //print(_email);
-                          //print(_password);
-                        }),
-                  ),
-                ),
-                Center(
-                  child: Align(
-                    child: TextButton(
-                      child: Text("Create an account",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Theme.of(context).primaryColor)),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/signup');
-                      },
+    return ModalProgressHUD(
+      inAsyncCall: showSpinner,
+      child: Scaffold(
+        // appBar: AppBar(
+        //   leading: IconButton(
+        //       icon: Icon(
+        //         Icons.arrow_back,
+        //         color: Colors.transparent,
+        //       ),
+        //       onPressed: null),
+        //   backgroundColor: Theme.of(context).backgroundColor,
+        //   shadowColor: Colors.transparent,
+        // ),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            width: double.infinity,
+            height: 5000,
+            color: Theme.of(context).backgroundColor,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const SizedBox(height: 40),
+                  Center(
+                    child: Align(
+                      child: Image.asset('images/user_icon.jpeg',
+                          width: 100, height: 100),
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  Center(
+                    child: Align(
+                      child: Text(
+                          "Managing your health shouldn't be hard, even with diabetes.",
+                          style: TextStyle(
+                              fontSize: 30,
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Enter your email address",
+                    style: TextStyle(
+                        fontSize: 16, color: Theme.of(context).primaryColor),
+                  ),
+                  const SizedBox(height: 10),
+                  _buildEmail(),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Enter your password",
+                    style: TextStyle(
+                        fontSize: 16, color: Theme.of(context).primaryColor),
+                  ),
+                  const SizedBox(height: 10),
+                  _buildPassword(),
+                  SizedBox(height: 30),
+                  Center(
+                    child: Align(
+                      child: ElevatedButton(
+                          child: Text("Sign in",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black)),
+                          style: ElevatedButton.styleFrom(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 15),
+                            primary: Theme.of(context).primaryColor,
+                          ),
+                          onPressed: () async {
+                            if (!_formKey.currentState.validate()) {
+                              return;
+                            }
+                            setState(() {
+                              showSpinner = true;
+                            });
+                            _formKey.currentState.save();
+
+                            AuthenticationManager auth =
+                                new AuthenticationManager();
+                            UserManager userMgr = new UserManager();
+                            await auth.login(_email, _password).then((loginSuccess) async => {
+                                  if(loginSuccess)
+                                  {
+                                    await UserManager.retrieveDetails(_email).then((value) async =>
+                                    {
+                                      UserManager.setLogBooks().then((value) => {
+                            setState(() {
+                            showSpinner =  false;
+                            }),
+                                        Navigator.of(context)
+                                            .pushNamedAndRemoveUntil(
+                                            '/home', ModalRoute.withName('/'))
+                                      })
+                                    })
+                                  },
+                                });
+
+                            //print(_email);
+                            //print(_password);
+                          }),
+                    ),
+                  ),
+                  Center(
+                    child: Align(
+                      child: TextButton(
+                        child: Text("Create an account",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Theme.of(context).primaryColor)),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/signup');
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

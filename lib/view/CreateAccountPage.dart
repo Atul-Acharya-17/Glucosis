@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutterapp/controller/UserMgr.dart';
 import '../controller/AuthenticationMgr.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 /*
 return MaterialApp(
@@ -90,6 +91,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
   String _password2;
   String _name;
   String _phoneNumber;
+  bool showSpinner = false;
 
   //final _auth = FirebaseAuth.instance;
 
@@ -221,126 +223,137 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 40,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Theme.of(context).primaryColor,
+    return ModalProgressHUD(
+      inAsyncCall: showSpinner,
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 40,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Theme.of(context).primaryColor,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          backgroundColor: Theme.of(context).backgroundColor,
+          shadowColor: Colors.transparent,
         ),
-        backgroundColor: Theme.of(context).backgroundColor,
-        shadowColor: Colors.transparent,
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          width: double.infinity,
-          color: Theme.of(context).backgroundColor,
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            width: double.infinity,
+            color: Theme.of(context).backgroundColor,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
 //                const SizedBox(height: 10),
-                Center(
-                  child: Align(
-                    child: Text("Start your journey\nwith Glucosis.",
-                        style: TextStyle(
-                            fontSize: 30,
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center),
+                  Center(
+                    child: Align(
+                      child: Text("Start your journey\nwith Glucosis.",
+                          style: TextStyle(
+                              fontSize: 30,
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  "Enter your email address",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).primaryColor),
-                ),
-                const SizedBox(height: 10),
-                _buildEmail(),
-                const SizedBox(height: 10),
-                Text(
-                  "Enter your password",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).primaryColor),
-                ),
-                const SizedBox(height: 10),
-                _buildPassword(),
-                SizedBox(height: 10),
-                Text(
-                  "Re-enter password",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).primaryColor),
-                ),
-                const SizedBox(height: 10),
-                _buildPassword2(),
-                SizedBox(height: 10),
-                Text(
-                  "Name",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).primaryColor),
-                ),
-                const SizedBox(height: 10),
-                _buildName(),
-                SizedBox(height: 10),
-                Text(
-                  "Phone number",
-                  style: TextStyle(
-                      fontSize: 16, color: Theme.of(context).primaryColor),
-                ),
-                const SizedBox(height: 10),
-                _buildPhoneNumber(),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Enter your email address",
+                    style: TextStyle(
+                        fontSize: 16, color: Theme.of(context).primaryColor),
+                  ),
+                  const SizedBox(height: 10),
+                  _buildEmail(),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Enter your password",
+                    style: TextStyle(
+                        fontSize: 16, color: Theme.of(context).primaryColor),
+                  ),
+                  const SizedBox(height: 10),
+                  _buildPassword(),
+                  SizedBox(height: 10),
+                  Text(
+                    "Re-enter password",
+                    style: TextStyle(
+                        fontSize: 16, color: Theme.of(context).primaryColor),
+                  ),
+                  const SizedBox(height: 10),
+                  _buildPassword2(),
+                  SizedBox(height: 10),
+                  Text(
+                    "Name",
+                    style: TextStyle(
+                        fontSize: 16, color: Theme.of(context).primaryColor),
+                  ),
+                  const SizedBox(height: 10),
+                  _buildName(),
+                  SizedBox(height: 10),
+                  Text(
+                    "Phone number",
+                    style: TextStyle(
+                        fontSize: 16, color: Theme.of(context).primaryColor),
+                  ),
+                  const SizedBox(height: 10),
+                  _buildPhoneNumber(),
 
-                SizedBox(height: 30),
-                Center(
-                  child: Align(
-                    child: ElevatedButton(
-                        child: Text("Continue",
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.black)),
-                        style: ElevatedButton.styleFrom(
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0),
+                  SizedBox(height: 30),
+                  Center(
+                    child: Align(
+                      child: ElevatedButton(
+                          child: Text("Continue",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black)),
+                          style: ElevatedButton.styleFrom(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 15),
+                            primary: Theme.of(context).primaryColor,
                           ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 50, vertical: 15),
-                          primary: Theme.of(context).primaryColor,
-                        ),
-                        onPressed: () async {
-                          if (!_formKey.currentState.validate()) {
-                            return;
-                          }
-                          _formKey.currentState.save();
-                          AuthenticationManager auth =
-                              new AuthenticationManager();
-                          bool success = false;
-                          if (_password == _password2)
-                            success = await auth.signUp(_email, _password);
-                          else {
-                            print('Passwords are different');
-                          }
+                          onPressed: () async {
+                            if (!_formKey.currentState.validate()) {
+                              return;
+                            }
+                            _formKey.currentState.save();
+                            AuthenticationManager auth =
+                                new AuthenticationManager();
+                            bool success = false;
+                            if (_password == _password2){
+                              setState(() {
+                                showSpinner = true;
+                              });
+                              success = await auth.signUp(_email, _password);
+                            }
 
-                          if (success) {
-                            UserManager.addUseronSignup(_email, _name, _phoneNumber);
-                            Navigator.of(context).pushNamed('/accdetails');
-                          }
-                          //print(_email);
-                          //print(_password);
-                          //print(_password2);
-                          //print(_name);
-                          //print(_phoneNumber);
-                        }),
+                            else {
+                              print('Passwords are different');
+                            }
+
+                            if (success) {
+                                UserManager.addUseronSignup(_email, _name, _phoneNumber);
+                                setState(() {
+                                  showSpinner = false;
+                                });
+                                Navigator.of(context).pushNamed('/accdetails');
+                            }
+                            //print(_email);
+                            //print(_password);
+                            //print(_password2);
+                            //print(_name);
+                            //print(_phoneNumber);
+                          }),
+                    ),
                   ),
-                ),
-                SizedBox(height: 30),
-              ],
+                  SizedBox(height: 30),
+                ],
+              ),
             ),
           ),
         ),

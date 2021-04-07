@@ -4,6 +4,8 @@ import 'package:flutterapp/view/AppBar.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:intl/intl.dart';
 
+import 'Drawer.dart';
+
 
 void main() => runApp(MaterialApp(
   title: 'Diabetes App',
@@ -85,6 +87,7 @@ class MealLogForm extends State<MealLogPageState> {
     return Form(
       key: _formKey,
       child: Scaffold(
+          endDrawer: CustomDrawer(),
           appBar: CommonAppBar(title:"Meal Log"),
           body: SingleChildScrollView(
               child: Container(
@@ -166,7 +169,9 @@ class MealLogForm extends State<MealLogPageState> {
                             decoration: InputDecoration(
                                 suffixIcon: new IconButton(
                                     icon: const Icon(Icons.search),
-                                    onPressed: (){}
+                                    onPressed: (){
+                                      Navigator.of(context).pushNamed('/library');
+                                    }
                                 ),
                                 border: OutlineInputBorder(),
                                 //labelText: "kcals",

@@ -23,10 +23,7 @@ class NavigationBar extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
+                Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
             },
             child: Image.asset(
               'images/home.jpg',

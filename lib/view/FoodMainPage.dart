@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/view/AppBar.dart';
+import 'package:flutterapp/view/NavigationBar.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:intl/intl.dart';
+
+import 'Drawer.dart';
 
 
 void main() => runApp(MaterialApp(
@@ -78,7 +81,9 @@ class MealLogForm extends State<MealLogPageState> {
   Widget build(BuildContext context) {
     double progressValue = 153;
     return Scaffold(
+        endDrawer: CustomDrawer(),
         appBar: CommonAppBar(title: "Food Main Page"),
+        bottomNavigationBar: NavigationBar(),
         body: SingleChildScrollView(
             child: Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
@@ -276,6 +281,33 @@ class MealLogForm extends State<MealLogPageState> {
                               size: 18,
                             ),
                             label: Text("Change Meal Plan",
+                                style: Theme.of(context).textTheme.headline3),
+                            style: ButtonStyle(
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(18.0),
+                                        side: BorderSide(color: Colors.pink.shade100)
+                                    )),
+                                backgroundColor: MaterialStateProperty.all<Color>(
+                                    Colors.pink.shade100)),
+                          ))),
+
+                  Container (
+                      margin: EdgeInsets.only(
+                          left: 0, right: 0, top: 10, bottom: 10),
+                      child: SizedBox(
+                          width: 300,
+                          height:40,
+                          child: ElevatedButton.icon(
+                            onPressed: (){
+                              Navigator.of(context).pushNamed('/updateFoodPref');
+                            },
+
+                            icon: Icon(
+                              Icons.edit_outlined,
+                              size: 18,
+                            ),
+                            label: Text("Update Food Preference",
                                 style: Theme.of(context).textTheme.headline3),
                             style: ButtonStyle(
                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(

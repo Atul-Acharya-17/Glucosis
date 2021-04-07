@@ -7,6 +7,8 @@ import 'package:flutterapp/view/NavigationBar.dart';
 import './AppBar.dart';
 import 'package:flutterapp/controller/GlucoseReminderMgr.dart';
 
+import 'Drawer.dart';
+
 void main() => runApp(
   MaterialApp(
     title: 'Diabetes App',
@@ -46,6 +48,7 @@ class DailySchedule extends StatelessWidget {
       appBar: CommonAppBar(title: 'Daily Schedule'),
       body: DailyScheduleBody(),
       bottomNavigationBar: NavigationBar(),
+      endDrawer: CustomDrawer(),
     );
   }
 }

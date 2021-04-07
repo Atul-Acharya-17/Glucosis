@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
+import 'package:flutterapp/controller/UserMgr.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_core/core.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart' as gauge;
+import 'package:intl/intl.dart';
 import '../model/Data.dart';
 import '../view/NavigationBar.dart';
 import '../view/AppBar.dart';
 import '../controller/LogBookMgr.dart';
+import 'Drawer.dart';
 
 class LogBookPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: CustomDrawer(),
       appBar: CommonAppBar(
         title: 'Log Books',
       ),
@@ -26,6 +32,7 @@ class Body extends StatelessWidget {
   final Color lightPink = Color.fromRGBO(255, 224, 228, 1);
   final Color darkPink = Color.fromRGBO(254, 179, 189, 1);
   final Map chartDataMap = LogBookMgr.getLogBookPageData();
+  final Map popUpDataMap = LogBookMgr.getPopUpData();
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +59,17 @@ class Body extends StatelessWidget {
         BooksView(
           book: 'Glucose',
           chartData: chartDataMap['Glucose'],
+          popUpData: popUpDataMap['Glucose'],
         ),
         BooksView(
           book: 'Exercise',
           chartData: chartDataMap['Exercise'],
+          popUpData: popUpDataMap['Exercise'],
         ),
         BooksView(
           book: 'Food',
           chartData: chartDataMap['Food'],
+          popUpData: popUpDataMap['Food'],
         ),
       ],
     );
@@ -88,10 +98,12 @@ class BooksView extends StatelessWidget {
   BooksView({
     this.book,
     this.chartData,
+    this.popUpData,
   });
 
   final String book;
   final List<Data> chartData;
+  final List<List<String>> popUpData;
   final Color lightPink = Color.fromRGBO(254, 179, 189, 1);
   final Color darkPink = Color.fromRGBO(255, 42, 103, 1);
   final Color backgroundColor = Color.fromRGBO(180, 180, 180, 0.2);
@@ -105,74 +117,125 @@ class BooksView extends StatelessWidget {
   final double borderRadius = 25;
   final double iconSize = 40;
 
+
   @override
   Widget build(BuildContext context) {
+    print(this.chartData[chartData.length-1].y);
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    final double normalFontSize = width * 0.06;
+    final double fontSize = width * 0.06;
 
-    return Container(
-      padding: EdgeInsets.all(10),
-      color: backgroundColor,
-      child: Column(
-        children: [
-          Graph(
-            logBook: book,
-            chartData: chartData,
-            graphsHeight: height * 0.3,
-            padding: padding,
-            borderRadius: 10,
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(
-              0,
-              margin,
-              0,
-              2 * margin,
-            ),
-            child: Text(
-              textMap[book],
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: darkPink,
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: lightPink,
-                width: 3,
-              ),
-            ),
-            margin: EdgeInsets.only(
-              bottom: 2 * margin,
-            ),
-            padding: EdgeInsets.all(
-              2 * padding,
-            ),
-            width: double.infinity,
-            child: Center(
-              child: Text(
-                'Placeholder',
-                style: TextStyle(
-                  fontSize: 20,
+    return SingleChildScrollView(
+      child: Container(
+        height: MediaQuery.of(context).size.height * 1.5,
+          padding: EdgeInsets.all(10),
+          color: backgroundColor,
+              child: Column(
+                      children: [
+                        Graph(
+                          logBook: book,
+                          chartData: chartData,
+                          graphsHeight: height * 0.3,
+                          padding: padding,
+                          borderRadius: 10,
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(
+                            0,
+                            margin,
+                            0,
+                            2 * margin,
+                          ),
+                          child: Text(
+                            textMap[book],
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: darkPink,
+                            ),
+                          ),
+                        ),
+                        Container(
+                            height: 300,
+                            width: 300,
+                            child: getRadialGraph()),
+                SizedBox(height: 20,),
+                Container(
+                  margin: EdgeInsets.fromLTRB(
+                    0,
+                    margin,
+                    0,
+                    2 * margin,
+                  ),
+                  child: ViewLogBookButton(
+                          pink: lightPink,
+                          fontSize: fontSize,
+                          width: width,
+                          borderRadius: borderRadius,
+                          padding: padding,
+                          popUpData: popUpData,
+                        ),
                 ),
-              ),
-            ),
+                SizedBox(height: 20,),
+                Container(
+                  margin: EdgeInsets.fromLTRB(
+                    0,
+                    margin,
+                    0,
+                    2 * margin,
+                  ), child:     DownloadHistoryButton(
+                          width: width,
+                          borderRadius: borderRadius,
+                          padding: padding,
+                          iconSize: iconSize,
+                          fontSize: fontSize,
+                          lightPink: lightPink,
+                        ),
+                ),
+                      ],
+                    ),
+                ),
+            );
+  }
+
+  Widget getRadialGraph(){
+    Widget radialGraph = gauge.SfRadialGauge(axes: <gauge.RadialAxis>[
+      gauge.RadialAxis(
+          minimum: UserManager.getProfileDetails()['minGlucose'],
+          maximum: UserManager.getProfileDetails()['maxGlucose'],
+          showLabels: false,
+          showTicks: false,
+          startAngle: 270,
+          endAngle: 270,
+          axisLineStyle: gauge.AxisLineStyle(
+            thickness: 0.2,
+            cornerStyle: gauge.CornerStyle.bothFlat,
+            color: Colors.pink.shade100,
+            thicknessUnit: gauge.GaugeSizeUnit.factor,
           ),
-          DownloadHistoryButton(
-            width: width,
-            borderRadius: borderRadius,
-            padding: padding,
-            iconSize: iconSize,
-            normalFontSize: normalFontSize,
-            lightPink: lightPink,
-          )
-        ],
-      ),
-    );
+          pointers: <gauge.GaugePointer>[
+            gauge.RangePointer(
+                value: chartData[chartData.length - 1].y,
+                cornerStyle: gauge.CornerStyle.bothFlat,
+                width: 0.2,
+                sizeUnit: gauge.GaugeSizeUnit.factor,
+                color: Colors.pink.shade500)
+          ],
+          annotations: <gauge.GaugeAnnotation>[
+            gauge.GaugeAnnotation(
+                positionFactor: 0.1,
+                angle: 90,
+                widget: Text(
+                  ((chartData[chartData.length-1].y)).toStringAsFixed(0) +
+                      '/${UserManager.getProfileDetails()['maxGlucose'].toInt()}\n   Min',
+                  style: TextStyle(
+                      fontSize: 40, fontWeight: FontWeight.bold),
+                ))
+          ])
+    ]);
+        if (book == 'Glucose')
+          return radialGraph;
+        return Container();
   }
 }
 
@@ -226,19 +289,23 @@ class GraphState extends State<Graph> {
 
   DateTime minDate;
   DateTime maxDate;
-  SfRangeValues values = SfRangeValues(8.0, 16.0);
+  SfRangeValues values;
   RangeController rangeController;
   SfCartesianChart splineChart;
 
   @override
   initState() {
     super.initState();
+    minDate = getMinDate(chartData).subtract(const Duration(days: 1));
+    maxDate = getMaxDate(chartData).add(const Duration(days: 1));
+    values = SfRangeValues(
+      minDate,
+      maxDate,
+    );
     rangeController = RangeController(
       start: values.start,
       end: values.end,
     );
-    minDate = getMinDate(chartData);
-    maxDate = getMaxDate(chartData);
   }
 
   @override
@@ -334,12 +401,175 @@ class GraphState extends State<Graph> {
   }
 }
 
+class ViewLogBookButton extends StatefulWidget {
+  ViewLogBookButton({
+    this.pink,
+    this.fontSize,
+    this.width,
+    this.borderRadius,
+    this.padding,
+    this.popUpData,
+  });
+
+  final Color pink;
+  final double fontSize;
+  final double width;
+  final double borderRadius;
+  final double padding;
+  final List<List<String>> popUpData;
+
+  @override
+  ViewLogBookButtonState createState() => ViewLogBookButtonState(
+    pink: pink,
+    fontSize: fontSize,
+    width: width,
+    borderRadius: borderRadius,
+    padding: padding,
+    popUpData: popUpData,
+  );
+}
+
+class ViewLogBookButtonState extends State<ViewLogBookButton> {
+  ViewLogBookButtonState({
+    this.pink,
+    this.fontSize,
+    this.width,
+    this.borderRadius,
+    this.padding,
+    this.popUpData,
+  });
+
+  final Color pink;
+  final double fontSize;
+  final double width;
+  final double borderRadius;
+  final double padding;
+  final List<List<String>> popUpData;
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> popUp() async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          scrollable: true,
+          title: Text(
+            '${DateFormat.yMMMMEEEEd().format(selectedDate)}',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Column(
+            children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: logBookTable(),
+              ),
+              Center(
+                child: FlatButton(
+                  child: Text(
+                    'Close',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Table logBookTable() {
+    List<TableRow> tableRows = [];
+    for (int i = 0; i < popUpData.length; i++) {
+      List<String> record = popUpData[i];
+      if (i != 0 && record[0] != DateFormat.yMMMMEEEEd().format(selectedDate)) {
+        continue;
+      }
+      List<TableCell> tableRow = [];
+      for (int j = 1; j < record.length; j++) {
+        String entry = record[j];
+        tableRow.add(
+          TableCell(
+            child: Center(
+              child: Container(
+                margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                child: Text(
+                  entry,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: i == 0 ? FontWeight.w500 : FontWeight.w400,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+      tableRows.add(
+        TableRow(
+          children: tableRow,
+        ),
+      );
+    }
+
+    return Table(
+      border: TableBorder.all(),
+      defaultColumnWidth: IntrinsicColumnWidth(),
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      children: tableRows,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 0.7 * width,
+      child: RaisedButton(
+        color: pink,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        padding: EdgeInsets.all(padding),
+        onPressed: () {
+          DatePicker.showDatePicker(
+            context,
+            showTitleActions: true,
+            minTime: DateTime(2000),
+            maxTime: DateTime.now(),
+            currentTime: selectedDate,
+            onConfirm: (date) {
+              selectedDate = date;
+              popUp();
+            },
+            locale: LocaleType.en,
+          );
+        },
+        child: Text(
+          'View Log Book',
+          style: TextStyle(
+            fontSize: fontSize,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class DownloadHistoryButton extends StatelessWidget {
   final double width;
   final double borderRadius;
   final double padding;
   final double iconSize;
-  final double normalFontSize;
+  final double fontSize;
   final Color lightPink;
 
   DownloadHistoryButton({
@@ -347,9 +577,10 @@ class DownloadHistoryButton extends StatelessWidget {
     this.borderRadius,
     this.padding,
     this.iconSize,
-    this.normalFontSize,
+    this.fontSize,
     this.lightPink,
   });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -360,7 +591,9 @@ class DownloadHistoryButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         padding: EdgeInsets.all(padding),
-        onPressed: () {},
+        onPressed: () {
+          LogBookMgr.downloadGlucoseLogBook();
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -372,9 +605,9 @@ class DownloadHistoryButton extends StatelessWidget {
               width: 7.0,
             ),
             Text(
-              'Donwload History',
+              'Download History',
               style: TextStyle(
-                fontSize: normalFontSize,
+                fontSize: fontSize,
               ),
             ),
           ],
@@ -383,3 +616,43 @@ class DownloadHistoryButton extends StatelessWidget {
     );
   }
 }
+
+
+
+
+/*
+gauge.SfRadialGauge(axes: <gauge.RadialAxis>[
+                gauge.RadialAxis(
+                    minimum: 0,
+                    maximum: 100,
+                    showLabels: false,
+                    showTicks: false,
+                    startAngle: 270,
+                    endAngle: 270,
+                    axisLineStyle: gauge.AxisLineStyle(
+                      thickness: 0.2,
+                      cornerStyle: gauge.CornerStyle.bothFlat,
+                      color: Colors.pink.shade100,
+                      thicknessUnit: gauge.GaugeSizeUnit.factor,
+                    ),
+                    pointers: <gauge.GaugePointer>[
+                      gauge.RangePointer(
+                          value: 10,
+                          cornerStyle: gauge.CornerStyle.bothFlat,
+                          width: 0.2,
+                          sizeUnit: gauge.GaugeSizeUnit.factor,
+                          color: Colors.pink.shade500)
+                    ],
+                    annotations: <gauge.GaugeAnnotation>[
+                      gauge.GaugeAnnotation(
+                          positionFactor: 0.1,
+                          angle: 90,
+                          widget: Text(
+                            ((1 * 60) / 100).toStringAsFixed(0) +
+                                '/60\n   Min',
+                            style: TextStyle(
+                                fontSize: 40, fontWeight: FontWeight.bold),
+                          ))
+                    ])
+              ]),
+ */

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'Drawer.dart';
 import 'NavigationBar.dart';
 import './AppBar.dart';
 
@@ -75,6 +76,7 @@ class ExercisePageState extends StatelessWidget {
   Widget build(BuildContext context) {
     double progressValue = 75;
     return Scaffold(
+      endDrawer: CustomDrawer(),
       bottomNavigationBar: NavigationBar(),
       appBar: CommonAppBar(
         title: 'Exercise',
@@ -204,7 +206,7 @@ class ExercisePageState extends StatelessWidget {
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline4),
-                                    onPressed: null)
+                                    onPressed: (){Navigator.of(context).pushNamed('/profile');})
                               ]),
                         ]))),
             Container(

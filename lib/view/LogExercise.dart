@@ -4,6 +4,7 @@ import 'package:flutterapp/controller/LogBookMgr.dart';
 import 'package:intl/intl.dart';
 import '../controller/UserMgr.dart';
 import './AppBar.dart';
+import 'Drawer.dart';
 
 void main() => runApp(MaterialApp(
   title: 'Diabetes App',
@@ -58,6 +59,7 @@ class LogExercisePageState extends State<LogExercisePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        endDrawer: CustomDrawer(),
         appBar: CommonAppBar(title: 'Log Exercise'),
         body: SingleChildScrollView(
           /// Flutter code sample for Form
