@@ -42,7 +42,7 @@ class AuthenticationManager {
   }
 
   /// Signs user out.
-  void signOut() {
+  static void signOut() {
     _auth.signOut();
   }
 

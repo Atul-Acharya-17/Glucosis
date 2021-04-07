@@ -4,6 +4,8 @@ import 'package:flutterapp/view/NavigationBar.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:intl/intl.dart';
 
+import 'Drawer.dart';
+
 
 void main() => runApp(MaterialApp(
   title: 'Diabetes App',
@@ -79,6 +81,7 @@ class MealLogForm extends State<MealLogPageState> {
   Widget build(BuildContext context) {
     double progressValue = 153;
     return Scaffold(
+        endDrawer: CustomDrawer(),
         appBar: CommonAppBar(title: "Food Main Page"),
         bottomNavigationBar: NavigationBar(),
         body: SingleChildScrollView(

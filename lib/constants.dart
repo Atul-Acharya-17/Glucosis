@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/controller/UserMgr.dart';
 
 import 'view/RouteGenerator.dart';
 
@@ -31,3 +32,4 @@ Widget materialApp = MaterialApp(
     ),
   onGenerateRoute: RouteGenerator.generateRoute,
   );
+

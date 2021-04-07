@@ -11,11 +11,13 @@ import '../model/Data.dart';
 import '../view/NavigationBar.dart';
 import '../view/AppBar.dart';
 import '../controller/LogBookMgr.dart';
+import 'Drawer.dart';
 
 class LogBookPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: CustomDrawer(),
       appBar: CommonAppBar(
         title: 'Log Books',
       ),
@@ -225,7 +227,7 @@ class BooksView extends StatelessWidget {
                 angle: 90,
                 widget: Text(
                   ((chartData[chartData.length-1].y)).toStringAsFixed(0) +
-                      '/${UserManager.getProfileDetails()['maxGlucose']}\n   Min',
+                      '/${UserManager.getProfileDetails()['maxGlucose'].toInt()}\n   Min',
                   style: TextStyle(
                       fontSize: 40, fontWeight: FontWeight.bold),
                 ))

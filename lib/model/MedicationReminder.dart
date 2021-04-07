@@ -24,4 +24,12 @@ class MedicationReminder {
   get dosage => _dosage;
   get timing => _timing;
   get type => _type;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'type': "Medication",
+      'message': "Take " + dosage + " " + type + " of" + medicineName,
+      'timings': timing
+    };
+  }
 }

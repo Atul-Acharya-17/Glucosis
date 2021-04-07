@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import './AppBar.dart';
 import 'package:flutterapp/view/CustomRadioButton.dart';
 
+import 'Drawer.dart';
+
 void main() {
   runApp(
     MaterialApp(
@@ -48,6 +50,7 @@ class LogGlucosePageState extends State<LogGlucosePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: CustomDrawer(),
       appBar: CommonAppBar(
         title: 'Log Blood Glucose',
       ),
