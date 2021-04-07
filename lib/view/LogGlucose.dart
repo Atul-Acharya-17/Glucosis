@@ -4,6 +4,7 @@ import 'package:flutterapp/view/NavigationBar.dart';
 import 'package:intl/intl.dart';
 import './AppBar.dart';
 import 'package:flutterapp/view/CustomRadioButton.dart';
+import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 
 import 'Drawer.dart';
 
@@ -235,16 +236,15 @@ class MyCustomFormState extends State<MyCustomForm> {
                     Center(
                         child: Align(
                             alignment: Alignment.bottomCenter,
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              height: MediaQuery.of(context).size.height * 0.07,
                               child: ElevatedButton(
+                                child: Text("Log glucose entry",
+                                    style: Theme.of(context).textTheme.button),
                                 style: ElevatedButton.styleFrom(
                                   shape: new RoundedRectangleBorder(
                                     borderRadius: new BorderRadius.circular(30.0),
                                   ),
-                                  primary: Colors.pink[100], // background
-                                  onPrimary: Colors.black, // foreground
+                                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                                  primary: Theme.of(context).primaryColor,
                                 ),
                                 onPressed: () {
                                   // Validate returns true if the form is valid, otherwise false.
@@ -312,10 +312,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     );
                                   }
                                 },
-                                child: Text("Log Entry",
-                                    style: Theme.of(context).textTheme.headline3),
                               ),
-                            )))
+                            ))
                   ],),),),
     );
   }

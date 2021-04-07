@@ -230,23 +230,17 @@ class MyCustomFormState extends State<MyCustomForm> {
               height: 30,
             ),
             Center(
-                child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.05),
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0),
-                            ),
-                            primary: Colors.pink[100], // background
-                            onPrimary: Colors.black, // foreground
+                child: ElevatedButton(
+                        child: Text("Create schedule",
+                            style: Theme.of(context).textTheme.button),
+                        style: ElevatedButton.styleFrom(
+                          shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0),
                           ),
-                          onPressed: () {
+                          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                          primary: Theme.of(context).primaryColor,
+                        ),
+                        onPressed: () {
                             // Validate returns true if the form is valid, otherwise false.
                             if (_formKey.currentState.validate()) {
                               // If the form is valid, display a snackbar. In the real world,
@@ -311,14 +305,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                               );
                             }
                           },
-                          child: Text("Create Schedule",
-                              style: TextStyle(fontSize: 20)),
                         ),
                       ),
-                    )))
           ],
-        ),
-      ),
+    ),
+    ),
     );
   }
 }
