@@ -162,11 +162,11 @@ class ReminderMgr {
 
   static List<Map> getReminders() {
     List<Map> reminderList = new List();
-    print('getting reminders');
-    print(glucoseDismissed);
-    print(medicationDismissed);
+    // print('getting reminders');
+    // print(glucoseDismissed);
+    // print(medicationDismissed);
 
-    List allGlucose = UserManager.getGlucoseReminders();
+    List<GlucoseReminder> allGlucose = UserManager.getGlucoseReminders();
     if (glucoseDismissed == null) {
       glucoseDismissed = List.filled(
         allGlucose.length,
@@ -174,27 +174,43 @@ class ReminderMgr {
       );
     }
 
-    for (int i = 0; i < allGlucose.length; i++) {
-      if (DateTime.now().difference(allGlucose[i].timing).inMinutes <= 15) {
-        if (i < glucoseDismissed.length && !glucoseDismissed[i]) {
-          reminderList.add(
-            allGlucose[i].toMap(
-              i,
-            ),
-          );
+    DateTime nextGlucose;
+    if (allGlucose != null && allGlucose.length != 0) {
+      nextGlucose = allGlucose
+          .reduce((a, b) =>
+      ((!a.compareTo(DateTime.now()) && b.compareTo(DateTime.now())) ||
+          (b.compareTo(DateTime.now()) && a.compareTo(b.timings)) ||
+          (a.compareTo(b.timings) && !a.compareTo(DateTime.now())))
+          ? b
+          : a)
+          .timings;
+    }
+
+    if (allGlucose != null) {
+      for (int i = 0; i < allGlucose.length; i++) {
+        if (allGlucose[i].timings == nextGlucose ||
+            (0 < allGlucose[i].timings
+                .difference(DateTime.now())
+                .inMinutes &&
+                allGlucose[i].timings
+                    .difference(DateTime.now())
+                    .inMinutes <=
+                    15)) {
+          if (!glucoseDismissed[i]) {
+            reminderList.add(
+              allGlucose[i].toMap(
+                i,
+              ),
+            );
+          }
+        } else {
+          glucoseDismissed[i] = false;
         }
-      } else {
-        // to delete
-        /*reminderList.add(
-          allGlucose[i].toMap(
-            i,
-          ),
-        );*/
-        glucoseDismissed[i] = false;
       }
     }
 
-    List allMedication = UserManager.getMedicationReminders();
+    List<MedicationReminder> allMedication =
+    UserManager.getMedicationReminders();
     if (medicationDismissed == null) {
       medicationDismissed = List.filled(
         allMedication.length,
@@ -202,27 +218,44 @@ class ReminderMgr {
       );
     }
 
-    for (int i = 0; i < allMedication.length; i++) {
-      if (DateTime.now().difference(allMedication[i].timing).inMinutes <= 15) {
-        if (i < medicationDismissed.length && !medicationDismissed[i]) {
-          reminderList.add(
-            allMedication[i].toMap(
-            ),
-          );
+    DateTime nextMedication;
+    if (allMedication != null && allMedication.length != 0) {
+      nextMedication = allMedication
+          .reduce((a, b) =>
+      ((!a.compareTo(DateTime.now()) && b.compareTo(DateTime.now())) ||
+          (b.compareTo(DateTime.now()) && a.compareTo(b.timing)) ||
+          (a.compareTo(b.timing) && !a.compareTo(DateTime.now())))
+          ? b
+          : a)
+          .timing;
+    }
+    // print(nextMedication);
+
+    if (allMedication != null) {
+      for (int i = 0; i < allMedication.length; i++) {
+        if (allMedication[i].timing == nextMedication ||
+            (0 < allMedication[i].timing
+                .difference(DateTime.now())
+                .inMinutes &&
+                allMedication[i].timing
+                    .difference(DateTime.now())
+                    .inMinutes <=
+                    15)) {
+          if (!medicationDismissed[i]) {
+            reminderList.add(
+              allMedication[i].toMap(
+                i,
+              ),
+            );
+          }
+        } else {
+          medicationDismissed[i] = false;
         }
-      } else {
-        // to delete
-        /*reminderList.add(
-          allMedication[i].toMap(
-            i,
-          ),
-        );*/
-        medicationDismissed[i] = false;
       }
     }
 
-    print(glucoseDismissed);
-    print(medicationDismissed);
+    // print(glucoseDismissed);
+    // print(medicationDismissed);
 
     return reminderList;
   }
@@ -231,13 +264,13 @@ class ReminderMgr {
       String type,
       int i,
       ) {
-    print('Setting dismissed');
+    // print('Setting dismissed');
     if (type == 'Glucose') {
       glucoseDismissed[i] = true;
-      print(glucoseDismissed);
+      // print(glucoseDismissed);
     } else if (type == 'Medication') {
       medicationDismissed[i] = true;
-      print(medicationDismissed);
+      // print(medicationDismissed);
     }
   }
 

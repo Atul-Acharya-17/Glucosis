@@ -344,7 +344,9 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                                 setState(() {
                                   showSpinner = false;
                                 });
-                                Navigator.of(context).pushNamed('/accdetails');
+                                Navigator.of(context)
+                                    .pushNamedAndRemoveUntil(
+                                    '/accdetails', ModalRoute.withName('/'));
                             }
                             else{
                               setState(() {

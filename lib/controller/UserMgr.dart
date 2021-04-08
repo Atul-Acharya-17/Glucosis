@@ -376,16 +376,22 @@ class UserManager {
 
   static GlucoseLogBook getGlucoseLogBook() {
     print(user.glucoseLogBook);
+    if (user.glucoseLogBook == null)
+      user.setGlucoseLogbook = new GlucoseLogBook(glucoseRecordsList: new List<GlucoseRecord>());
     return user.glucoseLogBook;
   }
 
   static ExerciseLogBook getExerciseLogBook() {
     print(user.exerciseLogBook);
+    if (user.exerciseLogBook == null)
+      user.setExerciseLogBook = new ExerciseLogBook(exerciseRecordsList: new List<ExerciseRecord>());
     return user.exerciseLogBook;
   }
 
   static FoodLogBook getFoodLogBook() {
     print(user.foodLogBook);
+    if (user.foodLogBook == null)
+      user.setFoodLogBook = new FoodLogBook(foodRecordsList: new List<FoodRecord>());
     return user.foodLogBook;
   }
 

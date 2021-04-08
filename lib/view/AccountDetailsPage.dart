@@ -157,8 +157,8 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
       absoluteZeroSpacing: false,
       unSelectedColor: Theme.of(context).primaryColorLight,
       buttonLables: [
-        'Female',
-        'Male',
+        'female',
+        'male',
         'Other',
       ],
       buttonValues: [
@@ -281,12 +281,7 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 40,
-        leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Theme.of(context).primaryColor,
-            ),
-            onPressed: null),
+
         backgroundColor: Theme.of(context).backgroundColor,
         shadowColor: Colors.transparent,
       ),
@@ -438,7 +433,9 @@ class AccountDetailsScreenState extends State<AccountDetailsScreen> {
                           UserManager.updateOnSignup(dateOfBirth, _gender, _location, _weight, _height, _type, _targetRange.start, _targetRange.end);
                           Map<String,dynamic> details=UserManager.getProfileDetails();
                           print(details);
-                          Navigator.of(context).pushNamed('/home');
+                          Navigator.of(context)
+                              .pushNamedAndRemoveUntil(
+                              '/home', ModalRoute.withName('/'));
                         }),
                   ),
                 ),

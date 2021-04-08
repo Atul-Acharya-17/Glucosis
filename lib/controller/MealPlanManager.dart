@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/model/Recipes.dart';
 import 'package:http/http.dart' as http;
-import '../model/Recipes.dart';
 
 class MealPlanMgr{
   String url = 'api.spoonacular.com';

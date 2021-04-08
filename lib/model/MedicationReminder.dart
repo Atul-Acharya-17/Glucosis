@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 /// Entity containing details about a medication reminder.
 class MedicationReminder {
   /*
@@ -25,11 +27,20 @@ class MedicationReminder {
   get timing => _timing;
   get type => _type;
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap(int i) {
     return {
       'type': "Medication",
       'message': "Take " + dosage + " " + type + " of " + medicineName,
-      'timings': timing
+      'timings': DateFormat('h:mm a').format(timing),
+      'index': i,
     };
+  }
+
+  bool compareTo(DateTime b) {
+    if (timing.hour > b.hour ||
+        (timing.hour == b.hour && timing.minute >= b.minute)) {
+      return true;
+    }
+    return false;
   }
 }

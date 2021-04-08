@@ -101,10 +101,10 @@ class _MainFetchDataState extends State<MainFetchData> {
                                   Text(
                                     list[index].time.toString() + " minutes",
                                     style: TextStyle(
-                                      fontSize: 20,
-                                      //fontWeight: FontWeight.bold,
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.black),
+                                        fontSize: 20,
+                                        //fontWeight: FontWeight.bold,
+                                        fontStyle: FontStyle.italic,
+                                        color: Colors.black),
                                   ),
 
                                 ]

@@ -43,9 +43,21 @@ class ExercisePlanMgr{
          })
       });
       print(objects.length);
+
+      var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+      List sortedObjects = [];
+
+      for (String day in days){
+        List dayObjects = objects.where((element) => element['day'] == day).toList();
+        if (dayObjects.length == 0)
+          continue;
+        sortedObjects.addAll(dayObjects);
+      }
+
       return {
         "message": "Success",
-        "objects": objects
+        "objects": sortedObjects
       };
 
     }

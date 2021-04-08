@@ -168,16 +168,7 @@ class MealLogForm extends State<MealLogPageState> {
                     _buildMeal("2:00 PM", "Basil fried brown rice"),
                     _buildMeal("7:00 PM", "Chicken White Bean soup"),
                   ])),
-                  SizedBox(height: 20),
-                  _buildButton(
-                    "Change Meal Plan",
-                    "/mealPlanChange",
-                    Icon(
-                      Icons.edit_outlined,
-                      size: 18,
-                    ),
-                    300,
-                  ),
+
                   SizedBox(height: 15),
                   _buildButton(
                     "Update Food Preference",

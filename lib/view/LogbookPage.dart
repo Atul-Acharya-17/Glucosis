@@ -200,7 +200,7 @@ class BooksView extends StatelessWidget {
 
   Widget getRadialGraph(String logBook) {
     int min = 0;
-    int max;
+    int max = 100;
 
     var profileDetails = UserManager.getProfileDetails();
 
@@ -217,6 +217,9 @@ class BooksView extends StatelessWidget {
       case 'Food':
         min = 0;
         max = profileDetails['targetCalories'];
+        if (max == null){
+          max = 100;
+        }
     }
 
     Widget radialGraph = gauge.SfRadialGauge(
@@ -412,6 +415,7 @@ class GraphState extends State<Graph> {
       inactiveColor: lightPink,
       min: minDate,
       max: maxDate,
+      dateIntervalType: DateIntervalType.months,
       interval: 2,
       showTicks: true,
       showLabels: true,
