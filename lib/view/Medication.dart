@@ -403,7 +403,7 @@ class MedicationBodyState extends State<MedicationBody> {
                             primary: Colors.pink[100], // background
                             onPrimary: Colors.black, // foreground
                           ),
-                          onPressed: () {
+                          onPressed: () async {
                             // Validate returns true if the form is valid, otherwise false.
                             if (_formKey.currentState.validate()) {
                               // If the form is valid, display a snackbar. In the real world,
@@ -413,7 +413,7 @@ class MedicationBodyState extends State<MedicationBody> {
                               String type = CustomRadio.toggle ? "Pills" : "Syringe";
                               DateTime now = new DateTime.now();
 
-                              ReminderMgr.addMedicationReminder(
+                              await ReminderMgr.addMedicationReminder(
                                   medicineName,
                                   dosage,
                                   type,

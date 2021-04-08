@@ -5,8 +5,9 @@ import '../model/Recipes.dart';
 class RecipeTitle extends StatelessWidget {
   final Recipe recipe;
   final double padding;
+  final double fontSize;
 
-  RecipeTitle(this.recipe, this.padding);
+  RecipeTitle(this.recipe, this.padding, this.fontSize);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,11 @@ class RecipeTitle extends StatelessWidget {
         children: <Widget>[
           Text(
             recipe.title,
-            style: Theme.of(context).textTheme.title,
+            style: TextStyle(
+                fontSize: this.fontSize,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
+                color: Colors.black),
           ),
           // Empty space:
           SizedBox(height: 10.0),

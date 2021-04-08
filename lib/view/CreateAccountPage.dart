@@ -240,6 +240,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
           backgroundColor: Theme.of(context).backgroundColor,
           shadowColor: Colors.transparent,
         ),
+        backgroundColor: Theme.of(context).backgroundColor,
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
@@ -362,7 +363,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                           }),
                     ),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 5),
                 ],
               ),
             ),

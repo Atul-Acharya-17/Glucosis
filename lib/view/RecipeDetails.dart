@@ -56,7 +56,7 @@ class _DetailScreenState extends State<DetailScreen>
           return <Widget>[
             SliverAppBar(
               iconTheme: IconThemeData(
-                color: Colors.black, //change your color here
+                color: Theme.of(context).accentColor, //change your color here
               ),
               backgroundColor: Colors.white30,
               flexibleSpace: FlexibleSpaceBar(
@@ -65,7 +65,7 @@ class _DetailScreenState extends State<DetailScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     RecipeImage(widget.recipe),
-                    RecipeTitle(widget.recipe, 25.0),
+                    RecipeTitle(widget.recipe, 25.0, 25.0),
                   ],
                 ),
               ),

@@ -315,7 +315,8 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
                           "minSugar": "0",
                           "maxSugar": sugar,
                           "number": "10",
-                          "addRecipeInformation": "true"
+                          "addRecipeInformation": "true",
+                          "sort": "random"
                         };
                         List<Recipe> response = await mgr.fetchRecipes(request);
                         print (response);

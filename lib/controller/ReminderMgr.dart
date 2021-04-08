@@ -16,7 +16,7 @@ class ReminderMgr {
   static List<bool> medicationDismissed;
 
   //This function to be called in userMgr
-  static void addGlucoseReminder(DateTime timing) async {
+  static Future<void> addGlucoseReminder(DateTime timing) async {
     String email = UserManager.getCurrentUserEmail();
     //setting new object in user
     GlucoseReminder G = new GlucoseReminder(timings: timing);
@@ -152,7 +152,7 @@ class ReminderMgr {
                     .difference(DateTime.now())
                     .inMinutes <=
                     15)) {
-          if (!glucoseDismissed[i]) {
+          if (i < glucoseDismissed.length && !glucoseDismissed[i]) {
             reminderList.add(
               allGlucose[i].toMap(
                 i,
@@ -197,7 +197,7 @@ class ReminderMgr {
                     .difference(DateTime.now())
                     .inMinutes <=
                     15)) {
-          if (!medicationDismissed[i]) {
+          if (i < medicationDismissed.length && !medicationDismissed[i]) {
             reminderList.add(
               allMedication[i].toMap(
                 i,
@@ -258,6 +258,33 @@ class ReminderMgr {
     return medReminderMap;
   }
 
+
+  static Future<Map<String, GlucoseReminder>>
+  getGlucoseRemindersWithKey() async {
+    Map<String, GlucoseReminder> glucoseReminderMap = {};
+    await FirebaseFirestore.instance
+        .collection('GlucoseReminders')
+        .doc(UserManager.getCurrentUserEmail())
+        .collection('reminders')
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+      querySnapshot.docs.forEach((doc) async {
+        glucoseReminderMap[doc.id] = GlucoseReminder(
+          timings: DateTime.fromMicrosecondsSinceEpoch(
+            doc['timings'].microsecondsSinceEpoch,
+          ),
+        );
+        print("added to list");
+      })
+    })
+        .catchError((error) => print('Failed to get logbook: $error'));
+    print("med reminder list returned");
+
+    print(glucoseReminderMap.keys);
+    return glucoseReminderMap;
+  }
+
+
   static Future<void> deleteReminder(String key) async {
     await FirebaseFirestore.instance
         .collection('MedicationReminders')
@@ -265,7 +292,17 @@ class ReminderMgr {
         .collection('reminders')
         .doc(key)
         .delete();
-    await UserManager.setGlucoseReminders();
     await UserManager.setMedicationReminders();
   }
+
+  static Future<void> deleteGlucoseReminder(String key) async {
+    await FirebaseFirestore.instance
+        .collection('GlucoseReminders')
+        .doc(UserManager.getCurrentUserEmail())
+        .collection('reminders')
+        .doc(key)
+        .delete();
+    await UserManager.setGlucoseReminders();
+  }
+
 }

@@ -258,13 +258,13 @@ class MealLogForm extends State<MealLogPageState> {
                                 border: Border.all(color: Colors.grey[400]),
                                 borderRadius: BorderRadius.circular(5.0)),
                             child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(formatter.format(currentDate),
                                       style: TextStyle(
                                           fontSize: 20, color: Colors.black)),
                                   IconButton(
-                                      icon: Icon(Icons.calendar_today_sharp),
+                                      icon: Icon(Icons.calendar_today_sharp,size: 20),
                                       onPressed: () => _selectDate(context))
                                 ])),
                         Container(
