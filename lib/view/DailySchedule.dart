@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutterapp/model/GlucoseRecord.dart';
 import 'package:flutterapp/model/GlucoseReminders.dart';
+
 // import 'package:flutter/services.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
+
 // import 'package:flutterapp/view/CustomRadioButton.dart';
 import './AppBar.dart';
 import 'package:flutterapp/controller/ReminderMgr.dart';
@@ -52,6 +54,7 @@ class DailySchedule extends StatelessWidget {
       body: DailyScheduleBody(),
       bottomNavigationBar: NavigationBar(),
       endDrawer: CustomDrawer(),
+      backgroundColor: Theme.of(context).canvasColor,
     );
   }
 }
@@ -116,9 +119,6 @@ class DailyScheduleBodyState extends State<DailyScheduleBody> {
   final double margin = 5;
   final double padding = 5;
   final double iconSize = 56;
-  final Color backgroundColor = Color.fromRGBO(180, 180, 180, 0.2);
-  final Color green = Color.fromRGBO(0, 110, 96, 1);
-  final Color pink = Color.fromRGBO(254, 179, 189, 1);
 
   @override
   Widget build(BuildContext context) {
@@ -157,105 +157,87 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
   }
 
+  Widget _buildReminder() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          padding: EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 10),
+          width: MediaQuery.of(context).size.width * 0.75,
+          height: 60,
+          decoration: BoxDecoration(
+            color: Colors.white,
+              border: Border.all(color: Theme.of(context).shadowColor),
+              borderRadius: BorderRadius.circular(5.0)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("${_time.format(context)}",
+                  style: TextStyle(fontSize: 20)),
+              IconButton(
+                  icon: Icon(Icons.alarm_add_rounded),
+                  onPressed: () => _selectTime(context))
+            ],
+          ),
+        ),
+        IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
 
     return Form(
       key: _formKey,
-      child: Padding(
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.01,
-            left: MediaQuery.of(context).size.width * 0.04),
+      child: Container(
+        padding: EdgeInsets.all(20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(
-              width: 700,
-              child: Container(
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 20, left: 10),
-                      child: Text(
-                        'Set Reminder',
-                        style: TextStyle(
-                            fontSize: 20, color: Colors.teal.shade800),
-                      ))),
+            Text(
+              'Set Reminder',
+              style: Theme.of(context).textTheme.display1,
             ),
-            Row(
-              children: [
-                SizedBox(width: 10),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 10, top: 10),
-                    padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-                    width: MediaQuery.of(context).size.width * 0.40,
-                    height: 60,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey[400]),
-                        borderRadius: BorderRadius.circular(5.0)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("${_time.format(context)}",
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.black)),
-                        IconButton(
-                            icon: Icon(Icons.alarm_add_rounded),
-                            onPressed: () => _selectTime(context))
-                      ],
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.05),
-              child: SizedBox(
-                width: 400,
-                child: Text(
-                  '+ Add reminder',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.teal.shade800,
-                  ),
-                ),
+            SizedBox(height: 5),
+            _buildReminder(),
+            SizedBox(height: 15),
+            Text(
+              '+ Add reminder',
+              style: TextStyle(
+                color: Colors.teal.shade800,
               ),
             ),
             SizedBox(
-              height: 30,
+              height: MediaQuery.of(context).size.height * 0.05,
             ),
             Center(
-                child: ElevatedButton(
-                        child: Text("Create schedule",
-                            style: Theme.of(context).textTheme.button),
-                        style: ElevatedButton.styleFrom(
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0),
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                          primary: Theme.of(context).primaryColor,
-                        ),
-                        onPressed: () {
-                            // Validate returns true if the form is valid, otherwise false.
-                            if (_formKey.currentState.validate()) {
-                              // If the form is valid, display a snackbar. In the real world,
-                              // you'd often call a server or save the information in a database.
+              child: ElevatedButton(
+                child: Text("Create schedule",
+                    style: Theme.of(context).textTheme.button),
+                style: ElevatedButton.styleFrom(
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(30.0),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  primary: Theme.of(context).primaryColor,
+                ),
+                onPressed: () {
+                  // Validate returns true if the form is valid, otherwise false.
+                  if (_formKey.currentState.validate()) {
+                    // If the form is valid, display a snackbar. In the real world,
+                    // you'd often call a server or save the information in a database.
 
-                              DateTime now = new DateTime.now();
+                    DateTime now = new DateTime.now();
 
-                              ReminderMgr.addGlucoseReminder(DateTime(
-                                  now.year,
-                                  now.month,
-                                  now.day,
-                                  _time.hour,
-                                  _time.minute));
+                    ReminderMgr.addGlucoseReminder(DateTime(now.year, now.month,
+                        now.day, _time.hour, _time.minute));
 
-                              /*
+                    /*
 
                               Change to form data
 
@@ -265,51 +247,49 @@ class MyCustomFormState extends State<MyCustomForm> {
                               GlucoseReminder ent = GlucoseReminder(timings: date);
                               mgr.addReminder(ent);
                                */
-                              return showDialog<void>(
-                                context: context,
-                                barrierDismissible:
-                                    false, // user must tap button!
-                                builder: (BuildContext context) {
-                                  // can add logic to store entry here
-                                  return AlertDialog(
-                                    //title: Text('AlertDialog Title'),
-                                    content: SingleChildScrollView(
-                                      child: ListBody(
-                                        children: <Widget>[
-                                          Text('Glucose reminder is set',
-                                              style: TextStyle(
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black)),
-                                          SizedBox(height: 20),
-                                          TextButton(
-                                            child: Text('OK',
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black)),
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all<
-                                                            Color>(
-                                                        Colors.green[500])),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            }
-                          },
-                        ),
-                      ),
+                    return showDialog<void>(
+                      context: context,
+                      barrierDismissible: false, // user must tap button!
+                      builder: (BuildContext context) {
+                        // can add logic to store entry here
+                        return AlertDialog(
+                          //title: Text('AlertDialog Title'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('Glucose reminder is set',
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)),
+                                SizedBox(height: 20),
+                                TextButton(
+                                  child: Text('OK',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black)),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.green[500])),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
+            ),
           ],
-    ),
-    ),
+        ),
+      ),
     );
   }
 }

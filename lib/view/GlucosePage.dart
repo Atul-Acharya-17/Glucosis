@@ -84,7 +84,7 @@ class GlucosePageBody extends StatelessWidget {
     }
 
     return SingleChildScrollView(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
+      padding: EdgeInsets.all(20),
       child: Center(
         child: Column(
           children: [
@@ -109,9 +109,9 @@ class GlucosePageBody extends StatelessWidget {
                         dataSource: LogBookMgr.getHomePageData()['Glucose'],
                         xValueMapper: (Data datum, _) => datum.dateTime,
                         yValueMapper: (Data datum, _) => datum.y,
-                        color: Colors.pink.shade200,
+                        color: Theme.of(context).accentColor,
                         markerSettings: MarkerSettings(
-                          color: Colors.pink.shade800,
+                          color: Theme.of(context).accentColor,
                           isVisible: true,
                         ),
                         animationDuration: 0,
