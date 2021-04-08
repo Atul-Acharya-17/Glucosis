@@ -16,7 +16,7 @@ import 'LogGlucose.dart';
 import 'LogExercise.dart';
 import 'DailySchedule.dart';
 import 'LogbookPage.dart';
-import 'UpdateFoodPreference.dart';
+import 'RecommendPlan.dart';
 
 /// A class for linking UI pages in the application.
 class RouteGenerator {
@@ -58,7 +58,7 @@ class RouteGenerator {
       case '/mealPlanChange':
         return MaterialPageRoute(builder: (context) => ChooseMealPlan());
       case '/library':
-        return MaterialPageRoute(builder: (context) => FoodLibraryPage());
+        return MaterialPageRoute(builder: (context) => MainFetchData());
       case '/updateFoodPref':
         return MaterialPageRoute(builder: (context) => UpdateFoodPreference());
       case '/password':

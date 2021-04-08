@@ -1,84 +1,29 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import '../model/Recipes.dart';
 
-/// Controller class for user's blood glucose reading reminders. Retrieves user's reminders from a glucose reminder database.
 class MealPlanMgr{
-  final String _emailID;
-  final CollectionReference _MealPlan;
-  final CollectionReference _chosenPlan;
-  MealPlanMgr({String email})
-    : _emailID = email,
-      _MealPlan = FirebaseFirestore.instance.collection('MealPlans'),
-      _chosenPlan = FirebaseFirestore.instance.collection('ChosenPlan');
+  String url = 'api.spoonacular.com';
+  List<Recipe> recipes = List();
 
-  /// Updates a user's meal plan in the meal plan database.
-  Future<Map<String, dynamic>> setMealPlan(String mealPlanID) async{
 
-    String message;
-    _chosenPlan
-        .doc(_emailID)
-        .set({
-          'Meal': mealPlanID
-    }).then(
-        (value)=> message = "Success").
-    catchError((error)=> message = "Update failed");
+  Future<List<Recipe>> fetchRecipes(Map<String, dynamic> request) async {
+    request['apiKey'] = '9449825925d342f0a9418ca8f44c9d3c';
+    print(request);
+    final response =
+    await http.get(Uri.https(url, 'recipes/complexSearch', request),);
+    print("Status code"+response.statusCode.toString());
+    if (response.statusCode == 200) {
 
-    return {
-      "message": message
-    };
-  }
-
-  /// Searches for plans matching the user's preferences in the meal plan database.
-  Future<Map<String, dynamic>> choosePlan(String diet, String calories, String allergies) async{
-
-    Map<String, int> dietMap = {
-      'Vegetarian': 0,
-      'Non-vegetarian':1,
-      'Vegan': 2
-    };
-
-    Map<String, int> calMap = {
-      '500-1000': 0,
-      '1000-1500':1,
-      '1500-2000': 2,
-      '2000-3000': 3
-    };
-
-    Map<String, int> allerMap = {
-
-      'Peanuts': 0,
-      'Groundnuts':1,
-    };
-    List objects = [];
-    String message;
-    try {
-      int dietIndex = dietMap[diet];
-      int calIndex = calMap[calories];
-      int allerIndex = allerMap[allergies];
-      String identifier = '($dietIndex, $calIndex, $allerIndex)';
-      _MealPlan.
-      where('identifier', isEqualTo: identifier)
-      .get()
-      .then((querySnapshot){
-        message = "Success";
-        querySnapshot.docs.forEach((result) {
-          objects.add(result.data());
-        });
-      });
-      return {
-        "message": message,
-        "objects": objects
-      };
-
+      recipes = (json.decode(response.body)['results'] as List)
+          .map((data){
+        return new Recipe.fromJSON(data);})
+          .toList();
+      print (recipes);
+      return recipes;
+    } else {
+      throw Exception('Failed to load recipe info');
     }
-    catch(e){
-      message = "Index Not found error";
-      // failed message
-      return {
-        "message": message,
-        "objects": []
-      };
-    }
-
-
   }
 }

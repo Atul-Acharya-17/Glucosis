@@ -216,7 +216,7 @@ class UserManager {
         UserManager.user = new User(
             dateOfBirth: documentSnapshot['DOB'].toDate(),
             diabetesType: documentSnapshot['diabetes type'],
-            dietRestrictions: documentSnapshot['dietary restrictions'],
+            //dietRestrictions: documentSnapshot['dietary restrictions'],
             exercisePreference: documentSnapshot['exercise Preference'],
             foodPreference: documentSnapshot['food preference'],
             gender: documentSnapshot['gender'],

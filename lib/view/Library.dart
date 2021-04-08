@@ -1,90 +1,38 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../model/Food.dart';
-
-
-void main(){
-  runApp(MaterialApp(
-    title: 'Diabetes App',
-    home: FoodLibraryPage(),
-    theme: ThemeData(
-      // Define the default brightness and colors.
-      primaryColor: Colors.teal.shade800,
-      backgroundColor: Colors.pink.shade100,
-
-      // Define the default font family.
-      fontFamily: 'Roboto',
-
-      // Define the default TextTheme. Use this to specify the default
-      // text styling for headlines, titles, bodies of text, and more.
-      textTheme: TextTheme(
-          headline3: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black),
-          headline4: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.teal.shade800),
-          headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
-          headline6: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.black)),
-    ),),);
-}
-
-/// UI screen for accessing food library API.
-class FoodLibraryPage extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-      return MainFetchData();
-  }
-}
+import 'RecipeImage.dart';
+import '../model/Recipes.dart';
 
 class MainFetchData extends StatefulWidget {
+  static final routeName = "/Library";
   @override
   _MainFetchDataState createState() => _MainFetchDataState();
 
 }
 class _MainFetchDataState extends State<MainFetchData> {
 
-  List<Food> list = List();
+  List<Recipe> list = List();
   var isLoading = false;
-  String url = 'api.nal.usda.gov';
+  String url = 'api.spoonacular.com';
   String query = "";
   final searchController = TextEditingController();
-
-  _setQuery(){
-
-    setState(() {
-      this.query = searchController.text;
-      print("ATUL" + searchController.text);
-    });
-    /*
-    if (searchController.text.isEmpty) {
-      setState(() {
-        this.query = "";
-      });
-    } else {
-      setState(() {
-        this.query = searchController.text;
-      });
-    }*/  }
-
   _fetchData() async {
     setState(() {
       isLoading = true;
     });
     final response =
-    await http.get(Uri.https(url, 'fdc/v1/foods/search', {"query": query, "pageNumber": "1", "pageSize": "3", "api_key": "KxLLUebmB2WRgjShtzDTjpIAAP113tqzyDqO1MMD"}),);
+    await http.get(Uri.https(url, 'recipes/complexSearch', {"query": query,
+      "number":"5",
+      "addRecipeInformation": "true",
+      "addRecipeNutrition": "true",
+      "apiKey": "9449825925d342f0a9418ca8f44c9d3c"}),);
     print(response.statusCode);
     if (response.statusCode == 200) {
 
-      list = (json.decode(response.body)['foods'] as List)
-          .map((data)=> new Food.fromJSON(data))
+      list = (json.decode(response.body)['results'] as List)
+          .map((data){
+        return new Recipe.fromJSON(data);})
           .toList();
       setState(() {
         isLoading = false;
@@ -98,46 +46,93 @@ class _MainFetchDataState extends State<MainFetchData> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title:  new TextField(
+          title:  new TextFormField(
             controller: searchController,
+            onChanged: (val){
+              setState(() {
+                query = searchController.text.toString();
+              });
+            },
             decoration: new InputDecoration(
                 suffixIcon: new IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: (){ searchController.addListener(_setQuery);
-                    _fetchData();}
+                    icon: const Icon(Icons.search, color: Colors.white),
+                    onPressed: (){ //searchController.addListener(_setQuery);
+                      _fetchData();}
                 ),
                 hintText: 'Search...'
             ),
           ),
         ),
-        // bottomNavigationBar: Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: RaisedButton(
-        //     child: new Text("Enter"),
-        //     onPressed:(){ searchController.addListener(_setQuery);
-        //     _fetchData();},
-        //   ),
-        // ),
         body: isLoading
             ? Center(
           child: CircularProgressIndicator(),
         )
-            : ListView.builder(
+            :
+        ListView.builder(
+            padding: EdgeInsets.only(
+              bottom: 20,
+            ),
             itemCount: list.length,
             itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                contentPadding: EdgeInsets.all(10.0),
-                title: new Text(list[index].name),
-                trailing: new Text("calories: " + list[index].cal.toString()),
-                /*
-                trailing: new Image.network(
-                  list[index].thumbnailUrl,
-                  fit: BoxFit.cover,
-                  height: 40.0,
-                  width: 40.0,
-                ),
-                 */
+              return GestureDetector(
+                  onTap: (){
+                    Navigator.pop(context, list[index]);
+                  },
+                  child: Card(
+                      child:
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children:<Widget>[
+                            RecipeImage(list[index]),
+                            Text(
+                              list[index].title,
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.black),
+                            ),
+                            // Empty space:
+                            SizedBox(height: 10.0),
+                            Row(
+                                children: [
+                                  Icon(Icons.timer, size: 20.0),
+                                  SizedBox(width: 5.0),
+                                  Text(
+                                    list[index].time.toString() + " minutes",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      //fontWeight: FontWeight.bold,
+                                      fontStyle: FontStyle.italic,
+                                      color: Colors.black),
+                                  ),
+
+                                ]
+                            ),
+                            SizedBox(width: 5.0),
+                            Text(
+                              "Calories: ${list[index].cal.toString()} kcal" ,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  //fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.black),
+                            ),
+                            SizedBox(width: 5.0),
+                            Text(
+                              "Carbs: ${list[index].carbs.toString()} mg",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  //fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.black),
+                            ),
+                          ]
+                      )
+                  )
               );
-            }));
+            }
+        )
+    );
   }
 }
