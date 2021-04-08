@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/GlucoseLogBook.dart';
 import '../model/FoodLogBook.dart';
@@ -18,10 +19,10 @@ class LogBookMgr {
   }
 
   static Future<void> addGlucoseRecord(
-      double glucoseLevel,
-      DateTime dateTime,
-      bool beforeMeal,
-      ) {
+    double glucoseLevel,
+    DateTime dateTime,
+    bool beforeMeal,
+  ) {
     String email = UserManager.getCurrentUserEmail();
     UserManager.addGlucoseRecord(
       GlucoseRecord(
@@ -35,10 +36,10 @@ class LogBookMgr {
         .doc(email)
         .collection('GlucoseRecords')
         .add({
-      'glucoseLevel': glucoseLevel,
-      'dateTime': dateTime,
-      'beforeMeal': beforeMeal,
-    })
+          'glucoseLevel': glucoseLevel,
+          'dateTime': dateTime,
+          'beforeMeal': beforeMeal,
+        })
         .then((value) => print('Glucose record added!'))
         .catchError((error) => print('Failed to add record: $error'));
   }
@@ -62,22 +63,22 @@ class LogBookMgr {
         .doc(email)
         .collection('FoodRecords')
         .add({
-      'dateTime': dateTime,
-      'food': food,
-      'carbs': carbs,
-      'calories': calories,
-      'servingSize': servingSize,
-      'notes': notes,
-    })
+          'dateTime': dateTime,
+          'food': food,
+          'carbs': carbs,
+          'calories': calories,
+          'servingSize': servingSize,
+          'notes': notes,
+        })
         .then((value) => print('Food record added!'))
         .catchError((error) => print('Failed to add record: $error'));
   }
 
   static Future<void> addExerciseRecord(
-      DateTime dateTime,
-      String exercise,
-      int duration,
-      ) {
+    DateTime dateTime,
+    String exercise,
+    int duration,
+  ) {
     String email = UserManager.getCurrentUserEmail();
     ExerciseRecord exerciseRecord = new ExerciseRecord(
         exercise: exercise, dateTime: dateTime, duration: duration);
@@ -88,10 +89,10 @@ class LogBookMgr {
         .doc(email)
         .collection('ExerciseRecords')
         .add({
-      'exercise': exercise,
-      'dateTime': dateTime,
-      'duration': duration,
-    })
+          'exercise': exercise,
+          'dateTime': dateTime,
+          'duration': duration,
+        })
         .then((value) => print('Exercise record added!'))
         .catchError((error) => print('Failed to add record: $error'));
   }
@@ -105,18 +106,18 @@ class LogBookMgr {
         .collection('GlucoseRecords')
         .get()
         .then((QuerySnapshot querySnapshot) => {
-      querySnapshot.docs.forEach((doc) async {
-        recordsList.add(
-          GlucoseRecord(
-            dateTime: DateTime.fromMicrosecondsSinceEpoch(
-              doc['dateTime'].microsecondsSinceEpoch,
-            ),
-            beforeMeal: doc['beforeMeal'],
-            glucoseLevel: doc['glucoseLevel'].toDouble(),
-          ),
-        );
-      })
-    })
+              querySnapshot.docs.forEach((doc) async {
+                recordsList.add(
+                  GlucoseRecord(
+                    dateTime: DateTime.fromMicrosecondsSinceEpoch(
+                      doc['dateTime'].microsecondsSinceEpoch,
+                    ),
+                    beforeMeal: doc['beforeMeal'],
+                    glucoseLevel: doc['glucoseLevel'].toDouble(),
+                  ),
+                );
+              })
+            })
         .catchError((error) => print('Failed to get logbook: $error'));
 
     print("glucose:");
@@ -137,28 +138,28 @@ class LogBookMgr {
         .collection('FoodRecords')
         .get()
         .then((QuerySnapshot querySnapshot) => {
-      querySnapshot.docs.forEach((doc) async {
-        recordsList.add(
-          FoodRecord(
-            dateTime: DateTime.fromMicrosecondsSinceEpoch(
-              doc['dateTime'].microsecondsSinceEpoch,
-            ),
-            food: doc['food'],
-            carbs: doc['carbs'],
-            calories: doc['calories'],
-            servingSize: doc['servingSize'].toDouble(),
-            notes: doc['notes'],
-          ),
-        );
-      })
-    })
+              querySnapshot.docs.forEach((doc) async {
+                recordsList.add(
+                  FoodRecord(
+                    dateTime: DateTime.fromMicrosecondsSinceEpoch(
+                      doc['dateTime'].microsecondsSinceEpoch,
+                    ),
+                    food: doc['food'],
+                    carbs: doc['carbs'],
+                    calories: doc['calories'],
+                    servingSize: doc['servingSize'].toDouble(),
+                    notes: doc['notes'],
+                  ),
+                );
+              })
+            })
         .catchError((error) => print('Failed to get logbook: $error'));
 
     print("food:");
     print(recordsList);
 
     return new FoodLogBook(
-      foodRecordsList: recordsList,
+      recordsList,
     );
   }
 
@@ -171,18 +172,18 @@ class LogBookMgr {
         .collection('ExerciseRecords')
         .get()
         .then((QuerySnapshot querySnapshot) => {
-      querySnapshot.docs.forEach((doc) async {
-        recordsList.add(
-          ExerciseRecord(
-            dateTime: DateTime.fromMicrosecondsSinceEpoch(
-              doc['dateTime'].microsecondsSinceEpoch,
-            ),
-            duration: doc['duration'],
-            exercise: doc['exercise'],
-          ),
-        );
-      })
-    })
+              querySnapshot.docs.forEach((doc) async {
+                recordsList.add(
+                  ExerciseRecord(
+                    dateTime: DateTime.fromMicrosecondsSinceEpoch(
+                      doc['dateTime'].microsecondsSinceEpoch,
+                    ),
+                    duration: doc['duration'],
+                    exercise: doc['exercise'],
+                  ),
+                );
+              })
+            })
         .catchError((error) => print('Failed to get logbook: $error'));
 
     print("exercise");
@@ -222,12 +223,18 @@ class LogBookMgr {
 
   static Future<void> downloadGlucoseLogBook() async {
     List<List<String>> listOfRecords =
-    UserManager.getGlucoseLogBook().getListOfRecords();
+        UserManager.getGlucoseLogBook().getListOfRecords();
 
     String csvData = ListToCsvConverter().convert(listOfRecords);
-    final String directory = (await getApplicationDocumentsDirectory()).path;
+    // final String directory = (await getApplicationDocumentsDirectory()).path;
+    // final String directory = (await getExternalStorageDirectory()).path;
+    final String directory =
+        (await DownloadsPathProvider.downloadsDirectory).path;
     final path = '$directory/Glucose_Records_(${DateTime.now()}).csv';
     final File file = File(path);
     await file.writeAsString(csvData);
+    print(path);
+    print(csvData);
+    print(await file.readAsString());
   }
 }

@@ -11,6 +11,7 @@ import '../model/Data.dart';
 import '../view/NavigationBar.dart';
 import '../view/AppBar.dart';
 import '../controller/LogBookMgr.dart';
+import '../controller/UserMgr.dart';
 import 'Drawer.dart';
 
 class LogBookPage extends StatelessWidget {
@@ -109,13 +110,13 @@ class BooksView extends StatelessWidget {
   final Color backgroundColor = Color.fromRGBO(180, 180, 180, 0.2);
   final double margin = 5;
   final double padding = 5;
-  final Map textMap = {
-    'Glucose': 'Blood Glucose Levels Analysis',
-    'Exercise': 'Exercise Levels Analysis',
-    'Food': 'Calorie Intake Analysis'
-  };
   final double borderRadius = 25;
   final double iconSize = 40;
+  final Map textMap = {
+    'Glucose': 'Blood Glucose Levels Analysis',
+    'Exercise': 'Exercise Duration Analysis',
+    'Food': 'Calorie Intake Analysis'
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +127,7 @@ class BooksView extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height * 1.5,
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
         color: backgroundColor,
         child: Column(
           children: [
@@ -137,33 +138,31 @@ class BooksView extends StatelessWidget {
               padding: padding,
               borderRadius: 10,
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(
-                0,
-                margin,
-                0,
-                2 * margin,
-              ),
-              child: Text(
-                textMap[book],
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: darkPink,
-                ),
-              ),
-            ),
-            Container(height: 300, width: 300, child: getRadialGraph(book)),
+            book == 'Food'
+                ? Container(
+                    margin: EdgeInsets.fromLTRB(0, margin, 0, 2 * margin),
+                    child: Text(
+                      textMap[book],
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: darkPink,
+                      ),
+                    ),
+                  )
+                : SizedBox(),
+            book == 'Food'
+                ? Container(
+                    height: 300,
+                    width: 300,
+                    child: getRadialGraph(), // book),
+                  )
+                : SizedBox(),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(
-                0,
-                margin,
-                0,
-                2 * margin,
-              ),
+              margin: EdgeInsets.fromLTRB(0, margin, 0, 2 * margin),
               child: ViewLogBookButton(
                 pink: lightPink,
                 fontSize: fontSize,
@@ -173,16 +172,8 @@ class BooksView extends StatelessWidget {
                 popUpData: popUpData,
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
             Container(
-              margin: EdgeInsets.fromLTRB(
-                0,
-                margin,
-                0,
-                2 * margin,
-              ),
+              margin: EdgeInsets.fromLTRB(0, margin, 0, 0),
               child: DownloadHistoryButton(
                 width: width,
                 borderRadius: borderRadius,
@@ -198,13 +189,14 @@ class BooksView extends StatelessWidget {
     );
   }
 
-  Widget getRadialGraph(String logBook) {
+  Widget getRadialGraph() {
+    // String logBook) {
     int min = 0;
     int max = 100;
 
     var profileDetails = UserManager.getProfileDetails();
 
-    switch (logBook) {
+    /*switch (logBook) {
       case 'Glucose':
         min = profileDetails['minGlucose'].toInt();
         max = profileDetails['maxGlucose'].toInt();
@@ -220,7 +212,7 @@ class BooksView extends StatelessWidget {
         if (max == null) {
           max = 100;
         }
-    }
+    }*/
 
     Widget radialGraph = gauge.SfRadialGauge(
       axes: <gauge.RadialAxis>[
@@ -256,8 +248,12 @@ class BooksView extends StatelessWidget {
                     ? ((chartData[chartData.length - 1].y)).toStringAsFixed(0) +
                         '/${max.toString()}\n'
                     : 0.toString() +
-                        '/${UserManager.getProfileDetails()['maxGlucose'].toInt()}',
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                        '/${UserManager.getProfileDetails()['maxGlucose'].toInt()}\n', // +
+                // textMap[logBook],
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -310,12 +306,11 @@ class GraphState extends State<Graph> {
   final double borderRadius;
 
   final Map textMap = {
-    'Glucose': 'Blood Glucose Levels',
-    'Exercise': 'Exercise Levels',
-    'Food': 'Calorie Intake Levels',
+    'Glucose': 'Blood Glucose Levels (mg/dL)',
+    'Exercise': 'Exercise Duration (minutes)',
+    'Food': 'Calorie Intake (kCals)'
   };
   final Color lightPink = Color.fromRGBO(255, 224, 228, 1);
-  final Color darkPink = Color.fromRGBO(254, 179, 189, 1);
 
   DateTime minDate;
   DateTime maxDate;
@@ -372,11 +367,7 @@ class GraphState extends State<Graph> {
 
   SfCartesianChart chart() {
     return SfCartesianChart(
-      margin: const EdgeInsets.only(
-        left: 10,
-        right: 10,
-        bottom: 20,
-      ),
+      margin: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
       title: ChartTitle(
         text: textMap[logBook],
       ),
@@ -388,6 +379,22 @@ class GraphState extends State<Graph> {
       ),
       primaryYAxis: NumericAxis(
         isVisible: true,
+        plotBands: logBook == 'Glucose'
+            ? <PlotBand>[
+                PlotBand(
+                  isVisible: true,
+                  start: UserManager.user.minGlucose,
+                  end: UserManager.user.minGlucose,
+                  borderWidth: 2,
+                ),
+                PlotBand(
+                  isVisible: true,
+                  start: UserManager.user.maxGlucose,
+                  end: UserManager.user.maxGlucose,
+                  borderWidth: 2,
+                ),
+              ]
+            : <PlotBand>[],
       ),
       tooltipBehavior: TooltipBehavior(
         enable: true,
@@ -398,10 +405,10 @@ class GraphState extends State<Graph> {
           animationDuration: 0,
           xValueMapper: (Data levels, _) => levels.dateTime,
           yValueMapper: (Data levels, _) => levels.y,
-          color: darkPink,
+          color: Theme.of(context).accentColor,
           enableTooltip: true,
           markerSettings: MarkerSettings(
-            color: darkPink,
+            color: Theme.of(context).accentColor,
             isVisible: true,
           ),
         ),
@@ -411,7 +418,7 @@ class GraphState extends State<Graph> {
 
   SfRangeSelector rangeSelector() {
     return SfRangeSelector(
-      activeColor: darkPink,
+      activeColor: Theme.of(context).accentColor,
       inactiveColor: lightPink,
       min: minDate,
       max: maxDate,
@@ -437,7 +444,7 @@ class GraphState extends State<Graph> {
               dataSource: chartData,
               xValueMapper: (Data levels, _) => levels.dateTime,
               yValueMapper: (Data levels, _) => levels.y,
-              color: darkPink,
+              color: Theme.of(context).accentColor,
             )
           ],
         ),

@@ -41,60 +41,74 @@ class Body extends StatelessWidget {
     final double normalFontSize = width * 0.06;
     final double miniFontSize = normalFontSize - 5;
 
-    final Color green = Color.fromRGBO(0, 110, 96, 1);
-    final Color pink = Color.fromRGBO(254, 179, 189, 1);
-
     Widget _buildLogBookIcons(BuildContext context) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
             width: 60,
-            decoration: ShapeDecoration(
-              color: Theme.of(context).accentColor,
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-              ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(1.5, 1.5),
+                  blurRadius: 1.0,
+                  spreadRadius: 0.2,
+                  color: Theme.of(context).shadowColor,
+                ),
+              ],
+              borderRadius: const BorderRadius.all(Radius.circular(15.0)),
             ),
             child: IconButton(
                 icon: Icon(MyAppIcons.glucose),
                 iconSize: 30,
-                color: Theme.of(context).primaryColorLight,
+                color: Theme.of(context).accentColor,
                 onPressed: () {
                   Navigator.of(context).pushNamed('/logbloodglucose');
                 }),
           ),
           Container(
             width: 60,
-            decoration: ShapeDecoration(
-              color: Theme.of(context).accentColor,
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-              ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(1.5, 1.5),
+                  blurRadius: 1.0,
+                  spreadRadius: 0.2,
+                  color: Theme.of(context).shadowColor,
+                ),
+              ],
+              borderRadius: const BorderRadius.all(Radius.circular(15.0)),
             ),
             child: IconButton(
-              icon: Icon(MyAppIcons.food),
-              iconSize: 30,
-              color: Theme.of(context).primaryColorLight,
-              onPressed: () {
-                Navigator.of(context).pushNamed('/logexercise');
-              },
-            ),
+                icon: Icon(MyAppIcons.food),
+                iconSize: 30,
+                color: Theme.of(context).accentColor,
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/logexercise');
+                }),
           ),
           Container(
             width: 60,
-            decoration: ShapeDecoration(
-              color: Theme.of(context).accentColor,
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-              ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(1.5, 1.5),
+                  blurRadius: 1.0,
+                  spreadRadius: 0.2,
+                  color: Theme.of(context).shadowColor,
+                ),
+              ],
+              borderRadius: const BorderRadius.all(Radius.circular(15.0)),
             ),
             child: IconButton(
               icon: Icon(MyAppIcons.exercise),
               iconSize: 30,
               color: Theme.of(context).primaryColorLight,
               onPressed: () {
-                Navigator.of(context).pushNamed('/logfood');
+                Navigator.of(context).pushNamed('/mealLog');
               },
             ),
           ),

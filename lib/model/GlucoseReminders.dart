@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 /// Entity containing details about a medication reminder.
 class GlucoseReminder {
   DateTime _timings;
@@ -8,9 +10,9 @@ class GlucoseReminder {
 
   Map<String, dynamic> toMap(int i) {
     return {
-      'type': "glucose",
+      'type': "Glucose",
       'message': "Log your glucose levels",
-      'timings': timings,
+      'timings': DateFormat('h:mm a').format(timings),
       'index': i,
     };
   }

@@ -15,9 +15,9 @@ abstract class LogBook {
     return chartData;
   }
 
-  /// Get glucose records for the charts.
+  /// Get records for the charts.
   List<Data> logBookToData();
 
-  /// Get glucose records for displaying log book.
+  /// Get records for displaying log book.
   List<List<String>> getListOfRecords();
 }
