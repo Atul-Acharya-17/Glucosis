@@ -64,7 +64,8 @@ class MealLogForm extends State<MealLogPageState> {
   final double margin = 5;
   final double padding = 5;
   MealPlanMgr mgr = new MealPlanMgr();
-  Map<String, dynamic> _request = {};
+
+  String _foodPreference = "";
 
 
 
@@ -73,8 +74,11 @@ class MealLogForm extends State<MealLogPageState> {
         width: width,
         height: 40,
         child: ElevatedButton.icon(
-          onPressed: () {
-            Navigator.of(context).pushNamed(page);
+          onPressed: () async{
+            await Navigator.of(context).pushNamed(page);
+            setState(() {
+             _foodPreference = "${UserManager.getProfileDetails()['foodPreference']}";
+            });
           },
           icon: icon,
           label: Text(text, style: Theme
@@ -97,19 +101,20 @@ class MealLogForm extends State<MealLogPageState> {
 
   Future<List<Widget>> _buildRecipeCards(context) async {
     setState(() {
-      _request = {
-        "diet": "${UserManager.getProfileDetails()['foodPreference']}",
-        "sort": "popularity",
-        "number": "3",
-        "addRecipeInformation": "true",
-        "addRecipeNutrition":"true",
-        "minCarbs": "0",
-        //"minCalories": [int.parse(cal)-200,0].reduce((curr, next) => curr > next? curr: next).toString(),
-        "minCalories": "0",
-        "minSugar": "0",
-      };
+      _foodPreference = "${UserManager.getProfileDetails()['foodPreference']}";
     });
-    List<Recipe> _popularRecipe = await mgr.fetchRecipes(_request);
+    Map<String, dynamic> request = {
+      "diet": _foodPreference,
+      "sort": "popularity",
+      "number": "3",
+      "addRecipeInformation": "true",
+      "addRecipeNutrition":"true",
+      "minCarbs": "0",
+      //"minCalories": [int.parse(cal)-200,0].reduce((curr, next) => curr > next? curr: next).toString(),
+      "minCalories": "0",
+      "minSugar": "0",
+    };
+    List<Recipe> _popularRecipe = await mgr.fetchRecipes(request);
     print(_popularRecipe);
     print(UserManager.getProfileDetails()['foodPreference']);
     List<RecipeCard> recipes = _popularRecipe.map((data) {
