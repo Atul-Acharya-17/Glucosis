@@ -22,6 +22,8 @@ Widget materialApp = MaterialApp(
             button: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
             bodyText2: TextStyle(fontSize: 16, color: Colors.black),
+            headline1:TextStyle(
+                fontSize: 20, fontWeight: FontWeight.w800, color: Colors.black),
             headline3: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
             headline4: TextStyle(
@@ -34,10 +36,6 @@ Widget materialApp = MaterialApp(
                 color: Colors.teal.shade800),
             headline6: TextStyle(
                 fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black))
-        .apply(
-      bodyColor: Colors.black,
-      displayColor: Colors.teal.shade800,
-    ),
   ),
   onGenerateRoute: RouteGenerator.generateRoute,
 );

@@ -193,7 +193,7 @@ class MyCustomFormState extends State<MyCustomForm> {
       child: CustomToggleButtons(
         spacing: 20.0,
         unselectedFillColor: Theme.of(context).primaryColorLight,
-        fillColor: Theme.of(context).accentColor,
+        fillColor: Theme.of(context).primaryColor,
         isSelected: _isSelected,
         selectedColor: Colors.black,
         children: <Widget>[
