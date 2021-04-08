@@ -1,7 +1,8 @@
+import 'package:flutterapp/model/Reminder.dart';
 import 'package:intl/intl.dart';
 
 /// Entity containing details about a medication reminder.
-class GlucoseReminder {
+class GlucoseReminder extends Reminder{
   DateTime _timings;
 
   GlucoseReminder({DateTime timings}) : _timings = timings;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutterapp/model/GlucoseRecord.dart';
 import 'package:flutterapp/model/GlucoseReminders.dart';
+import 'package:flutterapp/model/Reminder.dart';
 // import 'package:flutter/services.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
 // import 'package:flutterapp/view/CustomRadioButton.dart';
@@ -166,10 +167,11 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 
   Future<List<Widget>> buildReminders() async {
+    print('Factory!!!!!!!!1');
     DateFormat dateFormat = DateFormat("HH:mm");
     List<Widget> reminderWidgets = new List<Widget>();
 
-    var reminders = await ReminderMgr.getGlucoseRemindersWithKey();
+    Map<String, Reminder> reminders = await ReminderMgr.getRemindersWithKey('Glucose');
     print(reminders.length);
     var keys = reminders.keys.toList();
 
@@ -187,13 +189,13 @@ class MyCustomFormState extends State<MyCustomForm> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(formatter.format(reminders[keys[i]].timings),
+                Text(formatter.format((reminders[keys[i]] as GlucoseReminder).timings),
                     style:
                     TextStyle(fontSize: 20, color: Colors.black)),
                 IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () async {
-                      await ReminderMgr.deleteGlucoseReminder(keys[i]);
+                      await ReminderMgr.deleteReminder('Glucose', keys[i]);
                       setState(() {
 
                       });
@@ -337,9 +339,14 @@ class MyCustomFormState extends State<MyCustomForm> {
 
                       DateTime now = new DateTime.now();
 
-                      await ReminderMgr.addGlucoseReminder(
-                          DateTime(now.year, now.month,
-                              now.day, _time.hour, _time.minute));
+
+
+                      Map<String, dynamic> data = {};
+                      data['timings'] =  DateTime(now.year, now.month,
+                          now.day, _time.hour, _time.minute);
+
+                      await ReminderMgr.addReminder(
+                        'Glucose', data);
                       setState(() {});
 
                       /*

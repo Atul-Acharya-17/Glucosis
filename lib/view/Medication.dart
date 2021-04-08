@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterapp/controller/ReminderMgr.dart';
+import 'package:flutterapp/model/MedicationReminder.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
 import 'package:flutterapp/view/CustomRadioButton.dart';
 import './AppBar.dart';
@@ -126,7 +127,7 @@ class MedicationBodyState extends State<MedicationBody> {
     DateFormat dateFormat = DateFormat("HH:mm");
     List<Widget> reminderWidgets = new List<Widget>();
 
-    var reminders = await ReminderMgr.getMedicationRemindersWithKey();
+    var reminders = await ReminderMgr.getRemindersWithKey('Medication');
     var keys = reminders.keys.toList();
 
     for (int i =0 ;i<reminders.length; ++i){
@@ -140,15 +141,15 @@ class MedicationBodyState extends State<MedicationBody> {
             Row(
               children: <Widget>[
                 Text(
-                  reminders[keys[i]].medicineName,
+                  (reminders[keys[i]] as MedicationReminder).medicineName,
                 ),
                 SizedBox(width: 30),
                 Text(
-                  reminders[keys[i]].dosage.toString(),
+                  (reminders[keys[i]] as MedicationReminder).dosage.toString(),
                 ),
                 SizedBox(width: 30),
                 Text(
-                  dateFormat.format(reminders[keys[i]].timing),
+                  dateFormat.format((reminders[keys[i]] as MedicationReminder).timing),
                 ),
               ],
             ),
@@ -164,7 +165,7 @@ class MedicationBodyState extends State<MedicationBody> {
               ),
               IconButton(
                   onPressed: (){
-                    ReminderMgr.deleteReminder(keys[i]);
+                    ReminderMgr.deleteReminder('Medication', keys[i]);
                     setState(() {
 
                     });
@@ -413,12 +414,13 @@ class MedicationBodyState extends State<MedicationBody> {
                               String type = CustomRadio.toggle ? "Pills" : "Syringe";
                               DateTime now = new DateTime.now();
 
-                              await ReminderMgr.addMedicationReminder(
-                                  medicineName,
-                                  dosage,
-                                  type,
-                                  DateTime(now.year, now.month, now.day, _time.hour,
-                                      _time.minute));
+                              Map<String, dynamic> data = {};
+                              data['medicineName'] = medicineName;
+                              data['dosage'] = dosage;
+                              data['type'] = type;
+                              data['timing'] =  DateTime(now.year, now.month, now.day, _time.hour,
+                                  _time.minute);
+                              ReminderMgr.addReminder('Medication', data);
                               setState(() {
                               });
                               return showDialog<void>(
