@@ -50,53 +50,71 @@ class Body extends StatelessWidget {
         children: <Widget>[
           Container(
             width: 60,
-            decoration: ShapeDecoration(
-              color: Theme.of(context).accentColor,
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-              ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(1.5, 1.5),
+                  blurRadius: 1.0,
+                  spreadRadius: 0.2,
+                  color: Theme.of(context).shadowColor,
+                ),
+              ],
+              borderRadius: const BorderRadius.all(Radius.circular(15.0)),
             ),
             child: IconButton(
                 icon: Icon(MyAppIcons.glucose),
                 iconSize: 30,
-                color: Theme.of(context).primaryColorLight,
+                color: Theme.of(context).accentColor,
                 onPressed: () {
                   Navigator.of(context).pushNamed('/logbloodglucose');
                 }),
           ),
+
           Container(
             width: 60,
-            decoration: ShapeDecoration(
-              color: Theme.of(context).accentColor,
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-              ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(1.5, 1.5),
+                  blurRadius: 1.0,
+                  spreadRadius: 0.2,
+                  color: Theme.of(context).shadowColor,
+                ),
+              ],
+              borderRadius: const BorderRadius.all(Radius.circular(15.0)),
             ),
             child: IconButton(
-              icon: Icon(MyAppIcons.food),
-              iconSize: 30,
-              color: Theme.of(context).primaryColorLight,
-              onPressed: () {
-                Navigator.of(context).pushNamed('/logexercise');
-              },
-            ),
+                icon: Icon(MyAppIcons.food),
+                iconSize: 30,
+                color: Theme.of(context).accentColor,
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/logfood');
+                }),
           ),
+
           Container(
             width: 60,
-            decoration: ShapeDecoration(
-              color: Theme.of(context).accentColor,
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-              ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(1.5, 1.5),
+                  blurRadius: 1.0,
+                  spreadRadius: 0.2,
+                  color: Theme.of(context).shadowColor,
+                ),
+              ],
+              borderRadius: const BorderRadius.all(Radius.circular(15.0)),
             ),
             child: IconButton(
-              icon: Icon(MyAppIcons.exercise),
-              iconSize: 30,
-              color: Theme.of(context).primaryColorLight,
-              onPressed: () {
-                Navigator.of(context).pushNamed('/logfood');
-              },
-            ),
+                icon: Icon(MyAppIcons.exercise),
+                iconSize: 30,
+                color: Theme.of(context).accentColor,
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/logexercise');
+                }),
           ),
         ],
       );
@@ -104,7 +122,7 @@ class Body extends StatelessWidget {
 
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(20),
         color: Theme.of(context).canvasColor,
         child: Column(
           children: [
