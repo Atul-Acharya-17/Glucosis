@@ -5,6 +5,7 @@ import 'RecipeTitle.dart';
 import 'RecipeDetails.dart';
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
+  final double titleSize;
   // final bool inFavorites;
   // final Function onFavoriteButtonPressed;
 
@@ -12,6 +13,7 @@ class RecipeCard extends StatelessWidget {
       {@required this.recipe,
         // @required this.inFavorites,
         // @required this.onFavoriteButtonPressed
+        this.titleSize = 25.0
       });
 
   @override
@@ -59,7 +61,7 @@ class RecipeCard extends StatelessWidget {
                   // ),
                 ],
               ),
-              RecipeTitle(recipe, 15),
+              RecipeTitle(recipe, 15, titleSize),
             ],
           ),
         ),

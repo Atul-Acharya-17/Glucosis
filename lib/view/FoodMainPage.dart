@@ -1,8 +1,13 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/controller/LogBookMgr.dart';
+import 'package:flutterapp/controller/MealPlanManager.dart';
+import 'package:flutterapp/controller/UserMgr.dart';
 import 'package:flutterapp/model/Data.dart';
+import 'package:flutterapp/model/Recipes.dart';
 import 'package:flutterapp/view/AppBar.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
+import 'package:flutterapp/view/RecipeCard.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:intl/intl.dart';
@@ -58,6 +63,10 @@ class MealLogForm extends State<MealLogPageState> {
   final double borderRadius = 10;
   final double margin = 5;
   final double padding = 5;
+  MealPlanMgr mgr = new MealPlanMgr();
+  Map<String, dynamic> _request = {};
+
+
 
   Widget _buildButton(String text, String page, Icon icon, double width) {
     return Container(
@@ -68,117 +77,213 @@ class MealLogForm extends State<MealLogPageState> {
             Navigator.of(context).pushNamed(page);
           },
           icon: icon,
-          label: Text(text, style: Theme.of(context).textTheme.button),
+          label: Text(text, style: Theme
+              .of(context)
+              .textTheme
+              .button),
           style: ButtonStyle(
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
-                      side: BorderSide(color: Theme.of(context).primaryColor))),
+                      side: BorderSide(color: Theme
+                          .of(context)
+                          .primaryColor))),
               backgroundColor: MaterialStateProperty.all<Color>(
-                  Theme.of(context).primaryColor)),
+                  Theme
+                      .of(context)
+                      .primaryColor)),
         ));
   }
 
-  Widget _buildMeal(String time, String food) {
-    return Card(
-        elevation: 5,
-        child: Container(
-            margin: EdgeInsets.all(10),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(time, style: Theme.of(context).textTheme.headline4),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text(food),
-              ]),
-            ])));
+  Future<List<Widget>> _buildRecipeCards(context) async {
+    setState(() {
+      _request = {
+        "diet": "",
+        "sort": "popularity",
+        "number": "3",
+        "addRecipeInformation": "true",
+        "addRecipeNutrition":"true",
+        "minCarbs": "0",
+        //"minCalories": [int.parse(cal)-200,0].reduce((curr, next) => curr > next? curr: next).toString(),
+        "minCalories": "0",
+        "minSugar": "0",
+      };
+    });
+    List<Recipe> _popularRecipe = await mgr.fetchRecipes(_request);
+    print(_popularRecipe);
+    print(UserManager.getProfileDetails()['foodPreference']);
+    List<RecipeCard> recipes = _popularRecipe.map((data) {
+      return RecipeCard(recipe: data, titleSize: 17);
+    }).toList();
+
+    return recipes;
   }
+
+
+  // Widget _buildMeal(Recipe) {
+  //   return Card(
+  //       elevation: 5,
+  //       child: Container(
+  //           margin: EdgeInsets.all(10),
+  //           child:
+  //               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+  //             Text(time, style: Theme.of(context).textTheme.headline4),
+  //             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+  //               Text(food),
+  //             ]),
+  //           ])));
+  // }
 
   @override
   Widget build(BuildContext context) {
-    double progressValue = 153;
-    return Scaffold(
-        endDrawer: CustomDrawer(),
-        appBar: CommonAppBar(title: "Food Main Page"),
-        bottomNavigationBar: NavigationBar(),
-        body: SingleChildScrollView(
-            child: Container(
-                padding: EdgeInsets.all(20),
-                child: Column(children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Card(
-                      elevation: 5,
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(borderRadius),
-                      ),
-                      child: Container(
-                        padding: EdgeInsets.all(padding),
-                        child: SfCartesianChart(
-                          backgroundColor: Colors.white,
-                          primaryXAxis: CategoryAxis(), // dk what
-                          title: ChartTitle(
-                            text: 'Glucose Log Book',
-                          ),
-                          series: <ChartSeries>[
-                            LineSeries<Data, DateTime>(
-                              dataSource: LogBookMgr.getHomePageData()['Food'],
-                              xValueMapper: (Data datum, _) => datum.dateTime,
-                              yValueMapper: (Data datum, _) => datum.y,
-                              color: Theme.of(context).accentColor,
-                              markerSettings: MarkerSettings(
-                                color: Theme.of(context).accentColor,
-                                isVisible: true,
+    //double progressValue = 153;
+    return FutureBuilder<List<Widget>>(
+        future: _buildRecipeCards(context),
+        builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+          Widget child;
+
+          if (snapshot.hasData) {
+            child = Scaffold(
+                endDrawer: CustomDrawer(),
+                appBar: CommonAppBar(title: "Food Main Page"),
+                bottomNavigationBar: NavigationBar(),
+                body: SingleChildScrollView(
+                    child: Container(
+                        padding: EdgeInsets.all(20),
+                        child: Column(children: [
+                          Container(
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.9,
+                            child: Card(
+                              elevation: 5,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    borderRadius),
                               ),
-                              animationDuration: 0,
+                              child: Container(
+                                padding: EdgeInsets.all(padding),
+                                child: SfCartesianChart(
+                                  backgroundColor: Colors.white,
+                                  primaryXAxis: CategoryAxis(), // dk what
+                                  title: ChartTitle(
+                                    text: 'Glucose Log Book',
+                                  ),
+                                  series: <ChartSeries>[
+                                    LineSeries<Data, DateTime>(
+                                      dataSource: LogBookMgr
+                                          .getHomePageData()['Food'],
+                                      xValueMapper: (Data datum, _) =>
+                                      datum.dateTime,
+                                      yValueMapper: (Data datum, _) => datum.y,
+                                      color: Theme
+                                          .of(context)
+                                          .accentColor,
+                                      markerSettings: MarkerSettings(
+                                        color: Theme
+                                            .of(context)
+                                            .accentColor,
+                                        isVisible: true,
+                                      ),
+                                      animationDuration: 0,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Graphs(
+                              //   borderRadius: borderRadius,
+                              //   padding: padding,
+                              //   graphsHeight: graphsHeight,
+                              //   //imagesPathList: [
+                              //   //  'images/random.png',
+                              //   //],
+                              // ),
                             ),
+                          ),
+                          SizedBox(height: 20),
+                          _buildButton(
+                              "Log Meal Entry",
+                              '/mealLog',
+                              Icon(
+                                Icons.sticky_note_2_outlined,
+                                size: 18,
+                                color: Colors.white,
+                              ),
+                              230),
+                          SizedBox(height: 20),
+                          // Container(
+                          //     child: Column(children: [
+                          //   Row(
+                          //     children: [
+                          //       Text("Current Meal Plan",
+                          //           style: Theme.of(context).textTheme.headline3)
+                          //     ],
+                          //   ),
+                          //   _buildMeal("9:00 AM", "Vegetable omelette + fruits side"),
+                          //   _buildMeal("2:00 PM", "Basil fried brown rice"),
+                          //   _buildMeal("7:00 PM", "Chicken White Bean soup"),
+                          // ])),
+                         Row(
+                          children: [
+                            Text("Popular Recipes",
+                                style: Theme.of(context).textTheme.headline3)
                           ],
                         ),
-                      ),
-                      // Graphs(
-                      //   borderRadius: borderRadius,
-                      //   padding: padding,
-                      //   graphsHeight: graphsHeight,
-                      //   //imagesPathList: [
-                      //   //  'images/random.png',
-                      //   //],
-                      // ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  _buildButton(
-                      "Log Meal Entry",
-                      '/mealLog',
-                      Icon(
-                        Icons.sticky_note_2_outlined,
-                        size: 18,
-                        color: Colors.white,
-                      ),
-                      230),
-                  SizedBox(height: 20),
-                  Container(
-                      child: Column(children: [
-                    Row(
-                      children: [
-                        Text("Current Meal Plan",
-                            style: Theme.of(context).textTheme.headline3)
-                      ],
-                    ),
-                    _buildMeal("9:00 AM", "Vegetable omelette + fruits side"),
-                    _buildMeal("2:00 PM", "Basil fried brown rice"),
-                    _buildMeal("7:00 PM", "Chicken White Bean soup"),
-                  ])),
+                          CarouselSlider(
+                            options: CarouselOptions(
 
-                  SizedBox(height: 15),
-                  _buildButton(
-                    "Update Food Preference",
-                    "/updateFoodPref",
-                    Icon(
-                      Icons.edit_outlined,
-                      size: 18,
-                    ),
-                    300,
+                              height: 315,
+                              aspectRatio: 16/16,
+                              viewportFraction: 0.8,
+                              enlargeCenterPage: true,
+                              enableInfiniteScroll: true,
+                            ),
+                            items: snapshot.data,
+                          ),
+                          SizedBox(height: 15),
+                          _buildButton(
+                            "Update Food Preference",
+                            "/updateFoodPref",
+                            Icon(
+                              Icons.edit_outlined,
+                              size: 18,
+                            ),
+                            300,
+                          ),
+                        ]))));
+          }
+          else if (snapshot.hasError) {
+            child = Column(
+              children: [
+                const Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                  size: 60,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text('Error: ${snapshot.error}'),
+                )
+              ],
+            );
+          } else {
+            child = Column(
+                children: [
+                  SizedBox(
+                    child: CircularProgressIndicator(),
+                    width: 60,
+                    height: 60,
                   ),
-                ]))));
+                  //Padding(
+                  //padding: EdgeInsets.only(top: 16),
+                  //child: Text('Awaiting result...'),
+                  //)
+                ]);
+          }
+          return child;
+        }
+    );
   }
 }

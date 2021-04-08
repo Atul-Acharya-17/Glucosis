@@ -15,7 +15,7 @@ class MealPlanMgr{
     await http.get(Uri.https(url, 'recipes/complexSearch', request),);
     print("Status code"+response.statusCode.toString());
     if (response.statusCode == 200) {
-
+      //print(json.decode(response.body)['results']);
       recipes = (json.decode(response.body)['results'] as List)
           .map((data){
         return new Recipe.fromJSON(data);})
@@ -26,4 +26,6 @@ class MealPlanMgr{
       throw Exception('Failed to load recipe info');
     }
   }
+
+
 }
