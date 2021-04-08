@@ -330,16 +330,8 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                                 showSpinner = true;
                               });
                               success = await auth.signUp(_email, _password);
-                            }
 
-                            else {
-                              print('Passwords are different');
-                              setState(() {
-                                showSpinner = false;
-                              });
-                            }
-
-                            if (success) {
+                              if (success) {
                                 UserManager.addUseronSignup(_email, _name, _phoneNumber);
                                 setState(() {
                                   showSpinner = false;
@@ -347,8 +339,17 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                                 Navigator.of(context)
                                     .pushNamedAndRemoveUntil(
                                     '/accdetails', ModalRoute.withName('/'));
+                              }
+                              else{
+                                invalidDetails('Email Already exists');
+                                setState(() {
+                                  showSpinner = false;
+                                });
+                              }
                             }
+
                             else{
+                              invalidDetails('Confirmation Password must be the same as Password');
                               setState(() {
                                 showSpinner = false;
                               });
@@ -370,4 +371,59 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
       ),
     );
   }
+
+  Future<void> invalidDetails(String message){
+    return showDialog<void>(
+      context: context,
+      barrierDismissible:
+      false, // user must tap button!
+      builder: (BuildContext context) {
+        // can add logic to store entry here
+        return AlertDialog(
+          //title: Text('AlertDialog Title'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black)),
+
+                SizedBox(height: 20),
+                TextButton(
+                  child: Text('Cancel',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                  style: ButtonStyle(
+                      backgroundColor:
+                      MaterialStateProperty.all<
+                          Color>(
+                          Colors.red[500])),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+          // can't center button if put in actions
+          // actions: <Widget>[
+          //     TextButton(
+          //     child: Text('OK',style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color:Colors.black)),
+          //     style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.green[500]) ),
+          //     onPressed: () {
+          //       Navigator.of(context).pop();
+          //     },
+          //   ),
+
+          // ],
+        );
+      },
+    );
+  }
+
 }

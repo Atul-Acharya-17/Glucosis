@@ -214,9 +214,7 @@ class LoginScreenState extends State<LoginScreen> {
                                     })
                                   }
                               else{
-                                setState(() {
-                                showSpinner =  false;
-                                }),
+                                loginError()
                                 }
                                 });
 
@@ -244,6 +242,65 @@ class LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> loginError (){
+
+    setState(() {
+      showSpinner = false;
+    });
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible:
+      false, // user must tap button!
+      builder: (BuildContext context) {
+        // can add logic to store entry here
+        return AlertDialog(
+          //title: Text('AlertDialog Title'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Invalid Credentials',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black)),
+
+                SizedBox(height: 20),
+                TextButton(
+                  child: Text('Cancel',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                  style: ButtonStyle(
+                      backgroundColor:
+                      MaterialStateProperty.all<
+                          Color>(
+                          Colors.red[500])),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+          // can't center button if put in actions
+          // actions: <Widget>[
+          //     TextButton(
+          //     child: Text('OK',style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color:Colors.black)),
+          //     style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.green[500]) ),
+          //     onPressed: () {
+          //       Navigator.of(context).pop();
+          //     },
+          //   ),
+
+          // ],
+        );
+      },
     );
   }
 }

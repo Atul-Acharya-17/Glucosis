@@ -44,17 +44,7 @@ class ExercisePlanMgr{
       });
       print(objects.length);
 
-      var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-      List sortedObjects = [];
-
-      for (String day in days){
-        List dayObjects = objects.where((element) => element['day'] == day).toList();
-        if (dayObjects.length == 0)
-          continue;
-        sortedObjects.addAll(dayObjects);
-      }
-
+      var sortedObjects = sortExercises(objects);
       return {
         "message": "Success",
         "objects": sortedObjects
@@ -70,5 +60,20 @@ class ExercisePlanMgr{
       };
     }
 
+  }
+
+  static List<dynamic> sortExercises(List objects){
+    print("In Sort");
+    List sortedObjects = [];
+    var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+    for (String day in days){
+      List dayObjects = objects.where((element) => element['day'] == day).toList();
+      if (dayObjects.length == 0)
+        continue;
+      sortedObjects.addAll(dayObjects);
+    }
+
+    return sortedObjects;
   }
 }
