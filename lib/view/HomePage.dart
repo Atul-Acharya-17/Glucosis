@@ -61,8 +61,7 @@ class Body extends StatelessWidget {
                 iconSize: 30,
                 color: Theme.of(context).primaryColorLight,
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed('/logbook');
+                  Navigator.of(context).pushNamed('/logbloodglucose');
                 }),
           ),
           Container(
@@ -78,8 +77,7 @@ class Body extends StatelessWidget {
               iconSize: 30,
               color: Theme.of(context).primaryColorLight,
               onPressed: () {
-                Navigator.of(context)
-                    .pushNamed('/logbook');
+                Navigator.of(context).pushNamed('/logexercise');
               },
             ),
           ),
@@ -96,8 +94,7 @@ class Body extends StatelessWidget {
               iconSize: 30,
               color: Theme.of(context).primaryColorLight,
               onPressed: () {
-                Navigator.of(context)
-                    .pushNamed('/logbook');
+                Navigator.of(context).pushNamed('/logfood');
               },
             ),
           ),
@@ -142,7 +139,13 @@ class Body extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     _buildLogBookIcons(context),
+                    SizedBox(
+                      height: 5,
+                    ),
                   ],
                 ),
               ),
@@ -221,12 +224,12 @@ class Graphs extends StatefulWidget {
 
   @override
   GraphsState createState() => GraphsState(
-    logBooks: logBooks,
-    graphsHeight: graphsHeight,
-    padding: padding,
-    borderRadius: borderRadius,
-    color: color,
-  );
+        logBooks: logBooks,
+        graphsHeight: graphsHeight,
+        padding: padding,
+        borderRadius: borderRadius,
+        color: color,
+      );
 }
 
 class GraphsState extends State<Graphs> {
@@ -285,7 +288,11 @@ class GraphsState extends State<Graphs> {
         padding: EdgeInsets.all(padding),
         child: SfCartesianChart(
           backgroundColor: Colors.white,
-          primaryXAxis: CategoryAxis(), // dk what
+          primaryXAxis: DateTimeAxis(
+            intervalType: DateTimeIntervalType.days,
+            interval: 2,
+            edgeLabelPlacement: EdgeLabelPlacement.shift,
+          ),
           title: ChartTitle(
             text: textMap[logBook],
           ),
@@ -325,12 +332,12 @@ class Reminders extends StatefulWidget {
 
   @override
   RemindersState createState() => RemindersState(
-    margin: margin,
-    padding: padding,
-    borderRadius: borderRadius,
-    fontSize: fontSize,
-    reminders: reminders,
-  );
+        margin: margin,
+        padding: padding,
+        borderRadius: borderRadius,
+        fontSize: fontSize,
+        reminders: reminders,
+      );
 }
 
 class RemindersState extends State<Reminders> {
@@ -374,12 +381,12 @@ class RemindersState extends State<Reminders> {
   }
 
   Slidable reminderSlidable(
-      double fontSize,
-      String timestamp,
-      String message,
-      int index,
-      bool logNow,
-      ) {
+    double fontSize,
+    String timestamp,
+    String message,
+    int index,
+    bool logNow,
+  ) {
     IconSlideAction deleteButton = IconSlideAction(
       caption: 'Delete',
       color: Theme.of(context).backgroundColor,
@@ -440,12 +447,12 @@ class RemindersState extends State<Reminders> {
       ),
       actions: logNow
           ? <Widget>[
-        deleteButton,
-        logNowButton,
-      ]
+              deleteButton,
+              logNowButton,
+            ]
           : <Widget>[
-        deleteButton,
-      ],
+              deleteButton,
+            ],
     );
   }
 }

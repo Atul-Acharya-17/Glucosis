@@ -2,14 +2,6 @@ import 'package:intl/intl.dart';
 
 /// Entity containing details about a medication reminder.
 class MedicationReminder {
-  /*
-  FireBase schema is slightly different
-  */
-  //String _medicines; // List<String>
-  //String _dosage; // List<String>
-  //List<String> _days; // List<List<String>>
-  //List<String> _timings; // List<List<String>>
-
   String _medicineName;
   String _dosage;
   DateTime _timing;

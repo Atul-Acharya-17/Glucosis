@@ -210,14 +210,14 @@ class BooksView extends StatelessWidget {
         max = profileDetails['maxGlucose'].toInt();
         break;
       case 'Exercise':
-      // Need to change
+        // Need to change
         min = 0;
         max = 60;
         break;
       case 'Food':
         min = 0;
         max = profileDetails['targetCalories'];
-        if (max == null){
+        if (max == null) {
           max = 100;
         }
     }
@@ -240,7 +240,7 @@ class BooksView extends StatelessWidget {
           pointers: <gauge.GaugePointer>[
             gauge.RangePointer(
               value:
-              chartData.length > 0 ? chartData[chartData.length - 1].y : 0,
+                  chartData.length > 0 ? chartData[chartData.length - 1].y : 0,
               cornerStyle: gauge.CornerStyle.bothFlat,
               width: 0.2,
               sizeUnit: gauge.GaugeSizeUnit.factor,
@@ -254,9 +254,9 @@ class BooksView extends StatelessWidget {
               widget: Text(
                 chartData.length > 0
                     ? ((chartData[chartData.length - 1].y)).toStringAsFixed(0) +
-                    '/${max.toString()}\n'
+                        '/${max.toString()}\n'
                     : 0.toString() +
-                    '/${UserManager.getProfileDetails()['maxGlucose'].toInt()}',
+                        '/${UserManager.getProfileDetails()['maxGlucose'].toInt()}',
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               ),
             ),
@@ -286,12 +286,12 @@ class Graph extends StatefulWidget {
 
   @override
   GraphState createState() => GraphState(
-    logBook: logBook,
-    chartData: chartData,
-    graphsHeight: graphsHeight,
-    padding: padding,
-    borderRadius: borderRadius,
-  );
+        logBook: logBook,
+        chartData: chartData,
+        graphsHeight: graphsHeight,
+        padding: padding,
+        borderRadius: borderRadius,
+      );
 }
 
 class GraphState extends State<Graph> {
@@ -465,13 +465,13 @@ class ViewLogBookButton extends StatefulWidget {
 
   @override
   ViewLogBookButtonState createState() => ViewLogBookButtonState(
-    pink: pink,
-    fontSize: fontSize,
-    width: width,
-    borderRadius: borderRadius,
-    padding: padding,
-    popUpData: popUpData,
-  );
+        pink: pink,
+        fontSize: fontSize,
+        width: width,
+        borderRadius: borderRadius,
+        padding: padding,
+        popUpData: popUpData,
+      );
 }
 
 class ViewLogBookButtonState extends State<ViewLogBookButton> {
@@ -663,40 +663,3 @@ class DownloadHistoryButton extends StatelessWidget {
     );
   }
 }
-
-/*
-gauge.SfRadialGauge(axes: <gauge.RadialAxis>[
-                gauge.RadialAxis(
-                    minimum: 0,
-                    maximum: 100,
-                    showLabels: false,
-                    showTicks: false,
-                    startAngle: 270,
-                    endAngle: 270,
-                    axisLineStyle: gauge.AxisLineStyle(
-                      thickness: 0.2,
-                      cornerStyle: gauge.CornerStyle.bothFlat,
-                      color: Colors.pink.shade100,
-                      thicknessUnit: gauge.GaugeSizeUnit.factor,
-                    ),
-                    pointers: <gauge.GaugePointer>[
-                      gauge.RangePointer(
-                          value: 10,
-                          cornerStyle: gauge.CornerStyle.bothFlat,
-                          width: 0.2,
-                          sizeUnit: gauge.GaugeSizeUnit.factor,
-                          color: Colors.pink.shade500)
-                    ],
-                    annotations: <gauge.GaugeAnnotation>[
-                      gauge.GaugeAnnotation(
-                          positionFactor: 0.1,
-                          angle: 90,
-                          widget: Text(
-                            ((1 * 60) / 100).toStringAsFixed(0) +
-                                '/60\n   Min',
-                            style: TextStyle(
-                                fontSize: 40, fontWeight: FontWeight.bold),
-                          ))
-                    ])
-              ]),
- */
