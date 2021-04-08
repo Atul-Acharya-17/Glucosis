@@ -19,7 +19,7 @@ import '../controller/ReminderMgr.dart';
 class UserManager {
   // need to add code in entity and controller for target range attribute
   static CollectionReference users =
-  FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('users');
   static User user;
 
   /// Adds a user to the user database.
@@ -72,23 +72,23 @@ class UserManager {
     await users
         .doc(email)
         .set({
-      'DOB': null,
-      'diabetes type': null,
-      'dietary restrictions': null,
-      'exercise Preference': "Basic",
-      'food preference': "Vegetarian",
-      'gender': null,
-      'height': null,
-      'location': null,
-      //is it there in the page?
-      'name': name,
-      'phone number': phoneNumber,
-      'targetCalories': null,
-      'targetCarbs': null,
-      'minGlucose': null,
-      'maxGlucose': null,
-      'weight': null,
-      /*'DOB': Timestamp.fromDate(_dateOfBirth),
+          'DOB': null,
+          'diabetes type': null,
+          'dietary restrictions': null,
+          'exercise Preference': "Basic",
+          'food preference': "Vegetarian",
+          'gender': null,
+          'height': null,
+          'location': null,
+          //is it there in the page?
+          'name': name,
+          'phone number': phoneNumber,
+          'targetCalories': null,
+          'targetCarbs': null,
+          'minGlucose': null,
+          'maxGlucose': null,
+          'weight': null,
+          /*'DOB': Timestamp.fromDate(_dateOfBirth),
       'diabetes type':_diabetesType,
       'dietary restrictions': _dietRestrictions,
       'exercise Preference':_exercisePreference,
@@ -100,8 +100,8 @@ class UserManager {
       'phone number':_phoneNumber,
       'targetCalories':targetCalories,
       'weight':_weight,*/
-      //'targetRange':targetRange  need to update depending on corresponding attribute
-    })
+          //'targetRange':targetRange  need to update depending on corresponding attribute
+        })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add  new user: $error"));
   }
@@ -117,8 +117,7 @@ class UserManager {
       double maxGluc,
       String name,
       String phoneNumber,
-      String exerciseLevel
-      ) async {
+      String exerciseLevel) async {
     user.setDob = dateOfBirth;
     user.setGender = gender;
     user.setLocation = location;
@@ -131,16 +130,16 @@ class UserManager {
     await users
         .doc(user.email)
         .update({
-      'DOB': Timestamp.fromDate(dateOfBirth),
-      'gender': gender,
-      "location": location,
-      "weight": weight,
-      "height": height,
-      "diabetes type": diabetesType,
-      'minGlucose': minGluc,
-      'maxGlucose': maxGluc,
-      'exercise Preference': exerciseLevel
-    })
+          'DOB': Timestamp.fromDate(dateOfBirth),
+          'gender': gender,
+          "location": location,
+          "weight": weight,
+          "height": height,
+          "diabetes type": diabetesType,
+          'minGlucose': minGluc,
+          'maxGlucose': maxGluc,
+          'exercise Preference': exerciseLevel
+        })
         .then((value) => print("succesful update"))
         .catchError((error) => print("Failed to update"));
   }
@@ -167,15 +166,15 @@ class UserManager {
     await users
         .doc(user.email)
         .update({
-      'DOB': Timestamp.fromDate(dateOfBirth),
-      'gender': gender,
-      "location": location,
-      "weight": weight,
-      "height": height,
-      "diabetes type": diabetesType,
-      'minGlucose': minGluc,
-      'maxGlucose': maxGluc
-    })
+          'DOB': Timestamp.fromDate(dateOfBirth),
+          'gender': gender,
+          "location": location,
+          "weight": weight,
+          "height": height,
+          "diabetes type": diabetesType,
+          'minGlucose': minGluc,
+          'maxGlucose': maxGluc
+        })
         .then((value) => print("succesful update"))
         .catchError((error) => print("Failed to update"));
   }
@@ -191,11 +190,11 @@ class UserManager {
     await users
         .doc(user.email)
         .update({
-      'dietary restrictions': dietaryRestrictions,
-      'food preference': foodPreference,
-      'targetCalories': targetCalories,
-      'targetCarbs': targetCarbs
-    })
+          'dietary restrictions': dietaryRestrictions,
+          'food preference': foodPreference,
+          'targetCalories': targetCalories,
+          'targetCarbs': targetCarbs
+        })
         .then((value) => print("succesful update"))
         .catchError((error) => print("Failed to update"));
   }
@@ -284,7 +283,7 @@ class UserManager {
   static void addExerciseRecord(ExerciseRecord er) {
     if (user.exerciseLogBook == null)
       user.setExerciseLogBook =
-      new ExerciseLogBook(exerciseRecordsList: new List<ExerciseRecord>());
+          new ExerciseLogBook(exerciseRecordsList: new List<ExerciseRecord>());
     user.exerciseLogBook.addRecord(er);
   }
 
@@ -327,71 +326,72 @@ class UserManager {
   static Future<void> setGlucoseReminders() async {
     await ReminderMgr.getGlucoseReminders(user.email)
         .then((glucoseReminder) => {
-      if (glucoseReminder != null)
-        user.setGlucoseReminders = glucoseReminder
-      else
-        user.setGlucoseReminders = new List<GlucoseReminder>()
-    });
+              if (glucoseReminder != null)
+                user.setGlucoseReminders = glucoseReminder
+              else
+                user.setGlucoseReminders = new List<GlucoseReminder>()
+            });
   }
 
   static Future<void> setMedicationReminders() async {
     await ReminderMgr.getMedicationReminders(user.email)
         .then((medicationReminder) => {
-      if (medicationReminder != null)
-        user.setMedicationReminders = medicationReminder
-      else
-        user.setMedicationReminders = new List<MedicationReminder>()
-    });
+              if (medicationReminder != null)
+                user.setMedicationReminders = medicationReminder
+              else
+                user.setMedicationReminders = new List<MedicationReminder>()
+            });
   }
 
   static Future<void> setUserGlucoseLogBook() async {
     await LogBookMgr.getGlucoseLogBook(user.email).then((glucoseLogBook) => {
-      if (glucoseLogBook != null)
-        user.setGlucoseLogbook = glucoseLogBook
-      else
-        user.setGlucoseLogbook = new GlucoseLogBook(
-            glucoseRecordsList: new List<GlucoseRecord>())
-    });
+          if (glucoseLogBook != null)
+            user.setGlucoseLogbook = glucoseLogBook
+          else
+            user.setGlucoseLogbook = new GlucoseLogBook(
+                glucoseRecordsList: new List<GlucoseRecord>())
+        });
   }
 
   static Future<void> setUserFoodLogBook() async {
     await LogBookMgr.getFoodLogBook(user.email).then((foodLogBook) => {
-      if (foodLogBook != null)
-        user.setFoodLogBook = foodLogBook
-      else
-        user.setFoodLogBook =
-        new FoodLogBook(foodRecordsList: new List<FoodRecord>())
-    });
+          if (foodLogBook != null)
+            user.setFoodLogBook = foodLogBook
+          else
+            user.setFoodLogBook = new FoodLogBook(new List<FoodRecord>())
+        });
   }
 
   static Future<void> setUserExerciseLogBook() async {
     await LogBookMgr.getExerciseLogBook(user.email).then((exerciseLogBook) => {
-      if (exerciseLogBook != null)
-        user.setExerciseLogBook = exerciseLogBook
-      else
-        user.setExerciseLogBook = new ExerciseLogBook(
-            exerciseRecordsList: new List<ExerciseRecord>())
-    });
+          if (exerciseLogBook != null)
+            user.setExerciseLogBook = exerciseLogBook
+          else
+            user.setExerciseLogBook = new ExerciseLogBook(
+                exerciseRecordsList: new List<ExerciseRecord>())
+        });
   }
 
   static GlucoseLogBook getGlucoseLogBook() {
     print(user.glucoseLogBook);
     if (user.glucoseLogBook == null)
-      user.setGlucoseLogbook = new GlucoseLogBook(glucoseRecordsList: new List<GlucoseRecord>());
+      user.setGlucoseLogbook =
+          new GlucoseLogBook(glucoseRecordsList: new List<GlucoseRecord>());
     return user.glucoseLogBook;
   }
 
   static ExerciseLogBook getExerciseLogBook() {
     print(user.exerciseLogBook);
     if (user.exerciseLogBook == null)
-      user.setExerciseLogBook = new ExerciseLogBook(exerciseRecordsList: new List<ExerciseRecord>());
+      user.setExerciseLogBook =
+          new ExerciseLogBook(exerciseRecordsList: new List<ExerciseRecord>());
     return user.exerciseLogBook;
   }
 
   static FoodLogBook getFoodLogBook() {
     print(user.foodLogBook);
     if (user.foodLogBook == null)
-      user.setFoodLogBook = new FoodLogBook(foodRecordsList: new List<FoodRecord>());
+      user.setFoodLogBook = new FoodLogBook(new List<FoodRecord>());
     return user.foodLogBook;
   }
 

@@ -7,9 +7,11 @@ import '../model/Data.dart';
 class FoodLogBook extends LogBook {
   List<FoodRecord> _foodRecordsList;
 
-  FoodLogBook({
-    foodRecordsList,
-  }) : _foodRecordsList = foodRecordsList;
+  FoodLogBook(List<FoodRecord> foodRecordsList) {
+    foodRecordsList
+        .sort((FoodRecord a, FoodRecord b) => a.dateTime.compareTo(b.dateTime));
+    _foodRecordsList = foodRecordsList;
+  }
 
   get foodRecordsList => _foodRecordsList;
 
@@ -22,16 +24,33 @@ class FoodLogBook extends LogBook {
   @override
   List<Data> logBookToData() {
     List<Data> chartData = [];
+    DateTime date;
+    int dayCalories = 0;
+    if (foodRecordsList.length > 0) {
+      date = foodRecordsList[0].dateTime;
+    }
     for (int i = 0; i < foodRecordsList.length; i++) {
       FoodRecord record = foodRecordsList[i];
-      chartData.add(
-        Data(
-          dateTime: record.dateTime,
-          y: double.parse(record.calories.toString()),
-        ),
-      );
+      if (record.dateTime == date) {
+        dayCalories += record.calories;
+      } else {
+        chartData.add(
+          Data(
+            dateTime: date,
+            y: dayCalories.toDouble(),
+          ),
+        );
+        date = record.dateTime;
+        dayCalories = record.calories;
+      }
     }
-    chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    chartData.add(
+      Data(
+        dateTime: date,
+        y: dayCalories.toDouble(),
+      ),
+    );
+    // chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     return chartData;
   }
 

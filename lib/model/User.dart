@@ -1,6 +1,3 @@
-/*
-target range [min, max]
-*/
 import '../model/ExerciseLogBook.dart';
 import '../model/GlucoseLogBook.dart';
 import '../model/FoodLogBook.dart';
@@ -8,6 +5,7 @@ import '../model/ExercisePlan.dart';
 import '../model/MealPlan.dart';
 import '../model/MedicationReminder.dart';
 import '../model/GlucoseReminders.dart';
+import '../model/LogBook.dart';
 
 // need to check if date of birth and target range have been added to account details, profilepage and food preference
 /// Entity representing the user, their personal details, and the logbooks, plans and reminders associated with them.
@@ -28,9 +26,7 @@ class User {
   double _minGlucose;
   double _maxGlucose;
   DateTime _dateOfBirth;
-  ExerciseLogBook _exerciseLogBook;
-  FoodLogBook _foodLogBook;
-  GlucoseLogBook _glucoseLogBook;
+  LogBook _exerciseLogBook, _foodLogBook, _glucoseLogBook;
   List<MedicationReminder> _medicationReminders;
   List<GlucoseReminder> _glucoseReminders;
   ExercisePlan _exercisePlan;

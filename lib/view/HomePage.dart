@@ -41,9 +41,6 @@ class Body extends StatelessWidget {
     final double normalFontSize = width * 0.06;
     final double miniFontSize = normalFontSize - 5;
 
-    final Color green = Color.fromRGBO(0, 110, 96, 1);
-    final Color pink = Color.fromRGBO(254, 179, 189, 1);
-
     Widget _buildLogBookIcons(BuildContext context) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -94,7 +91,7 @@ class Body extends StatelessWidget {
               iconSize: 30,
               color: Theme.of(context).primaryColorLight,
               onPressed: () {
-                Navigator.of(context).pushNamed('/logfood');
+                Navigator.of(context).pushNamed('/mealLog');
               },
             ),
           ),
