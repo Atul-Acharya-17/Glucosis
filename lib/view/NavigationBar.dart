@@ -15,7 +15,7 @@ class NavigationBar extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,  ////////// Pink Looks Weird. Prefer White
+        color: Theme.of(context).shadowColor,
         boxShadow: [
           BoxShadow(
             offset: const Offset(0, 0.5),

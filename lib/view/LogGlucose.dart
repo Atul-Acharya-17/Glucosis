@@ -3,7 +3,7 @@ import 'package:flutterapp/controller/LogBookMgr.dart';
 import 'package:flutterapp/view/NavigationBar.dart';
 import 'package:intl/intl.dart';
 import './AppBar.dart';
-import 'package:flutterapp/view/CustomRadioButton.dart';
+import 'package:customtogglebuttons/customtogglebuttons.dart';
 
 import 'Drawer.dart';
 
@@ -24,9 +24,7 @@ void main() {
         // text styling for headlines, titles, bodies of text, and more.
         textTheme: TextTheme(
             headline3: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black),
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
             headline4: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -36,7 +34,8 @@ void main() {
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
                 color: Colors.black)),
-      ),),
+      ),
+    ),
   );
 }
 
@@ -51,11 +50,12 @@ class LogGlucosePageState extends State<LogGlucosePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       endDrawer: CustomDrawer(),
+      backgroundColor: Theme.of(context).canvasColor,
       appBar: CommonAppBar(
         title: 'Log Blood Glucose',
       ),
+      bottomNavigationBar: NavigationBar(),
       body: SingleChildScrollView(
-        /// Flutter code sample for Form
         child: MyCustomForm(),
       ),
     );
@@ -80,7 +80,9 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
+  List<bool> _isSelected = [false, false];
   double _glucoseLevel;
+  bool _beforeMeal;
   bool beforeMeal;
 
   DateTime currentDate = DateTime.now().toLocal();
@@ -112,211 +114,229 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
   }
 
+  Widget _buildDateTime() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+            padding: EdgeInsets.only(left: 10),
+            width: MediaQuery.of(context).size.width * 0.45,
+            decoration: BoxDecoration(
+              color: Colors.white,
+                border: Border.all(color: Theme.of(context).shadowColor),
+                borderRadius: BorderRadius.circular(5.0)),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(formatter.format(currentDate)),
+                  IconButton(
+                      icon: Icon(Icons.calendar_today_sharp),
+                      onPressed: () => _selectDate(context))
+                ])),
+        Container(
+            padding: EdgeInsets.only(left: 10),
+            width: MediaQuery.of(context).size.width * 0.40,
+            decoration: BoxDecoration(
+              color: Colors.white,
+                border: Border.all(color: Theme.of(context).shadowColor),
+                borderRadius: BorderRadius.circular(5.0)),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("${_time.format(context)}"),
+                  IconButton(
+                      icon: Icon(Icons.alarm_add_rounded),
+                      onPressed: () => _selectTime(context))
+                ]))
+      ],
+    );
+  }
+
+  Widget _buildGlucose() {
+    return Row(
+      children: [
+        Container(
+          width: 150,
+          child: TextFormField(
+            // The validator receives the text that the user has entered.
+            decoration: new InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
+                border: OutlineInputBorder(),
+                hintText: "000.00",
+                labelStyle: TextStyle(
+                  color: Colors.teal.shade800,
+                  fontSize: 20,
+                )),
+            keyboardType: TextInputType.number,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+              _glucoseLevel = double.parse(value);
+              return null;
+            },
+          ),
+        ),
+        SizedBox(width: 5),
+        Text(
+          'mg/dL',
+          style: TextStyle(color: Colors.black),
+        )
+      ],
+    );
+  }
+
+  Widget _buildTiming() {
+    return Container(
+      alignment: Alignment.topLeft,
+      child: CustomToggleButtons(
+        spacing: 20.0,
+        unselectedFillColor: Theme.of(context).primaryColorLight,
+        fillColor: Theme.of(context).accentColor,
+        isSelected: _isSelected,
+        selectedColor: Colors.black,
+        children: <Widget>[
+          Text(
+            'Before meal',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+          Text(
+            'After meal',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+        ],
+        onPressed: (index) {
+          setState(() {
+            _isSelected[1 - index] = false;
+            _isSelected[index] = true;
+            _beforeMeal = _isSelected[0];
+          });
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget customRadio = CustomRadio(text1: 'Before meal', text2: 'After meal');
-    // Build a Form widget using the _formKey created above.
     return SafeArea(
       child: Form(
-          key: _formKey,
-          child: Container(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                        child: Padding(
-                            padding: EdgeInsets.only(top: 20, left: 10),
-                            child: Text(
-                              'Blood glucose level (mg/dL)',
-                              style: TextStyle(
-                                  fontSize: 20, color: Colors.teal.shade800),
-                            ))),
+        key: _formKey,
+        child: Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Blood glucose level (mg/dL)',
+                style: Theme.of(context).textTheme.display1,
+              ),
+              const SizedBox(height: 5),
+              _buildGlucose(),
+              const SizedBox(height: 15),
+              Text(
+                'Timing',
+                style: Theme.of(context).textTheme.display1,
+              ),
+              const SizedBox(height: 5),
+              _buildTiming(),
+              const SizedBox(height: 15),
+              Text(
+                'Date and time',
+                style: Theme.of(context).textTheme.display1,
+              ),
+              const SizedBox(height: 5),
+              _buildDateTime(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.05,
+              ),
 
-                    Column(
-                      children: [
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                // The validator receives the text that the user has entered.
-                                decoration: new InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    hintText: "000.00",
-                                    labelStyle: TextStyle(
-                                      color: Colors.teal.shade800,
-                                      fontSize: 20,
-                                    )),
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Please enter some text';
-                                  }
-                                  _glucoseLevel = double.parse(value);
-                                  return null;
-                                },
+              Center(
+                  child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  child: Text("Log glucose entry",
+                      style: Theme.of(context).textTheme.button),
+                  style: ElevatedButton.styleFrom(
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    primary: Theme.of(context).primaryColor,
+                  ),
+                  onPressed: () {
+                    // Validate returns true if the form is valid, otherwise false.
+                    if (_formKey.currentState.validate()) {
+                      // If the form is valid, display a snackbar. In the real world,
+                      // you'd often call a server or save the information in a database.
+
+                      print(_beforeMeal);
+                      print(_glucoseLevel);
+                      print(currentDate);
+                      print(_time);
+
+                      LogBookMgr.addGlucoseRecord(
+                          _glucoseLevel, currentDate, _beforeMeal);
+
+                      return showDialog<void>(
+                        context: context,
+                        barrierDismissible: false, // user must tap button!
+                        builder: (BuildContext context) {
+                          // can add logic to store entry here
+                          return AlertDialog(
+                            //title: Text('AlertDialog Title'),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: <Widget>[
+                                  Text('Glucose Logged',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black)),
+                                  SizedBox(height: 20),
+                                  TextButton(
+                                    child: Text('OK',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black)),
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.green[500])),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(width: 5),
-                            Text(
-                              'mg/dL',
-                              style: TextStyle(color: Colors.black),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                            // can't center button if put in actions
+                            // actions: <Widget>[
+                            //     TextButton(
+                            //     child: Text('OK',style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color:Colors.black)),
+                            //     style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.green[500]) ),
+                            //     onPressed: () {
+                            //       Navigator.of(context).pop();
+                            //     },
+                            //   ),
 
-                    Container(
-                        child: Padding(
-                            padding: EdgeInsets.only(top: 20, left: 10),
-                            child: Text(
-                              'Timing',
-                              style: TextStyle(
-                                  fontSize: 20, color: Colors.teal.shade800),
-                            ))),
-                    customRadio,
-                    // Add TextFormFields and ElevatedButton here.
-                    Container(
-                        child: Padding(
-                            padding: EdgeInsets.only(top: 1, left: 10),
-                            child: Text(
-                              'Date & Time',
-                              style: TextStyle(
-                                  fontSize: 20, color: Colors.teal.shade800),
-                            ))),
-                    Row(
-                      children: [
-                        Container(
-                            margin: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10, top: 10),
-                            padding:
-                                EdgeInsets.only(left: 5, bottom: 10, top: 10),
-                            width: MediaQuery.of(context).size.width * 0.40,
-                            height: 60,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey[400]),
-                                borderRadius: BorderRadius.circular(5.0)),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(formatter.format(currentDate),
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.black)),
-                                  IconButton(
-                                      icon: Icon(Icons.calendar_today_sharp),
-                                      onPressed: () => _selectDate(context))
-                                ])),
-                        Container(
-                            margin: EdgeInsets.only(bottom: 10, top: 10),
-                            padding:
-                                EdgeInsets.only(left: 10, bottom: 10, top: 10),
-                            width: MediaQuery.of(context).size.width * 0.40,
-                            height: 60,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey[400]),
-                                borderRadius: BorderRadius.circular(5.0)),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("${_time.format(context)}",
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.black)),
-                                  IconButton(
-                                      icon: Icon(Icons.alarm_add_rounded),
-                                      onPressed: () => _selectTime(context))
-                                ]))
-                      ],
-                    ),
-
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
-
-                    Center(
-                        child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              height: MediaQuery.of(context).size.height * 0.07,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  shape: new RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(30.0),
-                                  ),
-                                  primary: Colors.pink[100], // background
-                                  onPrimary: Colors.black, // foreground
-                                ),
-                                onPressed: () {
-                                  // Validate returns true if the form is valid, otherwise false.
-                                  if (_formKey.currentState.validate()) {
-                                    // If the form is valid, display a snackbar. In the real world,
-                                    // you'd often call a server or save the information in a database.
-
-                                    bool beforeMeal = CustomRadio.toggle;
-                                    print(beforeMeal);
-                                    print(_glucoseLevel);
-                                    print(currentDate);
-                                    print(_time);
-
-                                    LogBookMgr.addGlucoseRecord(_glucoseLevel, currentDate, beforeMeal);
-
-                                    return showDialog<void>(
-                                      context: context,
-                                      barrierDismissible:
-                                          false, // user must tap button!
-                                      builder: (BuildContext context) {
-                                        // can add logic to store entry here
-                                        return AlertDialog(
-                                          //title: Text('AlertDialog Title'),
-                                          content: SingleChildScrollView(
-                                            child: ListBody(
-                                              children: <Widget>[
-                                                Text('Glucose Logged',
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight: FontWeight.bold,
-                                                        color: Colors.black)),
-                                                SizedBox(height: 20),
-                                                TextButton(
-                                                  child: Text('OK',
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black)),
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty.all<
-                                                                  Color>(
-                                                              Colors.green[500])),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          // can't center button if put in actions
-                                          // actions: <Widget>[
-                                          //     TextButton(
-                                          //     child: Text('OK',style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color:Colors.black)),
-                                          //     style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.green[500]) ),
-                                          //     onPressed: () {
-                                          //       Navigator.of(context).pop();
-                                          //     },
-                                          //   ),
-
-                                          // ],
-                                        );
-                                      },
-                                    );
-                                  }
-                                },
-                                child: Text("Log Entry",
-                                    style: Theme.of(context).textTheme.headline3),
-                              ),
-                            )))
-                  ],),),),
+                            // ],
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
+              ))
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

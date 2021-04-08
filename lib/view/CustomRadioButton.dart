@@ -32,9 +32,6 @@ class CustomRadioState extends State<CustomRadio> {
   @override
   Widget build(BuildContext context) {
     return new SizedBox(
-      // appBar: new AppBar(
-      //   title: new Text("ListItem"),
-      // ),
       height: MediaQuery.of(context).size.height * 0.12,
       child: new ListView.builder(
         shrinkWrap: true,
@@ -43,7 +40,7 @@ class CustomRadioState extends State<CustomRadio> {
         itemBuilder: (BuildContext context, int index) {
           return new InkWell(
             //highlightColor: Colors.red,
-            splashColor: Colors.pink[200],
+            splashColor: Theme.of(context).primaryColor,
             onTap: () {
               setState(() {
                 sampleData.forEach((element) => element.isSelected = false);
@@ -74,32 +71,28 @@ class RadioItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      margin: new EdgeInsets.all(15.0),
       child: new Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           new Container(
             height: MediaQuery.of(context).size.height * 0.05,
-            width: 150.0,
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             child: new Center(
               child: new Text(_item.buttonText,
                   style: new TextStyle(
                       color: _item.isSelected ? Colors.white : Colors.black,
                       //fontWeight: FontWeight.bold,
-                      fontSize: 18.0)),
+                      fontSize: 16.0)),
             ),
             decoration: new BoxDecoration(
-              color: _item.isSelected ? Colors.pink : Colors.pink[200],
+              color: _item.isSelected ? Theme.of(context).accentColor : Theme.of(context).primaryColor,
               border: new Border.all(
                   width: 1.0,
-                  color: _item.isSelected ? Colors.pink : Colors.pink[200]),
+                  color: _item.isSelected ? Theme.of(context).accentColor : Theme.of(context).primaryColor),
               borderRadius: const BorderRadius.all(const Radius.circular(2.0)),
             ),
           ),
-          new Container(
-            margin: new EdgeInsets.only(left: 10.0),
-            child: new Text(_item.text),
-          )
         ],
       ),
     );

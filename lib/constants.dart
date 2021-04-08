@@ -20,18 +20,24 @@ Widget materialApp = MaterialApp(
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.
     textTheme: TextTheme(
-    headline3: TextStyle(
-    fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-    headline4: TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-    color: Colors.teal.shade800),
-    headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
-    headline6: TextStyle(
-    fontSize: 30,
-    fontWeight: FontWeight.bold,
-    color: Colors.black)),
+        button: TextStyle(
+            fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
+        bodyText2: TextStyle(fontSize: 16, color: Colors.black),
+        display1: TextStyle(
+            fontSize: 18, fontWeight: FontWeight.w600, color: Colors.teal.shade800),
+        headline5: TextStyle(
+            fontSize: 18, fontWeight: FontWeight.w600, color: Colors.teal.shade800),
+        headline3: TextStyle(
+            fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
+        headline4: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Colors.teal.shade800),
+        headline6: TextStyle(
+            fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black)).apply(
+      bodyColor: Colors.black,
+      displayColor: Colors.teal.shade800,
     ),
+  ),
   onGenerateRoute: RouteGenerator.generateRoute,
-  );
-
+);

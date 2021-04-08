@@ -257,9 +257,10 @@ class ProfileScreenState extends State<ProfileScreen> {
         children: <Widget>[
           Text(
             "Email address",
-            style:
-                TextStyle(
-                    fontWeight: FontWeight.w600, fontSize: 16, color: Theme.of(context).accentColor),
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+                color: Theme.of(context).accentColor),
           ),
           Text(
             _email,
@@ -321,8 +322,9 @@ class ProfileScreenState extends State<ProfileScreen> {
           Text(
             text,
             style: TextStyle(
-              fontWeight: FontWeight.w600,
-                fontSize: 16, color: Theme.of(context).backgroundColor),
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+                color: Theme.of(context).backgroundColor),
           ),
           textForm,
         ],
@@ -635,7 +637,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                   child: TextButton(
                     child: Text("Change password",
                         style: TextStyle(
-                          fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w600,
                             fontSize: 16,
                             color: Theme.of(context).accentColor)),
                     onPressed: () {
@@ -695,8 +697,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                   child: Align(
                     child: ElevatedButton(
                         child: Text("Save changes",
-                            style:
-                                TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black)),
+                            style: Theme.of(context).textTheme.button),
                         style: ElevatedButton.styleFrom(
                           shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(30.0),
@@ -723,7 +724,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                               _targetRange.end,
                               _name,
                               _phoneNumber,
-                          _exercisePreference);
+                              _exercisePreference);
                           //need to add dob and target range to profile page screen
                           //usermgr.addUser(_email, _dob, _type, _dietRestrictions.split(','), _exercisePreference,_foodPreference, _gender, _height, _location, _name, _phoneNumber, _calories, _weight, _targetRange);
                         }),

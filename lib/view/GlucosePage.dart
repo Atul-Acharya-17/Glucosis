@@ -8,33 +8,32 @@ import 'HomePage.dart';
 import 'NavigationBar.dart';
 
 void run() => MaterialApp(
-  title: 'Diabetes App',
-  home: GlucosePage(),
-  theme: ThemeData(
-    // Define the default brightness and colors.
-    primaryColor: Colors.teal.shade800,
-    backgroundColor: Colors.pink.shade100,
+      title: 'Diabetes App',
+      home: GlucosePage(),
+      theme: ThemeData(
+        // Define the default brightness and colors.
+        primaryColor: Colors.teal.shade800,
+        backgroundColor: Colors.pink.shade100,
 
-    // Define the default font family.
-    fontFamily: 'Roboto',
+        // Define the default font family.
+        fontFamily: 'Roboto',
 
-    // Define the default TextTheme. Use this to specify the default
-    // text styling for headlines, titles, bodies of text, and more.
-    textTheme: TextTheme(
-        headline3: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black),
-        headline4: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.teal.shade800),
-        headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
-        headline6: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-            color: Colors.black)),
-  ),);
+        // Define the default TextTheme. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: TextTheme(
+            headline3: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+            headline4: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal.shade800),
+            headline5: TextStyle(fontSize: 40, color: Colors.teal.shade800),
+            headline6: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
+      ),
+    );
 
 /// UI for main glucose page.
 class GlucosePage extends StatelessWidget {
@@ -60,7 +59,6 @@ class GlucosePageBody extends StatelessWidget {
   final Color green = Color.fromRGBO(0, 110, 96, 1);
   final Color pink = Color.fromRGBO(254, 179, 189, 1);
 
-
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -69,101 +67,77 @@ class GlucosePageBody extends StatelessWidget {
     final double normalFontSize = width * 0.06;
     final double miniFontSize = normalFontSize - 5;
 
+    Widget _buildButton(String text, String page) {
+      return ElevatedButton(
+          child: Text(text,
+              style: Theme.of(context).textTheme.button),
+          style: ElevatedButton.styleFrom(
+            shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(30.0),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+            primary: Theme.of(context).primaryColor,
+          ),
+          onPressed: () {
+            Navigator.of(context).pushNamed(page);
+          });
+    }
+
     return SingleChildScrollView(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.05),
+      padding: EdgeInsets.all(20),
       child: Center(
         child: Column(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width*0.9,
-            child: Card(
-              elevation: 5,
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
-              ),
-              child: Container(
-                padding: EdgeInsets.all(padding),
-                child: SfCartesianChart(
-                  backgroundColor: Colors.white,
-                  primaryXAxis: CategoryAxis(), // dk what
-                  title: ChartTitle(
-                    text: 'Glucose Log Book',
-                  ),
-                  series: <ChartSeries>[
-                    LineSeries<Data, DateTime>(
-                      dataSource: LogBookMgr.getHomePageData()['Glucose'],
-                      xValueMapper: (Data datum, _) => datum.dateTime,
-                      yValueMapper: (Data datum, _) => datum.y,
-                      color: Colors.pink.shade200,
-                      markerSettings: MarkerSettings(
-                        color: Colors.pink.shade800,
-                        isVisible: true,
-                      ),
-                      animationDuration: 0,
-                    ),
-                  ],
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Card(
+                elevation: 5,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(borderRadius),
                 ),
+                child: Container(
+                  padding: EdgeInsets.all(padding),
+                  child: SfCartesianChart(
+                    backgroundColor: Colors.white,
+                    primaryXAxis: CategoryAxis(), // dk what
+                    title: ChartTitle(
+                      text: 'Glucose Log Book',
+                    ),
+                    series: <ChartSeries>[
+                      LineSeries<Data, DateTime>(
+                        dataSource: LogBookMgr.getHomePageData()['Glucose'],
+                        xValueMapper: (Data datum, _) => datum.dateTime,
+                        yValueMapper: (Data datum, _) => datum.y,
+                        color: Theme.of(context).accentColor,
+                        markerSettings: MarkerSettings(
+                          color: Theme.of(context).accentColor,
+                          isVisible: true,
+                        ),
+                        animationDuration: 0,
+                      ),
+                    ],
+                  ),
+                ),
+                // Graphs(
+                //   borderRadius: borderRadius,
+                //   padding: padding,
+                //   graphsHeight: graphsHeight,
+                //   //imagesPathList: [
+                //   //  'images/random.png',
+                //   //],
+                // ),
               ),
-              // Graphs(
-              //   borderRadius: borderRadius,
-              //   padding: padding,
-              //   graphsHeight: graphsHeight,
-              //   //imagesPathList: [
-              //   //  'images/random.png',
-              //   //],
-              // ),
-            ),
             ),
             SizedBox(
               height: 30,
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: MediaQuery.of(context).size.width * 0.125,
-              child: RaisedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/logbloodglucose');
-                },
-                disabledColor: Colors.pink[100],
-                color: Colors.pink[100],
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    side: BorderSide(color: Colors.pink[100])),
-                child: Text(
-                  'Log Blood Glucose Level',
-                  style: TextStyle(color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+            _buildButton('Log Blood Glucose Level', '/logbloodglucose'),
             SizedBox(height: 30),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: MediaQuery.of(context).size.width * 0.125,
-              child: RaisedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/dailyschedule');
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    side: BorderSide(color: Colors.pink[100])),
-                disabledColor: Colors.pink[100],
-                color: Colors.pink[100],
-                child: Text(
-                  'Create Daily Schedule',
-                  style: TextStyle(color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-
-                ),
-              ),
+            _buildButton('Create Daily Schedule', '/dailyschedule'),
           ],
         ),
       ),
     );
   }
-
 }
