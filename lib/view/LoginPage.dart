@@ -126,25 +126,25 @@ class LoginScreenState extends State<LoginScreen> {
         //   backgroundColor: Theme.of(context).backgroundColor,
         //   shadowColor: Colors.transparent,
         // ),
+        backgroundColor: Theme.of(context).backgroundColor,
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(20),
             width: double.infinity,
-            height: 5000,
             color: Theme.of(context).backgroundColor,
             child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 30),
                   Center(
                     child: Align(
                       child: Image.asset('images/Glucosis.png',
-                          width: 100, height: 100),
+                          width: 120, height: 120),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   Center(
                     child: Align(
                       child: Text(
