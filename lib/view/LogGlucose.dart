@@ -122,7 +122,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: EdgeInsets.only(left: 10),
             width: MediaQuery.of(context).size.width * 0.45,
             decoration: BoxDecoration(
-              color: Colors.white,
+                color: Colors.white,
                 border: Border.all(color: Theme.of(context).shadowColor),
                 borderRadius: BorderRadius.circular(5.0)),
             child: Row(
@@ -137,7 +137,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: EdgeInsets.only(left: 10),
             width: MediaQuery.of(context).size.width * 0.40,
             decoration: BoxDecoration(
-              color: Colors.white,
+                color: Colors.white,
                 border: Border.all(color: Theme.of(context).shadowColor),
                 borderRadius: BorderRadius.circular(5.0)),
             child: Row(
@@ -233,28 +233,27 @@ class MyCustomFormState extends State<MyCustomForm> {
             children: <Widget>[
               Text(
                 'Blood glucose level (mg/dL)',
-                style: Theme.of(context).textTheme.display1,
+                style: Theme.of(context).textTheme.headline4,
               ),
               const SizedBox(height: 5),
               _buildGlucose(),
               const SizedBox(height: 15),
               Text(
                 'Timing',
-                style: Theme.of(context).textTheme.display1,
+                style: Theme.of(context).textTheme.headline4,
               ),
               const SizedBox(height: 5),
               _buildTiming(),
               const SizedBox(height: 15),
               Text(
                 'Date and time',
-                style: Theme.of(context).textTheme.display1,
+                style: Theme.of(context).textTheme.headline4,
               ),
               const SizedBox(height: 5),
               _buildDateTime(),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
-
               Center(
                   child: Align(
                 alignment: Alignment.bottomCenter,

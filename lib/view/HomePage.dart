@@ -86,7 +86,7 @@ class Body extends StatelessWidget {
                 iconSize: 30,
                 color: Theme.of(context).accentColor,
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/logexercise');
+                  Navigator.of(context).pushNamed('/mealLog');
                 }),
           ),
           Container(
@@ -106,9 +106,9 @@ class Body extends StatelessWidget {
             child: IconButton(
               icon: Icon(MyAppIcons.exercise),
               iconSize: 30,
-              color: Theme.of(context).primaryColorLight,
+              color: Theme.of(context).accentColor,
               onPressed: () {
-                Navigator.of(context).pushNamed('/mealLog');
+                Navigator.of(context).pushNamed('/logexercise');
               },
             ),
           ),
