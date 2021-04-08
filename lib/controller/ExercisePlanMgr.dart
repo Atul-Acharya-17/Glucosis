@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-/// Controller which retrieves and manages user's chosen exercise plan from an exercise plan database.
+/// Controller which displays exercises according to the user's exercise level
 class ExercisePlanMgr{
   static String _emailID;
   static final CollectionReference _exercisePlan = FirebaseFirestore.instance.collection('ExercisePlan');
   static final CollectionReference _chosenPlan = FirebaseFirestore.instance.collection('ChosenPlan');
 
 
+  /// Sets the user's exercise level
   static Future<Map<String, dynamic>> setExercisePlan(String exercisePlanID) async{
 
     String message;
@@ -23,6 +24,7 @@ class ExercisePlanMgr{
     };
   }
 
+  /// Retrieves the recommended exercises
   static Future<Map<String, dynamic>> choosePlan(String options) async{
     Map exerciseMap = {
       'Basic': "0",
@@ -62,6 +64,7 @@ class ExercisePlanMgr{
 
   }
 
+  /// Sorts the exercises based on the day
   static List<dynamic> sortExercises(List objects){
     print("In Sort");
     List sortedObjects = [];

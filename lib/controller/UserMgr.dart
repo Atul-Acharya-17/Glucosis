@@ -61,6 +61,7 @@ class UserManager {
 
 //function to be called after initial signup
 
+  /// Creates a new user account
   static Future<void> addUseronSignup(
       String email, String name, String phoneNumber) async {
     user = new User(
@@ -106,6 +107,7 @@ class UserManager {
         .catchError((error) => print("Failed to add  new user: $error"));
   }
 
+  /// Updates the user details
   static void updateProfilePage(
       DateTime dateOfBirth,
       String gender,
@@ -146,6 +148,7 @@ class UserManager {
 
 //function to be called after second page of signup to update corresponding user details
 
+  /// Updates the user details when signed up
   static void updateOnSignup(
       DateTime dateOfBirth,
       String gender,
@@ -181,6 +184,7 @@ class UserManager {
 
   //to update food preferences
 
+  /// Updates the user's food preference
   static void updateFoodPref(List<String> dietaryRestrictions,
       String foodPreference, int targetCalories, int targetCarbs) async {
     user.setdietRestrictions = dietaryRestrictions;
@@ -239,6 +243,7 @@ class UserManager {
   }
 
 //to get all profile details for the profile page
+  /// Retrieves the user's profile details
   static Map<String, dynamic> getProfileDetails() {
     Map<String, dynamic> profileDetails = {
       'email': user.email,
@@ -262,6 +267,8 @@ class UserManager {
   }
 
   // to display the info in the updatefoodpreferences page
+
+  /// Gets the user's current preference
   static Map<String, dynamic> getFoodPreferenceDetails() {
     Map<String, dynamic> foodProfileDetails = {
       'targetCalories': user.targetCalories,
@@ -272,14 +279,17 @@ class UserManager {
     return foodProfileDetails;
   }
 
+  /// Gets the user's emailID
   static String getCurrentUserEmail() {
     return user.email;
   }
 
+  /// Adds a new GlucoseRecord
   static void addGlucoseRecord(GlucoseRecord gr) {
     user.glucoseLogBook.addRecord(gr);
   }
 
+  /// Adds a new Exercise Record
   static void addExerciseRecord(ExerciseRecord er) {
     if (user.exerciseLogBook == null)
       user.setExerciseLogBook =
@@ -287,14 +297,17 @@ class UserManager {
     user.exerciseLogBook.addRecord(er);
   }
 
+  /// Adds a new Food Record
   static void addFoodRecord(FoodRecord fr) {
     user.foodLogBook.addRecord(fr);
   }
 
+  /// Adds a new Medication Reminder
   static void addMedicationReminder(MedicationReminder mr) {
     user.addMedicationReminder(mr);
   }
 
+  /// Adds a new Glucose Reminder
   static void addGlucoseReminder(GlucoseReminder gr) {
     print(user.glucoseReminders);
     if (user.glucoseReminders == null) {
@@ -315,6 +328,7 @@ class UserManager {
     user.setExercisePlan = ep;
   }
 
+  /// Sets the user's data on Login
   static Future<void> setData() async {
     await setUserGlucoseLogBook();
     await setUserFoodLogBook();
@@ -323,6 +337,7 @@ class UserManager {
     await setMedicationReminders();
   }
 
+  /// Sets the Glucose Reminders of the user
   static Future<void> setGlucoseReminders() async {
     await ReminderMgr.getGlucoseReminders(user.email)
         .then((glucoseReminder) => {
@@ -333,6 +348,7 @@ class UserManager {
             });
   }
 
+  /// Sets the Medication Reminder of the user
   static Future<void> setMedicationReminders() async {
     await ReminderMgr.getMedicationReminders(user.email)
         .then((medicationReminder) => {
@@ -343,6 +359,7 @@ class UserManager {
             });
   }
 
+  /// Sets the Glucose LogBook
   static Future<void> setUserGlucoseLogBook() async {
     await LogBookMgr.getGlucoseLogBook(user.email).then((glucoseLogBook) => {
           if (glucoseLogBook != null)
@@ -353,6 +370,7 @@ class UserManager {
         });
   }
 
+  /// Sets the Food LogBook
   static Future<void> setUserFoodLogBook() async {
     await LogBookMgr.getFoodLogBook(user.email).then((foodLogBook) => {
           if (foodLogBook != null)
@@ -362,6 +380,7 @@ class UserManager {
         });
   }
 
+  /// Sets the Exercise LogBook
   static Future<void> setUserExerciseLogBook() async {
     await LogBookMgr.getExerciseLogBook(user.email).then((exerciseLogBook) => {
           if (exerciseLogBook != null)
@@ -372,6 +391,7 @@ class UserManager {
         });
   }
 
+  /// Retrieves the GlucoseLogBook
   static GlucoseLogBook getGlucoseLogBook() {
     print(user.glucoseLogBook);
     if (user.glucoseLogBook == null)
@@ -380,6 +400,7 @@ class UserManager {
     return user.glucoseLogBook;
   }
 
+  /// Retrieves the Exercise LogBook
   static ExerciseLogBook getExerciseLogBook() {
     print(user.exerciseLogBook);
     if (user.exerciseLogBook == null)
@@ -388,6 +409,7 @@ class UserManager {
     return user.exerciseLogBook;
   }
 
+  /// Retrieves the Food LogBook
   static FoodLogBook getFoodLogBook() {
     print(user.foodLogBook);
     if (user.foodLogBook == null)
@@ -395,10 +417,12 @@ class UserManager {
     return user.foodLogBook;
   }
 
+  /// Retrieves the Medication Reminders
   static List<MedicationReminder> getMedicationReminders() {
     return user.medicationReminders;
   }
 
+  /// Retrieves the Glucose Reminders
   static List<GlucoseReminder> getGlucoseReminders() {
     return user.glucoseReminders;
   }

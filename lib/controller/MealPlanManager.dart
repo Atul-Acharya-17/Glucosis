@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/model/Recipes.dart';
 import 'package:http/http.dart' as http;
 
+/// Controller that returns recipes from the Government API
 class MealPlanMgr{
   String url = 'api.spoonacular.com';
   List<Recipe> recipes = List();
 
-
+  /// Retrieves recipes that match the user's request
   Future<List<Recipe>> fetchRecipes(Map<String, dynamic> request) async {
     request['apiKey'] = 'bd7750a983d1494d8a8698d08faac976';
     print(request);

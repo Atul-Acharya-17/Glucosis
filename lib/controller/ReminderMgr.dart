@@ -5,6 +5,8 @@ import 'package:flutterapp/model/GlucoseReminders.dart';
 import 'package:flutterapp/model/MedicationReminder.dart';
 import 'package:flutterapp/model/Reminder.dart';
 
+
+/// Controller that handles in-app reminders
 class ReminderMgr {
   static CollectionReference glucoseReminders =
   FirebaseFirestore.instance.collection('GlucoseReminders');
@@ -16,8 +18,7 @@ class ReminderMgr {
   static List<bool> glucoseDismissed;
   static List<bool> medicationDismissed;
 
-  //This function returns a list of all Medication reminders
-  //UserMgr calls this function to maintain a local copy of all existing medication reminders
+  /// Returns a list of all Medication reminders
   static Future<List<MedicationReminder>> getMedicationReminders(
       userEmail) async {
     List<MedicationReminder> medReminderList = [];
@@ -47,8 +48,7 @@ class ReminderMgr {
     return medReminderList;
   }
 
-  //This function returns a list of all glucose reminders
-  //User Mgr calls this function to maintain a local copy of all existing glucose reminders
+  ///Returns a list of all glucose reminders
   static Future<List<GlucoseReminder>> getGlucoseReminders(userEmail) async {
     List<GlucoseReminder> glucReminderList = [];
     await FirebaseFirestore.instance
@@ -75,6 +75,7 @@ class ReminderMgr {
     return glucReminderList;
   }
 
+  /// Gets a list of all reminders
   static List<Map> getReminders() {
     List<Map> reminderList = new List();
     // print('getting reminders');
@@ -175,6 +176,7 @@ class ReminderMgr {
     return reminderList;
   }
 
+  /// Dismisses reminders
   static void setDismissed(String type,
       int i,) {
     // print('Setting dismissed');
@@ -187,15 +189,9 @@ class ReminderMgr {
     }
   }
 
+  /// Below is the code that helps implement factory pattern
 
-
-  /*
-
-  Factory Pattern Code:
-
-   */
-
-
+  /// Adds a new Reminder to the database
   static Future<void> addReminder(String reminderType,
       Map<String, dynamic> data) async {
     String email = UserManager.getCurrentUserEmail();
@@ -244,6 +240,7 @@ class ReminderMgr {
   }
 
 
+  /// Deletes a reminder from the database
   static Future<void> deleteReminder(String reminderType, String key) async {
     if (reminderType == 'Medication') {
       await FirebaseFirestore.instance
@@ -270,6 +267,7 @@ class ReminderMgr {
   }
 
 
+  /// Gets all Reminders witth their key
   static Future<Map<String, Reminder>> getRemindersWithKey(String reminderType) async {
 
     Map<String, Reminder> reminderMap = {};

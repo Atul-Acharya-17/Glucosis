@@ -11,6 +11,8 @@ import '../model/FoodRecord.dart';
 import '../model/ExerciseRecord.dart';
 import '../controller/UserMgr.dart';
 
+
+/// Controller that handles the LogBook data of the User
 class LogBookMgr {
   static instantiateLogBooks(String email) {
     FirebaseFirestore.instance.collection('GlucoseLogBook').doc(email).set({});
@@ -18,6 +20,7 @@ class LogBookMgr {
     FirebaseFirestore.instance.collection('ExerciseLogBook').doc(email).set({});
   }
 
+  /// Adds a new Record to the Glucose LogBook
   static Future<void> addGlucoseRecord(
     double glucoseLevel,
     DateTime dateTime,
@@ -44,6 +47,7 @@ class LogBookMgr {
         .catchError((error) => print('Failed to add record: $error'));
   }
 
+  /// Adds a new Record to the Food LogBook
   static Future<void> addFoodRecord(DateTime dateTime, String food, int carbs,
       int calories, double servingSize,
       {String notes = ""}) {
@@ -74,6 +78,8 @@ class LogBookMgr {
         .catchError((error) => print('Failed to add record: $error'));
   }
 
+
+  /// Adds a new Record to the Exercise LogBook
   static Future<void> addExerciseRecord(
     DateTime dateTime,
     String exercise,
@@ -97,6 +103,7 @@ class LogBookMgr {
         .catchError((error) => print('Failed to add record: $error'));
   }
 
+  /// Retrieves the Data of the Glucose LogBook
   static Future<GlucoseLogBook> getGlucoseLogBook(String email) async {
     List<GlucoseRecord> recordsList = [];
 
@@ -129,6 +136,7 @@ class LogBookMgr {
     );
   }
 
+  /// Retrieves the Data of the Food LogBook
   static Future<FoodLogBook> getFoodLogBook(String email) async {
     List<FoodRecord> recordsList = [];
 
@@ -163,6 +171,7 @@ class LogBookMgr {
     );
   }
 
+  /// Retrieves the Data of the Exercise LogBook
   static Future<ExerciseLogBook> getExerciseLogBook(String email) async {
     List<ExerciseRecord> recordsList = [];
 
@@ -194,6 +203,7 @@ class LogBookMgr {
     );
   }
 
+  /// Returns the Data Formatted for the HomePage
   static Map getHomePageData() {
     print('Getting home page data');
     print(UserManager.getFoodLogBook());
@@ -205,6 +215,7 @@ class LogBookMgr {
     };
   }
 
+  /// Returns the Data Formatted for the LogBookPage
   static Map getLogBookPageData() {
     return {
       'Glucose': UserManager.getGlucoseLogBook().getLogBookPageData(),
@@ -213,6 +224,7 @@ class LogBookMgr {
     };
   }
 
+  /// Returns the Data Formatted for Popups
   static Map getPopUpData() {
     return {
       'Glucose': UserManager.getGlucoseLogBook().getListOfRecords(),
@@ -221,6 +233,7 @@ class LogBookMgr {
     };
   }
 
+  /// Downloads the LogBook data
   static Future<void> downloadGlucoseLogBook() async {
     List<List<String>> listOfRecords =
         UserManager.getGlucoseLogBook().getListOfRecords();
