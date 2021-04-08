@@ -355,7 +355,7 @@ class RemindersState extends State<Reminders> {
       columnChildren.add(
         reminderSlidable(
           fontSize,
-          reminder['timings'],
+          reminder['timings'].toString(),
           reminder['message'],
           reminder['index'],
           reminder['type'] == 'Glucose' ? true : false,

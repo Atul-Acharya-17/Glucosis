@@ -84,17 +84,18 @@ class ExercisePageState extends StatelessWidget {
     var exercise = await ExercisePlanMgr.choosePlan(option);
 
     print(exercise);
+
     for (int i=0; i<exercise['objects'].length; ++i){
       Widget plan = Column (
           children: [
             Container(
           child: Text(exercise['objects'][i]['day'],
-              style: Theme.of(context).textTheme.headline4),
+              style: Theme.of(context).textTheme.headline),
           margin:
           EdgeInsets.only(left: 30, right: 30, top: 10)),
       // probably should group each text and card as an object
           Container(
-          color: Theme.of(context).backgroundColor,
+          color: Colors.teal.shade200,
     margin: EdgeInsets.only(
     left: 30, right: 30, bottom: 10, top: 10),
     padding: EdgeInsets.all(10),
