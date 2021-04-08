@@ -334,6 +334,9 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
 
                             else {
                               print('Passwords are different');
+                              setState(() {
+                                showSpinner = false;
+                              });
                             }
 
                             if (success) {
@@ -342,6 +345,11 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                                   showSpinner = false;
                                 });
                                 Navigator.of(context).pushNamed('/accdetails');
+                            }
+                            else{
+                              setState(() {
+                                showSpinner = false;
+                              });
                             }
                             //print(_email);
                             //print(_password);
