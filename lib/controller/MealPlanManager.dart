@@ -9,7 +9,7 @@ class MealPlanMgr{
 
 
   Future<List<Recipe>> fetchRecipes(Map<String, dynamic> request) async {
-    request['apiKey'] = '9449825925d342f0a9418ca8f44c9d3c';
+    request['apiKey'] = 'bd7750a983d1494d8a8698d08faac976';
     print(request);
     final response =
     await http.get(Uri.https(url, 'recipes/complexSearch', request),);

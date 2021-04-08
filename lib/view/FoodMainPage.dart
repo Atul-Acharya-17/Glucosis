@@ -98,7 +98,7 @@ class MealLogForm extends State<MealLogPageState> {
   Future<List<Widget>> _buildRecipeCards(context) async {
     setState(() {
       _request = {
-        "diet": "",
+        "diet": "${UserManager.getProfileDetails()['foodPreference']}",
         "sort": "popularity",
         "number": "3",
         "addRecipeInformation": "true",
