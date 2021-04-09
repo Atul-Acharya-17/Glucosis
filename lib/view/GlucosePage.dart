@@ -69,8 +69,7 @@ class GlucosePageBody extends StatelessWidget {
 
     Widget _buildButton(String text, String page) {
       return ElevatedButton(
-          child: Text(text,
-              style: Theme.of(context).textTheme.button),
+          child: Text(text, style: Theme.of(context).textTheme.button),
           style: ElevatedButton.styleFrom(
             shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(30.0),
@@ -100,7 +99,11 @@ class GlucosePageBody extends StatelessWidget {
                   padding: EdgeInsets.all(padding),
                   child: SfCartesianChart(
                     backgroundColor: Colors.white,
-                    primaryXAxis: CategoryAxis(), // dk what
+                    primaryXAxis: DateTimeAxis(
+                      intervalType: DateTimeIntervalType.days,
+                      interval: 2,
+                      edgeLabelPlacement: EdgeLabelPlacement.shift,
+                    ), // dk what
                     title: ChartTitle(
                       text: 'Glucose Log Book',
                     ),
