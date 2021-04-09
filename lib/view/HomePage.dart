@@ -404,7 +404,9 @@ class RemindersState extends State<Reminders> {
       icon: Icons.delete,
       onTap: () {
         setState(() {
-          reminders.removeWhere((reminder) => reminder['index'] == index);
+          reminders.removeWhere((reminder) =>
+              reminder['index'] == index &&
+              reminder['type'] == (logNow ? 'Glucose' : 'Medication'));
         });
         print(reminders);
         ReminderMgr.setDismissed(

@@ -80,10 +80,11 @@ class ReminderMgr {
     // print(medicationDismissed);
 
     List<GlucoseReminder> allGlucose = UserManager.getGlucoseReminders();
-    if (glucoseDismissed.length != allGlucose.length) {
-      for (int i = 0; i < allGlucose.length - glucoseDismissed.length; i++) {
-        glucoseDismissed.add(false);
-      }
+
+    int end = allGlucose.length - glucoseDismissed.length;
+    for (int i = 0; i < end; i++) {
+      print('entered');
+      glucoseDismissed.add(false);
     }
 
     DateTime nextGlucose;
@@ -119,12 +120,9 @@ class ReminderMgr {
 
     List<MedicationReminder> allMedication =
         UserManager.getMedicationReminders();
-    if (allMedication.length != medicationDismissed.length) {
-      for (int i = 0;
-          i < allMedication.length - medicationDismissed.length;
-          i++) {
-        medicationDismissed.add(false);
-      }
+    int end2 = allMedication.length - medicationDismissed.length;
+    for (int i = 0; i < end2; i++) {
+      medicationDismissed.add(false);
     }
 
     DateTime nextMedication;

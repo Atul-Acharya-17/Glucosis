@@ -2,7 +2,7 @@ import 'package:flutterapp/model/Reminder.dart';
 import 'package:intl/intl.dart';
 
 /// Entity containing details about a medication reminder.
-class MedicationReminder extends Reminder{
+class MedicationReminder extends Reminder {
   String _medicineName;
   String _dosage;
   DateTime _timing;
@@ -23,7 +23,7 @@ class MedicationReminder extends Reminder{
   Map<String, dynamic> toMap(int i) {
     return {
       'type': "Medication",
-      'message': "Take " + dosage + " " + type + " of " + medicineName,
+      'message': "Take " + dosage + " " + "of " + medicineName,
       'timings': DateFormat('h:mm a').format(timing),
       'index': i,
     };
