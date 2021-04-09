@@ -187,7 +187,7 @@ class ExercisePageState extends StatelessWidget {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text("Basic",
+                                              Text(UserManager.getProfileDetails()['exercisePreference'],
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline3),
