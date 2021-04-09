@@ -82,6 +82,8 @@ class GlucosePageBody extends StatelessWidget {
           });
     }
 
+    List<Data> chartData = LogBookMgr.getHomePageData()['Glucose'];
+
     return SingleChildScrollView(
       padding: EdgeInsets.all(20),
       child: Center(
@@ -103,13 +105,20 @@ class GlucosePageBody extends StatelessWidget {
                       intervalType: DateTimeIntervalType.days,
                       interval: 2,
                       edgeLabelPlacement: EdgeLabelPlacement.shift,
+                      minimum: chartData.length == 0
+                          ? DateTime.now().subtract(new Duration(days: 1))
+                          : getMinDate(chartData)
+                              .subtract(const Duration(days: 1)),
+                      maximum: chartData.length == 0
+                          ? DateTime.now().add(new Duration(days: 2))
+                          : getMaxDate(chartData).add(const Duration(days: 1)),
                     ), // dk what
                     title: ChartTitle(
                       text: 'Glucose Log Book (mg/dL)',
                     ),
                     series: <ChartSeries>[
                       LineSeries<Data, DateTime>(
-                        dataSource: LogBookMgr.getHomePageData()['Glucose'],
+                        dataSource: chartData,
                         xValueMapper: (Data datum, _) => datum.dateTime,
                         yValueMapper: (Data datum, _) => datum.y,
                         color: Colors.teal.shade800,
