@@ -232,8 +232,8 @@ class MealLogForm extends State<MealLogPageState> {
                           // ])),
                          Row(
                           children: [
-                            Text("Popular Recipes",
-                                style: Theme.of(context).textTheme.headline3)
+                            Text("Recipes for you",
+                                style: Theme.of(context).textTheme.headline1)
                           ],
                         ),
                           CarouselSlider(

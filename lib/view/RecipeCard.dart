@@ -43,7 +43,7 @@ class RecipeCard extends StatelessWidget {
       ),
       //onTap: ()=>print('Recipe ${recipe.recipeId} was pressed'),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5.0),
         child: Card(
           child: Column(
             mainAxisSize: MainAxisSize.min,

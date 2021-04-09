@@ -3,29 +3,28 @@ import 'package:flutterapp/model/Recipes.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:intl/intl.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
+import 'NavigationBar.dart';
 
 import 'AppBar.dart';
 import 'Drawer.dart';
 import 'Library.dart';
 
-
-
 //void main() => runApp(ExercisePage());
 
-
 class MealLogPage extends StatelessWidget {
-
   static final routeName = "/mealLog";
+
   @override
   Widget build(BuildContext context) {
     return MealLogPageState();
   }
 }
+
 class MealLogPageState extends StatefulWidget {
   @override
   MealLogForm createState() => MealLogForm();
-
 }
+
 class MealLogForm extends State<MealLogPageState> {
   final _formKey = GlobalKey<FormState>();
   DateTime currentDate = DateTime.now().toLocal();
@@ -63,6 +62,7 @@ class MealLogForm extends State<MealLogPageState> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     var slider = SleekCircularSlider(
@@ -70,260 +70,226 @@ class MealLogForm extends State<MealLogPageState> {
         max: 200,
         initialValue: double.parse(_carbs.toString()),
         appearance: CircularSliderAppearance(
-          counterClockwise: true,
-          startAngle: 0,
+          counterClockwise: false,
+          startAngle: 90,
           angleRange: 360,
           infoProperties: InfoProperties(
-              topLabelText: "Carbs",
-              modifier: (double percentage){
+              topLabelText: "Carbs (g)",
+              modifier: (double percentage) {
                 return percentage.ceil().toInt().toString();
-              }
-          ),
+              }),
         ),
         onChange: (double value) {
           _carbs = value.toInt();
         });
     double progressValue = 153;
+
+    Widget _buildDateTime() {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+              padding: EdgeInsets.only(left: 10),
+              width: MediaQuery.of(context).size.width * 0.45,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Theme.of(context).shadowColor),
+                  borderRadius: BorderRadius.circular(5.0)),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(formatter.format(currentDate)),
+                    IconButton(
+                        icon: Icon(Icons.calendar_today_sharp),
+                        onPressed: () => _selectDate(context))
+                  ])),
+          Container(
+              padding: EdgeInsets.only(left: 10),
+              width: MediaQuery.of(context).size.width * 0.40,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Theme.of(context).shadowColor),
+                  borderRadius: BorderRadius.circular(5.0)),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("${_time.format(context)}"),
+                    IconButton(
+                        icon: Icon(Icons.alarm_add_rounded),
+                        onPressed: () => _selectTime(context))
+                  ]))
+        ],
+      );
+    }
+
     return Form(
       key: _formKey,
       child: Scaffold(
-        endDrawer: CustomDrawer(),
-        appBar: CommonAppBar(title:"Meal Log"),
+          endDrawer: CustomDrawer(),
+          appBar: CommonAppBar(title: "Log Meal"),
+          bottomNavigationBar: NavigationBar(),
           body: SingleChildScrollView(
               child: Container(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: Column(children: [
-                    Container(
-                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
-                        width: 200,
-                        height: 200,
-                        child: slider
-                    ),
-
-                    Container(
-
-                        child: Row(
-                            children: [Padding(
-                                padding: EdgeInsets.only(top: 0, left: 10),
-                                child:Text(
-                                  'What did you have ?',
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.teal.shade800),
-                                )
-                            )
-                            ]
-                        )
-                    ),
-
-                    Container(
-                        margin:
-                        EdgeInsets.only(bottom: 20, top: 10, left: 10, right: 10),
-                        child: TextFormField(
-                            controller: _namecontrolller,
-                            //initialValue: _foodItem,
-                            // The validator receives the text that the user has entered.
-                            decoration: InputDecoration(
-                                suffixIcon: new IconButton(
-                                    icon: const Icon(Icons.search),
-                                    onPressed: () async{
-                                      Recipe recipe = await Navigator.push(context,
-                                        // Create the SelectionScreen in the next step.
-                                        MaterialPageRoute(builder: (context) => (MainFetchData())),
-                                      );
-                                      setState(() {
-                                        _calories = recipe.cal;
-                                        _foodItem = recipe.title;
-                                        _servings = recipe.serving;
-                                        _carbs = recipe.carbs;
-                                      });
-                                      _calcontroller.text = recipe.cal.toString();
-                                      _namecontrolller.text = recipe.title;
-                                      _servingscontroller.text = recipe.serving.toString();
-
-                                      print(recipe.carbs);
-                                      print(_calories);
-                                    }
-                                ),
-                                border: OutlineInputBorder(),
-                                //labelText: "kcals",
-                                labelStyle: TextStyle(
-                                  color: Colors.grey[700],
-                                  fontSize: 20,
-                                )),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              this._foodItem = value;
-                              return null;
-                            })),
-                    Container(
-
-                        child: Row(
-                            children: [Padding(
-                                padding: EdgeInsets.only(top: 0, left: 10),
-                                child:Text(
-                                  'Calorie intake',
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.teal.shade800),
-                                )
-                            )
-                            ]
-                        )
-                    ),
-
-                    Container(
-                        margin:
-                        EdgeInsets.only(bottom: 20, top: 10, left: 10, right: 10),
-                        child: TextFormField(
-                          // The validator receives the text that the user has entered.
-                          //initialValue: _calories.toString(),
-                            controller: _calcontroller,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "kcals",
-                                labelStyle: TextStyle(
-                                  color: Colors.grey[700],
-                                  fontSize: 20,
-                                )
-                            ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              _calories = int.parse(value);
-                              return null;
-                            })),
-                    Container(
-
-                        child: Row(
-                            children: [Padding(
-                                padding: EdgeInsets.only(top: 0, left: 10),
-                                child:Text(
-                                  'Serving Size',
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.teal.shade800),
-                                )
-                            )
-                            ]
-                        )
-                    ),
-
-                    Container(
-                        margin:
-                        EdgeInsets.only(bottom: 20, top: 10, left: 10, right: 10),
-                        child: TextFormField(
-                            controller: _servingscontroller,
-                            keyboardType: TextInputType.number,
-                            // The validator receives the text that the user has entered.
-                            //initalValue: (_calories != null)?_calories.toString(): "",
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "Servings",
-                                labelStyle: TextStyle(
-                                  color: Colors.grey[700],
-                                  fontSize: 20,
-                                )),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              this._servings = double.parse(value);
-                              return null;
-                            })),
-
-                    Container(
-                        child: Row(
-                          children: [Padding(
-                              padding: EdgeInsets.only(top: 0, left: 10),
-                              child: Text(
-                                'Date & Time',
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.teal.shade800),
-                              )
-                          ),
-                          ],
-                        )
-                    ),
-                    Row(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                            margin: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10, top: 10),
-                            padding: EdgeInsets.only(left: 5, bottom: 10, top: 10),
-                            width: MediaQuery.of(context).size.width * 0.40,
-                            height: 60,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey[400]),
-                                borderRadius: BorderRadius.circular(5.0)),
-                            child: Row(
-                                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(formatter.format(currentDate),
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.black)),
-                                  IconButton(
-                                      icon: Icon(Icons.calendar_today_sharp,size: 20),
-                                      onPressed: () => _selectDate(context))
-                                ])),
-                        Container(
-                            margin: EdgeInsets.only(bottom: 10, top: 10),
-                            padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-                            width: MediaQuery.of(context).size.width * 0.40,
-                            height: 60,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey[400]),
-                                borderRadius: BorderRadius.circular(5.0)),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("${_time.format(context)}",
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.black)),
-                                  IconButton(
-                                      icon: Icon(Icons.alarm_add_rounded),
-                                      onPressed: () => _selectTime(context))
-                                ]))
-                      ],
-                    ),
-
-                    SizedBox(
-                        width: 200,
-                        height:40,
-                        child: ElevatedButton.icon(
-                          onPressed: (){
-                            if (!_formKey.currentState.validate()){
-                              return;
-                            }
-                            print(currentDate);
-                            print(_time);
-                            print(this._foodItem);
-                            print(this._servings);
-                            print(_calories);
-
-                            // Need to get form for Carbs
-
-                            //LogBookMgr.addFoodRecord(currentDate, _foodItem, 20, _calories, _servings);
-                          },
-
-
-                          icon: Icon(
-                            Icons.sticky_note_2_outlined,
-                            size: 22,
+                        SizedBox(height: 10),
+                        Center(
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            child: slider,
                           ),
-                          label: Text("Log Meal",
-                              style: Theme.of(context).textTheme.headline3),
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(color: Colors.pink.shade100)
-                                  )),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.pink.shade100)),
-                        ))
-                  ])))),
+                        ),
+                        SizedBox(height: 10),
+                        Text("What did you have?",
+                            style: Theme.of(context).textTheme.headline4),
+                        SizedBox(height: 5),
+                        Container(
+                            child: TextFormField(
+                                controller: _namecontrolller,
+                                //initialValue: _foodItem,
+                                // The validator receives the text that the user has entered.
+                                decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    suffixIcon: new IconButton(
+                                        icon: const Icon(Icons.search),
+                                        onPressed: () async {
+                                          Recipe recipe = await Navigator.push(
+                                            context,
+                                            // Create the SelectionScreen in the next step.
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    (MainFetchData())),
+                                          );
+                                          setState(() {
+                                            _calories = recipe.cal;
+                                            _foodItem = recipe.title;
+                                            _servings = recipe.serving;
+                                            _carbs = recipe.carbs;
+                                          });
+                                          _calcontroller.text =
+                                              recipe.cal.toString();
+                                          _namecontrolller.text = recipe.title;
+                                          _servingscontroller.text =
+                                              recipe.serving.toString();
+
+                                          print(recipe.carbs);
+                                          print(_calories);
+                                        }),
+                                    border: OutlineInputBorder(),
+                                    //labelText: "kcals",
+                                    labelStyle: TextStyle(
+                                      color: Colors.grey[700],
+                                      fontSize: 20,
+                                    )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  this._foodItem = value;
+                                  return null;
+                                })),
+                        SizedBox(height: 10),
+                        Text("Calorie intake",
+                            style: Theme.of(context).textTheme.headline4),
+                        SizedBox(height: 5),
+                        Container(
+                            child: TextFormField(
+                                // The validator receives the text that the user has entered.
+                                //initialValue: _calories.toString(),
+                                controller: _calcontroller,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    border: OutlineInputBorder(),
+                                    labelText: "kcals",
+                                    labelStyle: TextStyle(
+                                      color: Colors.grey[700],
+                                      fontSize: 20,
+                                    )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  _calories = int.parse(value);
+                                  return null;
+                                })),
+                        SizedBox(height: 10),
+                        Text("Serving size",
+                            style: Theme.of(context).textTheme.headline4),
+                        SizedBox(height: 5),
+                        Container(
+                            child: TextFormField(
+                                controller: _servingscontroller,
+                                keyboardType: TextInputType.number,
+                                // The validator receives the text that the user has entered.
+                                //initalValue: (_calories != null)?_calories.toString(): "",
+                                decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    border: OutlineInputBorder(),
+                                    labelText: "Servings",
+                                    labelStyle: TextStyle(
+                                      color: Colors.grey[700],
+                                      fontSize: 20,
+                                    )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  this._servings = double.parse(value);
+                                  return null;
+                                })),
+                        SizedBox(height: 10),
+                        Text("Date and time",
+                            style: Theme.of(context).textTheme.headline4),
+                        SizedBox(height: 5),
+                        _buildDateTime(),
+                        SizedBox(height: 20),
+                        Center(
+                            child: SizedBox(
+                                width: 240,
+                                height: 50,
+                                child: ElevatedButton.icon(
+                                  onPressed: () {
+                                    if (!_formKey.currentState.validate()) {
+                                      return;
+                                    }
+                                    print(currentDate);
+                                    print(_time);
+                                    print(this._foodItem);
+                                    print(this._servings);
+                                    print(_calories);
+
+                                    // Need to get form for Carbs
+
+                                    //LogBookMgr.addFoodRecord(currentDate, _foodItem, 20, _calories, _servings);
+                                  },
+                                  icon: Icon(
+                                    Icons.sticky_note_2_outlined,
+                                    size: 22,
+                                  ),
+                                  label: Text("Log Meal Entry",
+                                      style:
+                                          Theme.of(context).textTheme.button),
+                                  style: ButtonStyle(
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0),
+                                              side: BorderSide(
+                                                  color:
+                                                      Colors.pink.shade100))),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Theme.of(context).primaryColor)),
+                                ))),
+                      ])))),
     );
   }
 }

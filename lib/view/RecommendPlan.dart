@@ -300,6 +300,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
           title: Text('Choose Recipes Page',
               style: TextStyle(color: Theme.of(context).primaryColor)),
           centerTitle: true,
