@@ -331,7 +331,7 @@ class MedicationBodyState extends State<MedicationBody> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      'Add Schedule',
+                                      'Add Reminder',
                                       style: Theme.of(context).textTheme.headline1,
                                     ),
                                     SizedBox(height: 5),
@@ -562,11 +562,12 @@ class MedicationBodyState extends State<MedicationBody> {
                                                 );
                                               }
                                             },
-                                            child: Text("Add Schedule",
-                                                style: TextStyle(fontSize: 20)),
+                                            child: Text("Create reminder",
+                                                style: Theme.of(context).textTheme.button,
                                           ),
                                         ),
                                       ),
+                                    ),
                                     ),
                                     SizedBox(
                                       height: 10,
