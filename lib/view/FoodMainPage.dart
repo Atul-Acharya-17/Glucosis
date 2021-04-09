@@ -239,7 +239,7 @@ class MealLogForm extends State<MealLogPageState> {
                           CarouselSlider(
                             options: CarouselOptions(
 
-                              height: 315,
+                              height: 340,
                               aspectRatio: 16/16,
                               viewportFraction: 0.8,
                               enlargeCenterPage: true,

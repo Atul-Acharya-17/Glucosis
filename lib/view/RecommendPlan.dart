@@ -39,6 +39,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
   };
   List<bool> _isSelected = [false, false, false];
 
+
   Widget _buildPreference() {
     return Container(
       alignment: Alignment.topLeft,
@@ -123,7 +124,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Target carbs',
+          'Target Sugar',
           style: Theme.of(context).textTheme.headline4,
         ),
         SizedBox(height: 5),
@@ -132,7 +133,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
             width: 120,
             height: 50,
             child: TextFormField(
-                controller: _carbcontrolller,
+                controller: _sugarcontroller,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     fillColor: Colors.white,
@@ -266,7 +267,7 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
             height: 50,
             child: TextFormField(
                 // The validator receives the text that the user has entered.
-                controller: _carbcontrolller,
+                controller: _calcontroller,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     fillColor: Colors.white,
@@ -392,6 +393,9 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
                         // print("Carbs ${carbs}");
                         // print("Sugar ${sugar}");
                         // print(_isSelected);
+
+
+
                       },
                       padding:
                           EdgeInsets.symmetric(horizontal: 30, vertical: 15),

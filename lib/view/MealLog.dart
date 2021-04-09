@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/controller/LogBookMgr.dart';
 import 'package:flutterapp/model/Recipes.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:intl/intl.dart';
@@ -215,7 +216,7 @@ class MealLogForm extends State<MealLogPageState> {
                                   if (value.isEmpty) {
                                     return 'Please enter some text';
                                   }
-                                  _calories = int.parse(value);
+                                  _calories = double.parse(value).toInt();
                                   return null;
                                 })),
                         SizedBox(height: 10),
@@ -257,7 +258,7 @@ class MealLogForm extends State<MealLogPageState> {
                                 child: ElevatedButton.icon(
                                   onPressed: () {
                                     if (!_formKey.currentState.validate()) {
-                                      return;
+                                      return null;
                                     }
                                     print(currentDate);
                                     print(_time);
@@ -266,8 +267,66 @@ class MealLogForm extends State<MealLogPageState> {
                                     print(_calories);
 
                                     // Need to get form for Carbs
+                                    print('Hello');
+                                    _carbs = _carbs.toInt();
+                                    LogBookMgr.addFoodRecord(currentDate, _foodItem, _carbs, _calories, _servings);
 
-                                    //LogBookMgr.addFoodRecord(currentDate, _foodItem, 20, _calories, _servings);
+                                    return showDialog<void>(
+                                      context: context,
+                                      barrierDismissible:
+                                      false, // user must tap button!
+                                      builder: (BuildContext context) {
+                                        // can add logic to store entry here
+                                        return AlertDialog(
+                                          //title: Text('AlertDialog Title'),
+                                          content: SingleChildScrollView(
+                                            child: ListBody(
+                                              children: <Widget>[
+                                                Text('Meal Logged',
+                                                    style: TextStyle(
+                                                        fontSize: 30,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.black)),
+                                                Text('Keep eating healthy!',
+                                                    style: TextStyle(
+                                                        fontSize: 30,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.black)),
+                                                SizedBox(height: 20),
+                                                TextButton(
+                                                  child: Text('OK',
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                          FontWeight.bold,
+                                                          color: Colors.black)),
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(
+                                                          Colors.green[500])),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          // can't center button if put in actions
+                                          // actions: <Widget>[
+                                          //     TextButton(
+                                          //     child: Text('OK',style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color:Colors.black)),
+                                          //     style: ButtonStyle(backgroundColor:MaterialStateProperty.all<Color>(Colors.green[500]) ),
+                                          //     onPressed: () {
+                                          //       Navigator.of(context).pop();
+                                          //     },
+                                          //   ),
+
+                                          // ],
+                                        );
+                                      },
+                                    );
+
                                   },
                                   icon: Icon(
                                     Icons.sticky_note_2_outlined,
