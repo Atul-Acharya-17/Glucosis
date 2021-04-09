@@ -512,12 +512,12 @@ class ViewLogBookButtonState extends State<ViewLogBookButton> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.teal.shade100,
+          backgroundColor: Colors.white,
           scrollable: true,
           title: Text(
             '${DateFormat.yMMMMEEEEd().format(selectedDate)}',
             style: TextStyle(
-              fontSize: 25,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -566,8 +566,8 @@ class ViewLogBookButtonState extends State<ViewLogBookButton> {
                 child: Text(
                   entry,
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: i == 0 ? FontWeight.w500 : FontWeight.w400,
+                    fontSize: 16,
+                    fontWeight: i == 0 ? FontWeight.w700 : FontWeight.w400,
                   ),
                 ),
               ),
@@ -584,7 +584,7 @@ class ViewLogBookButtonState extends State<ViewLogBookButton> {
 
     return Table(
       border: TableBorder.all(
-          color: Colors.teal.shade800, style: BorderStyle.solid),
+          color: Theme.of(context).accentColor, style: BorderStyle.solid),
       defaultColumnWidth: IntrinsicColumnWidth(),
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: tableRows,
