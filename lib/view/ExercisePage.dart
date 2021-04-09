@@ -109,6 +109,12 @@ class ExercisePageState extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                      Center(
+                        child: Text('Minutes Exercises this week !!',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline1),
+                      ),
                         Center(
                           child: Container(
                               width: 150,

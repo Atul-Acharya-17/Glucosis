@@ -14,8 +14,8 @@ class ReminderMgr {
   final databaseReference = FirebaseFirestore.instance;
   final userEmail = FirebaseAuth.instance.currentUser.email;
   bool isLoading = true; //can be used in future development
-  static List<bool> glucoseDismissed = [];
-  static List<bool> medicationDismissed = [];
+  static List<bool> glucoseDismissed = new List<bool>();
+  static List<bool> medicationDismissed = new List<bool>();
 
   /// Returns a list of all Medication reminders
   static Future<List<MedicationReminder>> getMedicationReminders(

@@ -105,7 +105,7 @@ class GlucosePageBody extends StatelessWidget {
                       edgeLabelPlacement: EdgeLabelPlacement.shift,
                     ), // dk what
                     title: ChartTitle(
-                      text: 'Glucose Log Book',
+                      text: 'Glucose Log Book (mg/dL)',
                     ),
                     series: <ChartSeries>[
                       LineSeries<Data, DateTime>(

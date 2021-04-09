@@ -115,7 +115,7 @@ class BooksView extends StatelessWidget {
   final Map textMap = {
     'Glucose': 'Blood Glucose Levels Analysis',
     'Exercise': 'Exercise Duration Analysis',
-    'Food': 'Calorie Intake Analysis'
+    'Food': 'Calorie Intake Analysis \n Previous Intake / Target Calories'
   };
 
   @override
@@ -202,24 +202,10 @@ class BooksView extends StatelessWidget {
     int max = 100;
 
     var profileDetails = UserManager.getProfileDetails();
-
-    /*switch (logBook) {
-      case 'Glucose':
-        min = profileDetails['minGlucose'].toInt();
-        max = profileDetails['maxGlucose'].toInt();
-        break;
-      case 'Exercise':
-        // Need to change
-        min = 0;
-        max = 60;
-        break;
-      case 'Food':
-        min = 0;
-        max = profileDetails['targetCalories'];
-        if (max == null) {
-          max = 100;
-        }
-    }*/
+    max = profileDetails['targetCalories'];
+    if (max == null) {
+      max = 100;
+    }
 
     Widget radialGraph = gauge.SfRadialGauge(
       axes: <gauge.RadialAxis>[

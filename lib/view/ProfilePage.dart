@@ -660,13 +660,13 @@ class ProfileScreenState extends State<ProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                          width: 100,
+                          width: 120,
                           child: _buildTextBlock("Gender", _genderEntry())),
                       Container(
-                          width: 100,
+                          width: 120,
                           child: _buildTextBlock("Weight", _weightEntry())),
                       Container(
-                        width: 100,
+                        width: 120,
                         child: _buildTextBlock("Height", _heightEntry()),
                       ),
                     ]),
@@ -675,7 +675,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Container(
-                      width: 164,
+                      width: 174,
                       child: _buildTextBlock("Date of birth", _dobEntry()),
                     ),
                     Container(
