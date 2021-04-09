@@ -248,4 +248,38 @@ class LogBookMgr {
     print(csvData);
     print(await file.readAsString());
   }
+
+  static Future<void> downloadExerciseLogBook() async {
+    List<List<String>> listOfRecords =
+        UserManager.getExerciseLogBook().getListOfRecords();
+
+    String csvData = ListToCsvConverter().convert(listOfRecords);
+    // final String directory = (await getApplicationDocumentsDirectory()).path;
+    // final String directory = (await getExternalStorageDirectory()).path;
+    final String directory =
+        (await DownloadsPathProvider.downloadsDirectory).path;
+    final path = '$directory/Exercise_Records_(${DateTime.now()}).csv';
+    final File file = File(path);
+    await file.writeAsString(csvData);
+    print(path);
+    print(csvData);
+    print(await file.readAsString());
+  }
+
+  static Future<void> downloadFoodLogBook() async {
+    List<List<String>> listOfRecords =
+        UserManager.getFoodLogBook().getListOfRecords();
+
+    String csvData = ListToCsvConverter().convert(listOfRecords);
+    // final String directory = (await getApplicationDocumentsDirectory()).path;
+    // final String directory = (await getExternalStorageDirectory()).path;
+    final String directory =
+        (await DownloadsPathProvider.downloadsDirectory).path;
+    final path = '$directory/Food_Records_(${DateTime.now()}).csv';
+    final File file = File(path);
+    await file.writeAsString(csvData);
+    print(path);
+    print(csvData);
+    print(await file.readAsString());
+  }
 }

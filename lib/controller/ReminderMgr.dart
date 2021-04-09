@@ -73,11 +73,8 @@ class ReminderMgr {
   }
 
   /// Gets a list of all reminders
-  static List<Map> getReminders() {
+  static List<Map> getRemindersHomePage() {
     List<Map> reminderList = [];
-    // print('getting reminders');
-    // print(glucoseDismissed);
-    // print(medicationDismissed);
 
     List<GlucoseReminder> allGlucose = UserManager.getGlucoseReminders();
 
@@ -170,14 +167,14 @@ class ReminderMgr {
   /// Dismisses reminders
   static void setDismissed(
     String type,
-    int i,
+    int index,
   ) {
     // print('Setting dismissed');
     if (type == 'Glucose') {
-      glucoseDismissed[i] = true;
+      glucoseDismissed[index] = true;
       // print(glucoseDismissed);
     } else if (type == 'Medication') {
-      medicationDismissed[i] = true;
+      medicationDismissed[index] = true;
       // print(medicationDismissed);
     }
   }

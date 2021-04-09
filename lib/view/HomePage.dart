@@ -209,7 +209,7 @@ class Body extends StatelessWidget {
               padding: padding,
               borderRadius: borderRadius,
               fontSize: miniFontSize,
-              reminders: ReminderMgr.getReminders(),
+              reminders: ReminderMgr.getRemindersHomePage(),
             ),
           ],
         ),
