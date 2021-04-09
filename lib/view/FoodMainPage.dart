@@ -244,7 +244,7 @@ class MealLogForm extends State<MealLogPageState> {
                               Icons.edit_outlined,
                               size: 18,
                             ),
-                            300,
+                            320,
                           ),
                         ]))));
           } else if (snapshot.hasError) {

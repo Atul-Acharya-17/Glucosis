@@ -172,7 +172,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         Container(
           child: TextFormField(
               // The validator receives the text that the user has entered.
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.text,
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   fillColor: Colors.white,
