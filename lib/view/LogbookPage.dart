@@ -31,7 +31,7 @@ class LogBookPage extends StatelessWidget {
 class Body extends StatelessWidget {
   final double tabsHeight = 45;
   final Color lightPink = Color.fromRGBO(255, 224, 228, 1);
-  final Color darkPink = Color.fromRGBO(254, 179, 189, 1);
+  final Color darkPink = Color.fromRGBO(248, 181, 188, 1);
   final Map chartDataMap = LogBookMgr.getLogBookPageData();
   final Map popUpDataMap = LogBookMgr.getPopUpData();
 
@@ -109,7 +109,7 @@ class BooksView extends StatelessWidget {
   final Color darkPink = Color.fromRGBO(255, 42, 103, 1);
   final Color backgroundColor = Color.fromRGBO(180, 180, 180, 0.2);
   final double margin = 5;
-  final double padding = 5;
+  final double padding = 10;
   final double borderRadius = 25;
   final double iconSize = 40;
   final Map textMap = {
@@ -127,16 +127,23 @@ class BooksView extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height * 1.5,
-        padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
         color: backgroundColor,
         child: Column(
           children: [
-            Graph(
-              logBook: book,
-              chartData: chartData,
-              graphsHeight: height * 0.3,
-              padding: padding,
-              borderRadius: 10,
+            Card(
+              elevation: 2,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              child: Graph(
+                logBook: book,
+                chartData: chartData,
+                graphsHeight: height * 0.2,
+                padding: padding,
+                borderRadius: 10,
+              ),
             ),
             book == 'Food'
                 ? Container(
@@ -175,11 +182,11 @@ class BooksView extends StatelessWidget {
             Container(
               margin: EdgeInsets.fromLTRB(0, margin, 0, 0),
               child: DownloadHistoryButton(
-                width: width,
+                width: 400,
                 borderRadius: borderRadius,
-                padding: padding,
+                padding: 10,
                 iconSize: iconSize,
-                fontSize: fontSize,
+                fontSize: 20,
                 lightPink: lightPink,
               ),
             ),
@@ -310,7 +317,6 @@ class GraphState extends State<Graph> {
     'Exercise': 'Exercise Duration (minutes)',
     'Food': 'Calorie Intake (kCals)'
   };
-  final Color lightPink = Color.fromRGBO(255, 224, 228, 1);
 
   DateTime minDate;
   DateTime maxDate;
@@ -367,7 +373,7 @@ class GraphState extends State<Graph> {
 
   SfCartesianChart chart() {
     return SfCartesianChart(
-      margin: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+      margin: const EdgeInsets.only(left: 10, right: 20, top: 10, bottom: 0),
       title: ChartTitle(
         text: textMap[logBook],
       ),
@@ -385,13 +391,15 @@ class GraphState extends State<Graph> {
                   isVisible: true,
                   start: UserManager.user.minGlucose,
                   end: UserManager.user.minGlucose,
-                  borderWidth: 2,
+                  color: Theme.of(context).shadowColor,
+                  borderWidth: 1,
                 ),
                 PlotBand(
                   isVisible: true,
                   start: UserManager.user.maxGlucose,
                   end: UserManager.user.maxGlucose,
-                  borderWidth: 2,
+                  color: Theme.of(context).shadowColor,
+                  borderWidth: 1,
                 ),
               ]
             : <PlotBand>[],
@@ -405,10 +413,10 @@ class GraphState extends State<Graph> {
           animationDuration: 0,
           xValueMapper: (Data levels, _) => levels.dateTime,
           yValueMapper: (Data levels, _) => levels.y,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).backgroundColor,
           enableTooltip: true,
           markerSettings: MarkerSettings(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).backgroundColor,
             isVisible: true,
           ),
         ),
@@ -419,7 +427,7 @@ class GraphState extends State<Graph> {
   SfRangeSelector rangeSelector() {
     return SfRangeSelector(
       activeColor: Theme.of(context).accentColor,
-      inactiveColor: lightPink,
+      inactiveColor: Colors.transparent,
       min: minDate,
       max: maxDate,
       dateIntervalType: DateIntervalType.months,
@@ -444,7 +452,7 @@ class GraphState extends State<Graph> {
               dataSource: chartData,
               xValueMapper: (Data levels, _) => levels.dateTime,
               yValueMapper: (Data levels, _) => levels.y,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).backgroundColor,
             )
           ],
         ),
@@ -586,7 +594,8 @@ class ViewLogBookButtonState extends State<ViewLogBookButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 0.7 * width,
+      width: 230,
+      height: 50,
       child: RaisedButton(
         color: pink,
         shape: RoundedRectangleBorder(
@@ -610,7 +619,7 @@ class ViewLogBookButtonState extends State<ViewLogBookButton> {
         child: Text(
           'View Log Book',
           style: TextStyle(
-            fontSize: fontSize,
+            fontSize: 20,
           ),
         ),
       ),
@@ -653,7 +662,7 @@ class DownloadHistoryButton extends StatelessWidget {
           children: [
             Icon(
               Icons.arrow_downward,
-              size: iconSize,
+              size: 30,
             ),
             SizedBox(
               width: 7.0,

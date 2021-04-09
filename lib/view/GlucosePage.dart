@@ -109,9 +109,9 @@ class GlucosePageBody extends StatelessWidget {
                         dataSource: LogBookMgr.getHomePageData()['Glucose'],
                         xValueMapper: (Data datum, _) => datum.dateTime,
                         yValueMapper: (Data datum, _) => datum.y,
-                        color: Theme.of(context).accentColor,
+                        color: Colors.teal.shade800,
                         markerSettings: MarkerSettings(
-                          color: Theme.of(context).accentColor,
+                          color: Colors.teal.shade800,
                           isVisible: true,
                         ),
                         animationDuration: 0,

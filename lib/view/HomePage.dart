@@ -118,7 +118,7 @@ class Body extends StatelessWidget {
 
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(20),
         color: Theme.of(context).canvasColor,
         child: Column(
           children: [
@@ -133,7 +133,7 @@ class Body extends StatelessWidget {
                 graphsHeight: graphsHeight,
                 padding: padding,
                 borderRadius: borderRadius,
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).backgroundColor,
               ),
             ),
             Card(
@@ -200,10 +200,7 @@ class Body extends StatelessWidget {
                 child: Text(
                   'Today at a glance',
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: normalFontSize,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.headline1,
                 ),
               ),
             ),
