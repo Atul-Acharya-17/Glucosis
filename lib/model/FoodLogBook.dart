@@ -24,29 +24,32 @@ class FoodLogBook extends LogBook {
   @override
   List<Data> logBookToData() {
     List<Data> chartData = [];
-    DateTime date;
+    String date;
     int dayCalories = 0;
     if (foodRecordsList.length > 0) {
-      date = foodRecordsList[0].dateTime;
+      date = DateFormat('yyyy-MM-dd').format(foodRecordsList[0].dateTime);
     }
     for (int i = 0; i < foodRecordsList.length; i++) {
       FoodRecord record = foodRecordsList[i];
-      if (record.dateTime == date) {
+      if (DateFormat('yyyy-MM-dd').format(record.dateTime) == date) {
         dayCalories += record.calories;
       } else {
         chartData.add(
           Data(
-            dateTime: date,
+            dateTime: DateTime.parse(date),
             y: dayCalories.toDouble(),
           ),
         );
-        date = record.dateTime;
+        print(date);
+        print(dayCalories);
+        date = DateFormat('yyyy-MM-dd').format(record.dateTime);
         dayCalories = record.calories;
       }
+      //print(chartData);
     }
     chartData.add(
       Data(
-        dateTime: date,
+        dateTime: DateTime.parse(date),
         y: dayCalories.toDouble(),
       ),
     );
