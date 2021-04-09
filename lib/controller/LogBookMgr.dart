@@ -11,7 +11,6 @@ import '../model/FoodRecord.dart';
 import '../model/ExerciseRecord.dart';
 import '../controller/UserMgr.dart';
 
-
 /// Controller that handles the LogBook data of the User
 class LogBookMgr {
   static instantiateLogBooks(String email) {
@@ -77,7 +76,6 @@ class LogBookMgr {
         .then((value) => print('Food record added!'))
         .catchError((error) => print('Failed to add record: $error'));
   }
-
 
   /// Adds a new Record to the Exercise LogBook
   static Future<void> addExerciseRecord(
@@ -199,7 +197,7 @@ class LogBookMgr {
     print(recordsList);
 
     return new ExerciseLogBook(
-      exerciseRecordsList: recordsList,
+      recordsList,
     );
   }
 

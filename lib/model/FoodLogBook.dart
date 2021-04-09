@@ -47,12 +47,14 @@ class FoodLogBook extends LogBook {
       }
       //print(chartData);
     }
-    chartData.add(
-      Data(
-        dateTime: DateTime.parse(date),
-        y: dayCalories.toDouble(),
-      ),
-    );
+    if (foodRecordsList.length > 0) {
+      chartData.add(
+        Data(
+          dateTime: DateTime.parse(date),
+          y: dayCalories.toDouble(),
+        ),
+      );
+    }
     // chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     return chartData;
   }

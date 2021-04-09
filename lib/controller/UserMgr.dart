@@ -292,8 +292,7 @@ class UserManager {
   /// Adds a new Exercise Record
   static void addExerciseRecord(ExerciseRecord er) {
     if (user.exerciseLogBook == null)
-      user.setExerciseLogBook =
-          new ExerciseLogBook(exerciseRecordsList: new List<ExerciseRecord>());
+      user.setExerciseLogBook = new ExerciseLogBook(new List<ExerciseRecord>());
     user.exerciseLogBook.addRecord(er);
   }
 
@@ -386,8 +385,8 @@ class UserManager {
           if (exerciseLogBook != null)
             user.setExerciseLogBook = exerciseLogBook
           else
-            user.setExerciseLogBook = new ExerciseLogBook(
-                exerciseRecordsList: new List<ExerciseRecord>())
+            user.setExerciseLogBook =
+                new ExerciseLogBook(new List<ExerciseRecord>())
         });
   }
 
@@ -404,8 +403,7 @@ class UserManager {
   static ExerciseLogBook getExerciseLogBook() {
     print(user.exerciseLogBook);
     if (user.exerciseLogBook == null)
-      user.setExerciseLogBook =
-          new ExerciseLogBook(exerciseRecordsList: new List<ExerciseRecord>());
+      user.setExerciseLogBook = new ExerciseLogBook(new List<ExerciseRecord>());
     return user.exerciseLogBook;
   }
 

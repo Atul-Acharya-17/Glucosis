@@ -7,9 +7,11 @@ import '../model/Data.dart';
 class ExerciseLogBook extends LogBook {
   List<ExerciseRecord> _exerciseRecordsList;
 
-  ExerciseLogBook({
-    exerciseRecordsList,
-  }) : _exerciseRecordsList = exerciseRecordsList;
+  ExerciseLogBook(List<ExerciseRecord> exerciseRecordsList) {
+    exerciseRecordsList.sort((ExerciseRecord a, ExerciseRecord b) =>
+        a.dateTime.compareTo(b.dateTime));
+    _exerciseRecordsList = exerciseRecordsList;
+  }
 
   get exerciseRecordsList => _exerciseRecordsList;
 
@@ -22,7 +24,7 @@ class ExerciseLogBook extends LogBook {
 
   /// Get exercise records history.
   @override
-  List<Data> logBookToData() {
+  /*List<Data> logBookToData() {
     List<Data> chartData = [];
     for (int i = 0; i < exerciseRecordsList.length; i++) {
       ExerciseRecord record = exerciseRecordsList[i];
@@ -34,6 +36,47 @@ class ExerciseLogBook extends LogBook {
       );
     }
     chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    return chartData;
+  }*/
+  List<Data> logBookToData() {
+    List<Data> chartData = [];
+    String date;
+    int dayDuration = 0;
+
+    if (exerciseRecordsList == null) {
+      return chartData;
+    }
+
+    if (exerciseRecordsList.length > 0) {
+      date = DateFormat('yyyy-MM-dd').format(exerciseRecordsList[0].dateTime);
+    }
+    for (int i = 0; i < exerciseRecordsList.length; i++) {
+      ExerciseRecord record = exerciseRecordsList[i];
+      if (DateFormat('yyyy-MM-dd').format(record.dateTime) == date) {
+        dayDuration += record.duration;
+      } else {
+        chartData.add(
+          Data(
+            dateTime: DateTime.parse(date),
+            y: dayDuration.toDouble(),
+          ),
+        );
+        print(date);
+        print(dayDuration);
+        date = DateFormat('yyyy-MM-dd').format(record.dateTime);
+        dayDuration = record.duration;
+      }
+      //print(chartData);
+    }
+    if (exerciseRecordsList.length > 0) {
+      chartData.add(
+        Data(
+          dateTime: DateTime.parse(date),
+          y: dayDuration.toDouble(),
+        ),
+      );
+    }
+    // chartData.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     return chartData;
   }
 

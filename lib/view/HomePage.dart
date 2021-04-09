@@ -300,6 +300,12 @@ class GraphsState extends State<Graphs> {
         child: SfCartesianChart(
           backgroundColor: Colors.white,
           primaryXAxis: DateTimeAxis(
+            minimum: chartData.length == 0
+                ? DateTime.now().subtract(new Duration(days: 1))
+                : getMinDate(chartData).subtract(const Duration(days: 1)),
+            maximum: chartData.length == 0
+                ? DateTime.now().add(new Duration(days: 2))
+                : getMaxDate(chartData).add(const Duration(days: 1)),
             intervalType: DateTimeIntervalType.days,
             interval: 2,
             edgeLabelPlacement: EdgeLabelPlacement.shift,

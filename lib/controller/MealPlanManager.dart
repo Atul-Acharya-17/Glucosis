@@ -10,7 +10,7 @@ class MealPlanMgr {
 
   /// Retrieves recipes that match the user's request
   Future<List<Recipe>> fetchRecipes(Map<String, dynamic> request) async {
-    request['apiKey'] = 'c7ee4c84f6b1404dbaacbd158aa5e559';
+    request['apiKey'] = '4b22e31031d146d7b59b14b654f39d57';
     print(request);
     final response = await http.get(
       Uri.https(url, 'recipes/complexSearch', request),
