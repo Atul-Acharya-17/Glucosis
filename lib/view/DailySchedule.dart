@@ -177,13 +177,14 @@ class MyCustomFormState extends State<MyCustomForm> {
 
     for (int i = 0; i < reminders.length; ++i) {
         Widget rem = SizedBox(
-          width: MediaQuery.of(context).size.width * 0.8,
+          width: double.infinity,
           child: Container(
-            margin: EdgeInsets.only(bottom: 10, top: 10),
-            padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+            margin: EdgeInsets.only(top:5, bottom: 5),
+            padding: EdgeInsets.only(left: 10, bottom: 5, top: 5),
             width: MediaQuery.of(context).size.width * 0.40,
-            height: 60,
+            height: 50,
             decoration: BoxDecoration(
+              color: Colors.white,
                 border: Border.all(color: Colors.grey[400]),
                 borderRadius: BorderRadius.circular(5.0)),
             child: Row(
@@ -223,60 +224,41 @@ class MyCustomFormState extends State<MyCustomForm> {
     if (snapshot.hasData) {
       child = Form(
         key: _formKey,
-        child: Padding(
-          padding: EdgeInsets.only(
-              top: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.01,
-              left: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.04),
+        child: Container(
+          padding: EdgeInsets.all(20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                width: 700,
-                child: Container(
-                    child: Padding(
-                        padding: EdgeInsets.only(top: 20, left: 20),
-                        child: Text(
-                          'Existing Reminders',
-                          style: TextStyle(
-                              fontSize: 20, color: Colors.teal.shade800),
-                        ))),
+              Text(
+                'Blood Glucose Level Reminders',
+                style: Theme.of(context).textTheme.headline1,
+              ),
+              SizedBox(height:10),
+              Text(
+                'Daily Timings',
+                style: Theme.of(context).textTheme.headline4,
               ),
                 Column(
                   children: snapshot.data,
                 ),
-              SizedBox(
-                width: 700,
-                child: Container(
-                    child: Padding(
-                        padding: EdgeInsets.only(top: 20, left: 10),
-                        child: Text(
-                          'Add Reminder',
-                          style: TextStyle(
-                              fontSize: 20, color: Colors.teal.shade800),
-                        ))),
+              SizedBox(height:10),
+              Text(
+                'Add Reminder',
+                style: Theme.of(context).textTheme.headline1,
               ),
-              Row(
-                children: [
-                  SizedBox(width: 30),
+              SizedBox(height:10),
+              Text(
+                'Timing',
+                style: Theme.of(context).textTheme.headline4,
+              ),
                   SizedBox(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.8,
+                    width: double.infinity,
                     child: Container(
-                      margin: EdgeInsets.only(bottom: 10, top: 10),
-                      padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.40,
-                      height: 60,
+                      margin: EdgeInsets.only(bottom: 5, top: 5),
+                      padding: EdgeInsets.only(left: 10, bottom: 5, top: 5),
+                      height: 50,
                       decoration: BoxDecoration(
+                          color: Colors.white,
                           border: Border.all(color: Colors.grey[400]),
                           borderRadius: BorderRadius.circular(5.0)),
                       child: Row(
@@ -292,32 +274,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                       ),
                     ),
                   ),
-                  // IconButton(
-                  //   icon: Icon(Icons.delete),
-                  //   onPressed: () {},
-                  // ),
-                ],
-              ),
-              // Padding(
-              //   padding: EdgeInsets.only(
-              //       left: MediaQuery.of(context).size.width * 0.05),
-              //   child: SizedBox(
-              //     width: 400,
-              //     child: Text(
-              //       '+ Add reminder',
-              //       style: TextStyle(
-              //         fontSize: 15,
-              //         color: Colors.teal.shade800,
-              //       ),
-              // ),
-              //   ),
-              // ),
               SizedBox(
                 height: 30,
               ),
               Center(
                 child: ElevatedButton(
-                  child: Text("Create schedule",
+                  child: Text("Add daily reminder",
                       style: Theme
                           .of(context)
                           .textTheme

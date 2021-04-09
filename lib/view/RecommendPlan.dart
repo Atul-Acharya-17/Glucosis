@@ -1,3 +1,4 @@
+import 'package:flutter/painting.dart';
 import 'package:flutterapp/controller/UserMgr.dart';
 import '../controller/MealPlanManager.dart';
 import 'package:flutter/cupertino.dart';
@@ -341,12 +342,11 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
               _buildCalories(),
               SizedBox(height: 20),
               _buildRestrictions(),
-              SizedBox(height: 20),
+              SizedBox(height: 30),
               Center(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    height: 50,
                     child: RaisedButton(
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
@@ -396,7 +396,8 @@ class _UpdateFoodPreferenceState extends State<UpdateFoodPreference> {
                           EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                       color: Theme.of(context).primaryColor,
                       child: Text(
-                        'Update Preferences',
+                        'Update Preferences\nand View Recipes',
+                        textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline3,
                       ),
                       shape: new RoundedRectangleBorder(
