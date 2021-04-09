@@ -67,35 +67,27 @@ class MealLogForm extends State<MealLogPageState> {
 
   String _foodPreference = "";
 
-
-
   Widget _buildButton(String text, String page, Icon icon, double width) {
     return Container(
         width: width,
         height: 40,
         child: ElevatedButton.icon(
-          onPressed: () async{
+          onPressed: () async {
             await Navigator.of(context).pushNamed(page);
             setState(() {
-             _foodPreference = "${UserManager.getProfileDetails()['foodPreference']}";
+              _foodPreference =
+                  "${UserManager.getProfileDetails()['foodPreference']}";
             });
           },
           icon: icon,
-          label: Text(text, style: Theme
-              .of(context)
-              .textTheme
-              .button),
+          label: Text(text, style: Theme.of(context).textTheme.button),
           style: ButtonStyle(
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
-                      side: BorderSide(color: Theme
-                          .of(context)
-                          .primaryColor))),
+                      side: BorderSide(color: Theme.of(context).primaryColor))),
               backgroundColor: MaterialStateProperty.all<Color>(
-                  Theme
-                      .of(context)
-                      .primaryColor)),
+                  Theme.of(context).primaryColor)),
         ));
   }
 
@@ -108,7 +100,7 @@ class MealLogForm extends State<MealLogPageState> {
       "sort": "popularity",
       "number": "3",
       "addRecipeInformation": "true",
-      "addRecipeNutrition":"true",
+      "addRecipeNutrition": "true",
       "minCarbs": "0",
       //"minCalories": [int.parse(cal)-200,0].reduce((curr, next) => curr > next? curr: next).toString(),
       "minCalories": "0",
@@ -123,7 +115,6 @@ class MealLogForm extends State<MealLogPageState> {
 
     return recipes;
   }
-
 
   // Widget _buildMeal(Recipe) {
   //   return Card(
@@ -157,39 +148,38 @@ class MealLogForm extends State<MealLogPageState> {
                         padding: EdgeInsets.all(20),
                         child: Column(children: [
                           Container(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.9,
+                            width: MediaQuery.of(context).size.width * 0.9,
                             child: Card(
                               elevation: 5,
                               color: Colors.white,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    borderRadius),
+                                borderRadius:
+                                    BorderRadius.circular(borderRadius),
                               ),
                               child: Container(
                                 padding: EdgeInsets.all(padding),
                                 child: SfCartesianChart(
                                   backgroundColor: Colors.white,
-                                  primaryXAxis: CategoryAxis(), // dk what
+                                  primaryXAxis: DateTimeAxis(
+                                    intervalType: DateTimeIntervalType.days,
+                                    interval: 2,
+                                    edgeLabelPlacement:
+                                        EdgeLabelPlacement.shift,
+                                  ), // dk what
                                   title: ChartTitle(
-                                    text: 'Glucose Log Book',
+                                    text: 'Calorie Intake (kcal)',
                                   ),
                                   series: <ChartSeries>[
                                     LineSeries<Data, DateTime>(
-                                      dataSource: LogBookMgr
-                                          .getHomePageData()['Food'],
+                                      dataSource:
+                                          LogBookMgr.getHomePageData()['Food'],
                                       xValueMapper: (Data datum, _) =>
-                                      datum.dateTime,
+                                          datum.dateTime,
                                       yValueMapper: (Data datum, _) => datum.y,
-                                      color: Theme
-                                          .of(context)
-                                          .accentColor,
+                                      color: Theme.of(context).backgroundColor,
                                       markerSettings: MarkerSettings(
-                                        color: Theme
-                                            .of(context)
-                                            .accentColor,
+                                        color:
+                                            Theme.of(context).backgroundColor,
                                         isVisible: true,
                                       ),
                                       animationDuration: 0,
@@ -230,17 +220,16 @@ class MealLogForm extends State<MealLogPageState> {
                           //   _buildMeal("2:00 PM", "Basil fried brown rice"),
                           //   _buildMeal("7:00 PM", "Chicken White Bean soup"),
                           // ])),
-                         Row(
-                          children: [
-                            Text("Recipes for you",
-                                style: Theme.of(context).textTheme.headline1)
-                          ],
-                        ),
+                          Row(
+                            children: [
+                              Text("Recipes for you",
+                                  style: Theme.of(context).textTheme.headline1)
+                            ],
+                          ),
                           CarouselSlider(
                             options: CarouselOptions(
-
                               height: 340,
-                              aspectRatio: 16/16,
+                              aspectRatio: 16 / 16,
                               viewportFraction: 0.8,
                               enlargeCenterPage: true,
                               enableInfiniteScroll: true,
@@ -258,8 +247,7 @@ class MealLogForm extends State<MealLogPageState> {
                             300,
                           ),
                         ]))));
-          }
-          else if (snapshot.hasError) {
+          } else if (snapshot.hasError) {
             child = Column(
               children: [
                 const Icon(
@@ -274,21 +262,19 @@ class MealLogForm extends State<MealLogPageState> {
               ],
             );
           } else {
-            child = Column(
-                children: [
-                  SizedBox(
-                    child: CircularProgressIndicator(),
-                    width: 60,
-                    height: 60,
-                  ),
-                  //Padding(
-                  //padding: EdgeInsets.only(top: 16),
-                  //child: Text('Awaiting result...'),
-                  //)
-                ]);
+            child = Column(children: [
+              SizedBox(
+                child: CircularProgressIndicator(),
+                width: 60,
+                height: 60,
+              ),
+              //Padding(
+              //padding: EdgeInsets.only(top: 16),
+              //child: Text('Awaiting result...'),
+              //)
+            ]);
           }
           return child;
-        }
-    );
+        });
   }
 }
